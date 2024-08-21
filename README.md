@@ -62,3 +62,33 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Migraciones Realizadas el 20 y 21 de Agosto 2024 by NarenFlopi
+
+Creé las migraciones para las siguientes tablas.
+
+- regimen, 
+- departamento,
+- tipo de documento,
+- poblacion diferencial,
+- metodo fracaso,
+- riesgo,
+- tipo dm,
+- biologico,
+- hemoclasificacion,
+- antibiograma,
+- ips,
+- municipio,
+- superadmin,
+- admin,
+- operador,
+- departamentoxips,
+- usuario,
+- operadorxusuario,
+- control prenatal,
+- primera consulta,
+- vacunacion,
+- laboratorio i trimestre,
+- laboratorio ii trimestre
+
+Con sus respectivas relaciones.
