@@ -63,7 +63,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-## Migraciones Realizadas el 20 y 21 de Agosto 2024 by NarenFlopi
+## Migraciones Realizadas el 20 y 21 de Agosto 2024 by NarenFlopi.
 
 Creé las migraciones para las siguientes tablas.
 
@@ -92,3 +92,13 @@ Creé las migraciones para las siguientes tablas.
 - laboratorio ii trimestre
 
 Con sus respectivas relaciones.
+
+
+## Implementación del laravel-passport "^10.0" y la creación del AuthController, modelo Usuario y rutas de login 26 Agosto 2024.
+
+- Se agregó al archivo composer.json el "laravel/passport": "^10.0".
+- Modelo Usuario con todos sus campos (Sin relaciones entre tablas).
+- Ruta API para login dentro de prefijo (auth).
+- Controlador API AuthController con datos de login solo (email_usuario por ahora).
+- Ajuste al archivo auth.php (hace referencia a la tabla usuario y no a la por defecto users).
+- Ajuste al archivo AuthServiceProvider (implementar el passport y el uso de rutas).
