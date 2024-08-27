@@ -131,3 +131,8 @@ Se crean las migraciones de las siguientes tablas:
 - ruta PYMS.
 
 Todas las tablas fueron creadas con sus respectivas relaciones.
+
+
+## 27/08/2024 Implementacion controlador SuperAdmin, semillas y modelos
+
+Se crea el controlador del superadmin, los modelos implicados y se corrigen algunas migraciones. Se montan las semillas de departamento, municipio y roles. Se implementa y configura el envio de correos.
