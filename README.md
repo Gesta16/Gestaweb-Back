@@ -63,7 +63,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-## Migraciones Realizadas el 20 y 21 de Agosto 2024 by NarenFlopi
+## Migraciones Realizadas el 20 y 21 de Agosto 2024 by NarenFlopi.
 
 Creé las migraciones para las siguientes tablas.
 
@@ -93,6 +93,41 @@ Creé las migraciones para las siguientes tablas.
 
 Con sus respectivas relaciones.
 
-## 27/08/2024 Implementacion controlador SuperAdmin, semillas y modelos
 
-Se crea el controlador del superadmin, los modelos implicados y se corrigen algunas migraciones. Se montan las semillas de departamento, municipio y roles. Se implementa y configura el envio de correos.
+## Implementación del laravel-passport "^10.0" y la creación del AuthController, modelo Usuario y rutas de login 26 Agosto 2024.
+
+- Se agregó al archivo composer.json el "laravel/passport": "^10.0".
+- Modelo Usuario con todos sus campos (Sin relaciones entre tablas).
+- Ruta API para login dentro de prefijo (auth).
+- Controlador API AuthController con datos de login solo (email_usuario por ahora).
+- Ajuste al archivo auth.php (hace referencia a la tabla usuario y no a la por defecto users).
+- Ajuste al archivo AuthServiceProvider (implementar el passport y el uso de rutas).
+
+## Migraciones Faltantes Realizadas by DarwinR
+
+Se crean las migraciones de las siguientes tablas:
+
+- laboratorio iii trimestre,
+- prueba no treponemica VDRL,
+- prueba no treponemica RPR,
+- ITS,
+- numero de controles, 
+- diagnostico nutricional consulta del mes,
+- forma de medicion de edad gestacional,
+- seguimiento consulta mensual, 
+- numero de sesiones preparacion maternidad y paternidad,
+- seguimientos complementarios,
+- micronutrientes, 
+- terminacion de la gestacion,
+- finalizacion de la gestacion,
+- laboratorios intraparto de la gestante,
+- metodo anticonceptivo, 
+- seguimiento gestante post evento obstetrico,
+- mortalidad perinatal,
+- datos del recien nacido, 
+- prueba no treponemica recien nacido,
+- tamizacion neonatal, 
+- estudio hipotiroidismo congenito, 
+- ruta PYMS.
+
+Todas las tablas fueron creadas con sus respectivas relaciones.
