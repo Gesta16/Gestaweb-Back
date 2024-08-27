@@ -92,3 +92,32 @@ Creé las migraciones para las siguientes tablas.
 - laboratorio ii trimestre
 
 Con sus respectivas relaciones.
+
+## Migraciones Faltantes Realizadas by DarwinR
+
+Se crean las migraciones de las siguientes tablas:
+
+- laboratorio iii trimestre,
+- prueba no treponemica VDRL,
+- prueba no treponemica RPR,
+- ITS,
+- numero de controles, 
+- diagnostico nutricional consulta del mes,
+- forma de medicion de edad gestacional,
+- seguimiento consulta mensual, 
+- numero de sesiones preparacion maternidad y paternidad,
+- seguimientos complementarios,
+- micronutrientes, 
+- terminacion de la gestacion,
+- finalizacion de la gestacion,
+- laboratorios intraparto de la gestante,
+- metodo anticonceptivo, 
+- seguimiento gestante post evento obstetrico,
+- mortalidad perinatal,
+- datos del recien nacido, 
+- prueba no treponemica recien nacido,
+- tamizacion neonatal, 
+- estudio hipotiroidismo congenito, 
+- ruta PYMS.
+
+Todas las tablas fueron creadas con sus respectivas relaciones.
