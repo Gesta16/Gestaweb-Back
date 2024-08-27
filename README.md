@@ -102,3 +102,32 @@ Con sus respectivas relaciones.
 - Controlador API AuthController con datos de login solo (email_usuario por ahora).
 - Ajuste al archivo auth.php (hace referencia a la tabla usuario y no a la por defecto users).
 - Ajuste al archivo AuthServiceProvider (implementar el passport y el uso de rutas).
+
+## Migraciones Faltantes Realizadas by DarwinR
+
+Se crean las migraciones de las siguientes tablas:
+
+- laboratorio iii trimestre,
+- prueba no treponemica VDRL,
+- prueba no treponemica RPR,
+- ITS,
+- numero de controles, 
+- diagnostico nutricional consulta del mes,
+- forma de medicion de edad gestacional,
+- seguimiento consulta mensual, 
+- numero de sesiones preparacion maternidad y paternidad,
+- seguimientos complementarios,
+- micronutrientes, 
+- terminacion de la gestacion,
+- finalizacion de la gestacion,
+- laboratorios intraparto de la gestante,
+- metodo anticonceptivo, 
+- seguimiento gestante post evento obstetrico,
+- mortalidad perinatal,
+- datos del recien nacido, 
+- prueba no treponemica recien nacido,
+- tamizacion neonatal, 
+- estudio hipotiroidismo congenito, 
+- ruta PYMS.
+
+Todas las tablas fueron creadas con sus respectivas relaciones.
