@@ -25,9 +25,6 @@ class CreateOperadorTable extends Migration
             $table->string('email_operador')->unique();
             $table->string('esp_operador');
             $table->string('usu_operador');
-            $table->string('cont_operador');
-
-            //$table->timestamps();
         });
     }
 

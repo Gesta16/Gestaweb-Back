@@ -92,3 +92,7 @@ Creé las migraciones para las siguientes tablas.
 - laboratorio ii trimestre
 
 Con sus respectivas relaciones.
+
+## 27/08/2024 Implementacion controlador SuperAdmin, semillas y modelos
+
+Se crea el controlador del superadmin, los modelos implicados y se corrigen algunas migraciones. Se montan las semillas de departamento, municipio y roles. Se implementa y configura el envio de correos.

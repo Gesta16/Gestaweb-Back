@@ -22,7 +22,6 @@ class CreateAdminTable extends Migration
             $table->string('nom_admin');
             $table->string('ape_admin');
             $table->string('usu_admin');
-            $table->string('cont_admin');
             $table->string('email_admin')->unique();
             $table->integer('tel_admin')->unique();
 

@@ -22,6 +22,7 @@ class CreateIpsTable extends Migration
             $table->string('nom_ips');
             $table->string('dir_ips');
             $table->integer('tel_ips');
+            $table->string('email_ips');
 
             //$table->timestamps();
         });

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
@@ -21,7 +23,19 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'rol_id'
     ];
+
+
+    public function userable()
+    {
+        return $this->morphTo();
+    }
+
+    public function rol(): BelongsTo
+    {
+        return $this->belongsTo(Rol::class, 'rol_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -32,6 +46,8 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    public $timestamps = false;
+
 
     /**
      * The attributes that should be cast.

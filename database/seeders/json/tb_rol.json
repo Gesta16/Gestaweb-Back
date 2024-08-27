@@ -1,0 +1,6 @@
+[
+{"id":"1","rol":"superadmin"},
+{"id":"2","rol":"admin"},
+{"id":"3","rol":"operador"},
+{"id":"4","rol":"usuario"}
+]

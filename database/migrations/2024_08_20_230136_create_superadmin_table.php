@@ -14,17 +14,13 @@ class CreateSuperadminTable extends Migration
     public function up()
     {
         Schema::create('superadmin', function (Blueprint $table) {
-            $table->integer('id_superadmin')->primary();
-            $table->integer('cod_ips');
-
-            $table->foreign('cod_ips')->references('cod_ips')->on('ips');
-
+            $table->id('id_superadmin');
             $table->string('nom_superadmin');
             $table->string('ape_superadmin');
-            $table->string('usu_superadmin');
-            $table->string('cont_superadmin');
+            $table->string('documento_superadmin');
             $table->string('email_superadmin')->unique();
-            $table->integer('tel_superadmin')->unique();
+            $table->integer('tel_superadmin');
+
 
             //$table->timestamps();
         });

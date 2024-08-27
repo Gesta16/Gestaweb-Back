@@ -42,6 +42,7 @@ class CreateUsuarioTable extends Migration
             $table->string('dir_usuario');
             $table->string('email_usuario')->unique();
 
+
             //$table->timestamps();
         });
     }
