@@ -15,7 +15,7 @@ class CreateOperadorTable extends Migration
     {
         Schema::create('operador', function (Blueprint $table) {
             $table->integer('id_operador')->primary();
-            $table->integer('id_admin');
+            $table->unsignedBigInteger('id_admin');
 
             $table->foreign('id_admin')->references('id_admin')->on('admin');
 
