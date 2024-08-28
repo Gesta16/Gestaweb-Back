@@ -14,14 +14,14 @@ class CreateAdminTable extends Migration
     public function up()
     {
         Schema::create('admin', function (Blueprint $table) {
-            $table->integer('id_admin')->primary();
-            $table->integer('cod_ips');
+            $table->id('id_admin');
+            $table->unsignedBigInteger('cod_ips');
 
             $table->foreign('cod_ips')->references('cod_ips')->on('ips');
 
             $table->string('nom_admin');
             $table->string('ape_admin');
-            $table->string('usu_admin');
+            $table->string('documento_admin')->unique();
             $table->string('email_admin')->unique();
             $table->integer('tel_admin')->unique();
 

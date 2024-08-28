@@ -14,7 +14,7 @@ class CreateIpsTable extends Migration
     public function up()
     {
         Schema::create('ips', function (Blueprint $table) {
-            $table->integer('cod_ips')->primary();
+            $table->id('cod_ips');
             $table->integer('cod_regimen');
 
             $table->foreign('cod_regimen')->references('cod_regimen')->on('regimen');
@@ -23,6 +23,7 @@ class CreateIpsTable extends Migration
             $table->string('dir_ips');
             $table->integer('tel_ips');
             $table->string('email_ips');
+            $table->string('nit_ips')->unique();
 
             //$table->timestamps();
         });

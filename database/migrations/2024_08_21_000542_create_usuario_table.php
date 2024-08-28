@@ -22,7 +22,7 @@ class CreateUsuarioTable extends Migration
             $table->integer('cod_departamento');
             $table->foreign('cod_departamento')->references('cod_departamento')->on('departamentoxips');
 
-            $table->integer('cod_ips');
+            $table->unsignedBigInteger('cod_ips');
             $table->foreign('cod_ips')->references('cod_ips')->on('departamentoxips');
 
             $table->integer('cod_documento');

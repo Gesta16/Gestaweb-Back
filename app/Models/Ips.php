@@ -19,7 +19,6 @@ class Ips extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'cod_ips',
         'cod_regimen',
         'nom_ips',
         'dir_ips',
