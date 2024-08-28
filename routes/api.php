@@ -3,8 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\api\SuperAdminController;
-
+use App\Http\Controllers\API\SuperAdminController;
+use App\Http\Controllers\API\UsuarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +34,4 @@ Route::post("superadmin",[SuperAdminController::class, 'store']);
 Route::get("superadmin/{id}",[SuperAdminController::class, 'show']);
 Route::post("superadmin/{id}",[SuperAdminController::class, 'update']);
 Route::delete("superadmin/{id}",[SuperAdminController::class, 'destroy']);
+
