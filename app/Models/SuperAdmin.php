@@ -21,7 +21,7 @@ class SuperAdmin extends Model
     protected $fillable = [
         'nom_superadmin',
         'ape_superadmin',
-        'usu_superadmin',
+        'documento_superadmin',
         'email_superadmin',
         'tel_superadmin',
         

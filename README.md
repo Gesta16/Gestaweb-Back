@@ -93,16 +93,6 @@ Creé las migraciones para las siguientes tablas.
 
 Con sus respectivas relaciones.
 
-
-## Implementación del laravel-passport "^10.0" y la creación del AuthController, modelo Usuario y rutas de login 26 Agosto 2024.
-
-- Se agregó al archivo composer.json el "laravel/passport": "^10.0".
-- Modelo Usuario con todos sus campos (Sin relaciones entre tablas).
-- Ruta API para login dentro de prefijo (auth).
-- Controlador API AuthController con datos de login solo (email_usuario por ahora).
-- Ajuste al archivo auth.php (hace referencia a la tabla usuario y no a la por defecto users).
-- Ajuste al archivo AuthServiceProvider (implementar el passport y el uso de rutas).
-
 ## Migraciones Faltantes Realizadas by DarwinR
 
 Se crean las migraciones de las siguientes tablas:
@@ -132,7 +122,23 @@ Se crean las migraciones de las siguientes tablas:
 
 Todas las tablas fueron creadas con sus respectivas relaciones.
 
+## Implementación del laravel-passport "^10.0" y la creación del AuthController, modelo Usuario y rutas de login 26 Agosto 2024.
+
+- Se agregó al archivo composer.json el "laravel/passport": "^10.0".
+- Modelo Usuario con todos sus campos (Sin relaciones entre tablas).
+- Ruta API para login dentro de prefijo (auth).
+- Controlador API AuthController con datos de login solo (email_usuario por ahora).
+- Ajuste al archivo auth.php (hace referencia a la tabla usuario y no a la por defecto users).
+- Ajuste al archivo AuthServiceProvider (implementar el passport y el uso de rutas).
 
 ## 27/08/2024 Implementacion controlador SuperAdmin, semillas y modelos
 
 Se crea el controlador del superadmin, los modelos implicados y se corrigen algunas migraciones. Se montan las semillas de departamento, municipio y roles. Se implementa y configura el envio de correos.
+
+## Implementación de autenticación para SuperAdmin 28 Agosto 2024
+
+Archivos modificados 
+
+- AuthController (Autenticación del SuperAdmin y traer informacion relaciona con el user).
+- SuperAdminController (Se le agregó validación de autenticación y verificación de rol del usuario).
+- Creación del Controlador UsuarioController (Solo el metodo Store).

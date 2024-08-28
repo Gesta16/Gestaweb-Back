@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Mail\WelcomeSuperAdminMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SuperAdmin;
@@ -34,45 +35,69 @@ class SuperAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
-    try {
-        // Crear el SuperAdmin
-        $superAdmin = new SuperAdmin();
-        $superAdmin->nom_superadmin = $request->nom_superadmin;
-        $superAdmin->ape_superadmin = $request->ape_superadmin;
-        $superAdmin->email_superadmin = $request->email_superadmin;
-        $superAdmin->tel_superadmin = $request->tel_superadmin;
-        $superAdmin->documento_superadmin = $request->documento_superadmin;
+    {
+        try {
 
-        if ($superAdmin->save()) {
-            // Generar una contraseña aleatoria
-            $contrasenaGenerada = $this->generarContrasena($superAdmin->nom_superadmin, $superAdmin->ape_superadmin);
+            /*$request->validate([
+                'nom_superadmin' => 'required|string|max:255',
+                'ape_superadmin' => 'required|string|max:255',
+                'email_superadmin' => 'required|email|max:255|unique:superadmin,email_superadmin',
+                'tel_superadmin' => 'required|string|max:20',
+                'documento_superadmin' => 'required|string|max:20|unique:superadmin,documento_superadmin',
+            ]);*/
 
-            // Crear el User asociado
-            $user = new User();
-            $user->name = $superAdmin->nom_superadmin . ' ' . $superAdmin->ape_superadmin;
-            $user->documento = $superAdmin->documento_superadmin; 
-            $user->password = bcrypt($contrasenaGenerada);
-            $user->rol_id = 1; // Asignar el rol de SuperAdmin
+            $authUser = Auth::user();
 
-            // Asocia el SuperAdmin al User
-            $superAdmin->user()->save($user);
+            if (!$authUser) {
+                return response()->json([
+                    'error' => 'No autorizado. Debes estar autenticado para crear un SuperAdmin.'
+                ], 401);
+            }
 
-            Mail::to($superAdmin->email_superadmin)->send(new WelcomeSuperAdminMail($superAdmin, $contrasenaGenerada));
+            // Verificar si el usuario autenticado es un SuperAdmin
+            if ($authUser->rol_id !== 1) {
+                return response()->json([
+                    'error' => 'No autorizado. Solo un SuperAdmin puede crear otros SuperAdmins.'
+                ], 403);
+            }
 
+            // Crear el SuperAdmin
+            $superAdmin = new SuperAdmin();
+            $superAdmin->nom_superadmin = $request->nom_superadmin;
+            $superAdmin->ape_superadmin = $request->ape_superadmin;
+            $superAdmin->email_superadmin = $request->email_superadmin;
+            $superAdmin->tel_superadmin = $request->tel_superadmin;
+            $superAdmin->documento_superadmin = $request->documento_superadmin;
+
+            if ($superAdmin->save()) {
+                // Generar una contraseña aleatoria
+                $contrasenaGenerada = $this->generarContrasena($superAdmin->nom_superadmin, $superAdmin->ape_superadmin);
+
+                // Crear el User asociado
+                $user = new User();
+                $user->name = $superAdmin->nom_superadmin . ' ' . $superAdmin->ape_superadmin;
+                $user->documento = $superAdmin->documento_superadmin; 
+                $user->password = bcrypt($contrasenaGenerada);
+                $user->rol_id = 1; // Asignar el rol de SuperAdmin
+
+                // Asocia el SuperAdmin al User
+                $superAdmin->user()->save($user);
+
+                //Mail::to($superAdmin->email_superadmin)->send(new WelcomeSuperAdminMail($superAdmin, $contrasenaGenerada));
+
+            }
+
+            return response()->json(['message' => 'SuperAdmin creado correctamente'], 201);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Ocurrió un error interno',
+                'exception_message' => $e->getMessage(),
+                'exception_line' => $e->getLine(),
+                'exception_file' => $e->getFile(),
+            ], 500);
         }
-
-        return response()->json(['message' => 'SuperAdmin creado correctamente'], 201);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'error' => 'Ocurrió un error interno',
-            'exception_message' => $e->getMessage(),
-            'exception_line' => $e->getLine(),
-            'exception_file' => $e->getFile(),
-        ], 500);
     }
-}
 
 
     function generarContrasena($nombre, $apellido)
