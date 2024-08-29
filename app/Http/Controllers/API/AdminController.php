@@ -4,9 +4,11 @@ namespace App\Http\Controllers\api;
 
 use App\Mail\WelcomeSuperAdminMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\Ips;
 use App\Models\User;
 
 class AdminController extends Controller
@@ -35,10 +37,43 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         try {
+            $authUser = Auth::user();
+
+            if (!$authUser) {
+                return response()->json([
+                    'error' => 'No autorizado. Debes estar autenticado para crear un Admin.'
+                ], 401);
+            }
+
+            // Verificar si el usuario autenticado es un SuperAdmin
+            if ($authUser->rol_id !== 1) {
+                $authAdmin = $authUser->userable; // Obtén el admin asociado al usuario autenticado
+                if (!$authAdmin) {
+                    return response()->json([
+                        'error' => 'No se pudo encontrar el admin asociado al usuario autenticado.'
+                    ], 404);
+                }
+
+                $authIps = $authAdmin->ips; // Obtén la IPS del admin autenticado
+
+                // Verificar si la IPS del nuevo admin coincide con la IPS del admin autenticado
+                $newAdminIps = Ips::find($request->cod_ips);
+                if (!$newAdminIps) {
+                    return response()->json([
+                        'error' => 'IPS no encontrada.'
+                    ], 404);
+                }
+
+                if ($authIps->cod_ips !== $newAdminIps->cod_ips) {
+                    return response()->json([
+                        'error' => 'No autorizado. El admin solo puede crear otros admins en la misma IPS.'
+                    ], 403);
+                }
+            }
 
             // Crear el admin
             $Admin = new Admin();
-            $Admin->cod_ips = $request -> cod_ips;
+            $Admin->cod_ips = $request->cod_ips;
             $Admin->nom_admin = $request->nom_admin;
             $Admin->ape_admin = $request->ape_admin;
             $Admin->email_admin = $request->email_admin;
@@ -59,8 +94,7 @@ class AdminController extends Controller
                 // Asocia el admin al User
                 $Admin->user()->save($user);
 
-                Mail::to($Admin->email_admin)->send(new WelcomeSuperAdminMail ($Admin, $contrasenaGenerada));
-
+                //Mail::to($Admin->email_admin)->send(new WelcomeSuperAdminMail ($Admin, $contrasenaGenerada));
             }
 
             return response()->json(['message' => 'admin creado correctamente'], 201);
@@ -72,7 +106,7 @@ class AdminController extends Controller
                 'exception_line' => $e->getLine(),
                 'exception_file' => $e->getFile(),
             ], 500);
-        }    
+        }
     }
 
     function generarContrasena($nombre, $apellido)

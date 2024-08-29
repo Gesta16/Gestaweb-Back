@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Mail\WelcomeSuperAdminMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ips;
@@ -36,6 +37,22 @@ class IpsController extends Controller
     public function store(Request $request)
     {
         try {
+
+            $authUser = Auth::user();
+
+            if (!$authUser) {
+                return response()->json([
+                    'error' => 'No autorizado. Debes estar autenticado para crear una Ips.'
+                ], 401);
+            }
+
+            // Verificar si el usuario autenticado es un SuperAdmin
+            if ($authUser->rol_id !== 1) {
+                return response()->json([
+                    'error' => 'No autorizado. Solo SuperAdmin pueden crear Ips.'
+                ], 403);
+            }
+
             // Crear la IPS
             $ips = new Ips();
             $ips->cod_ips = $request->cod_ips;
@@ -71,7 +88,7 @@ class IpsController extends Controller
                     $admin->user()->save($user);
     
                     // Enviar email de bienvenida
-                    Mail::to($admin->email_admin)->send(new WelcomeSuperAdminMail($admin, $contrasenaGenerada));
+                    //Mail::to($admin->email_admin)->send(new WelcomeSuperAdminMail($admin, $contrasenaGenerada));
                 }
     
                 return response()->json(['message' => 'IPS y admin creados correctamente'], 201);
