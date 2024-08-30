@@ -142,3 +142,11 @@ Archivos modificados
 - AuthController (Autenticación del SuperAdmin y traer informacion relaciona con el user).
 - SuperAdminController (Se le agregó validación de autenticación y verificación de rol del usuario).
 - Creación del Controlador UsuarioController (Solo el metodo Store).
+
+## Implementación de autenticación para Admin e Ips 28 Agosto 2024
+
+Archivos modificados 
+
+- AuthController (Autenticación de Admin).
+- AdminController (Se le agregó la verificación de autenticación, la creación de Admin solo a SuperAdmin o la creación de admin a admin solo si es de la misma Ips).   Ajuste para que valide primero la ips si existe antes de pasar a la creación para que no tenga que pasar a la creación del admin.
+- IpsController (Se le agregó la verificacion de autenticación, y solo la creación de Ips a SuperAdmin).
