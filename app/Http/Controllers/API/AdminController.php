@@ -39,37 +39,38 @@ class AdminController extends Controller
         try {
             $authUser = Auth::user();
 
-            if (!$authUser) {
+        if (!$authUser) {
+            return response()->json([
+                'error' => 'No autorizado. Debes estar autenticado para crear un Admin.'
+            ], 401);
+        }
+
+        // Verificar si la IPS existe
+        $newAdminIps = Ips::find($request->cod_ips);
+        if (!$newAdminIps) {
+            return response()->json([
+                'error' => 'IPS no encontrada.'
+            ], 404);
+        }
+
+        // Verificar si el usuario autenticado es un SuperAdmin
+        if ($authUser->rol_id !== 1) {
+            $authAdmin = $authUser->userable; // Obtén el admin asociado al usuario autenticado
+            if (!$authAdmin) {
                 return response()->json([
-                    'error' => 'No autorizado. Debes estar autenticado para crear un Admin.'
-                ], 401);
+                    'error' => 'No se pudo encontrar el admin asociado al usuario autenticado.'
+                ], 404);
             }
 
-            // Verificar si el usuario autenticado es un SuperAdmin
-            if ($authUser->rol_id !== 1) {
-                $authAdmin = $authUser->userable; // Obtén el admin asociado al usuario autenticado
-                if (!$authAdmin) {
-                    return response()->json([
-                        'error' => 'No se pudo encontrar el admin asociado al usuario autenticado.'
-                    ], 404);
-                }
+            $authIps = $authAdmin->ips; // Obtén la IPS del admin autenticado
 
-                $authIps = $authAdmin->ips; // Obtén la IPS del admin autenticado
-
-                // Verificar si la IPS del nuevo admin coincide con la IPS del admin autenticado
-                $newAdminIps = Ips::find($request->cod_ips);
-                if (!$newAdminIps) {
-                    return response()->json([
-                        'error' => 'IPS no encontrada.'
-                    ], 404);
-                }
-
-                if ($authIps->cod_ips !== $newAdminIps->cod_ips) {
-                    return response()->json([
-                        'error' => 'No autorizado. El admin solo puede crear otros admins en la misma IPS.'
-                    ], 403);
-                }
+            // Verificar si la IPS del nuevo admin coincide con la IPS del admin autenticado
+            if ($authIps->cod_ips !== $newAdminIps->cod_ips) {
+                return response()->json([
+                    'error' => 'No autorizado. El admin solo puede crear otros admins en la misma IPS.'
+                ], 403);
             }
+        }
 
             // Crear el admin
             $Admin = new Admin();
@@ -108,6 +109,7 @@ class AdminController extends Controller
             ], 500);
         }
     }
+
 
     function generarContrasena($nombre, $apellido)
     {
