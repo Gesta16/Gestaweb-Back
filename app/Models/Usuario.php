@@ -12,6 +12,9 @@ class Usuario extends Model
 
     protected $table = 'usuario'; 
 
+    protected $primaryKey = 'id_usuario';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $fillable = [
         'id_usuario',
