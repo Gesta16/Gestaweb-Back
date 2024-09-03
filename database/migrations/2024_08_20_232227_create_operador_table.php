@@ -14,17 +14,21 @@ class CreateOperadorTable extends Migration
     public function up()
     {
         Schema::create('operador', function (Blueprint $table) {
-            $table->integer('id_operador')->primary();
+            $table->id('id_operador');
             $table->unsignedBigInteger('id_admin');
+
+            $table->unsignedBigInteger('cod_ips');
+
+            $table->foreign('cod_ips')->references('cod_ips')->on('ips');
 
             $table->foreign('id_admin')->references('id_admin')->on('admin');
 
             $table->string('nom_operador');
             $table->string('ape_operador');
+            $table->string('documento_operador')->unique();
             $table->integer('tel_operador')->unique();
             $table->string('email_operador')->unique();
             $table->string('esp_operador');
-            $table->string('usu_operador');
         });
     }
 

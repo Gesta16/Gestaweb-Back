@@ -7,6 +7,8 @@ use App\Http\Controllers\API\SuperAdminController;
 use App\Http\Controllers\API\UsuarioController;
 use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\IpsController;
+use App\Http\Controllers\API\OperadorController;
+
 
 
 /*
@@ -54,3 +56,10 @@ Route::get("ips/{id}",[IpsController::class, 'show']);
 Route::post("ips/{id}",[IpsController::class, 'update']);
 Route::delete("ips/{id}",[IpsController::class, 'destroy']);
 
+/** RUTAS DEL OPERADOR */
+
+Route::get("operador",[OperadorController::class, 'index']);
+Route::post("operador",[OperadorController::class,  'store']);
+Route::get("operador/{id}",[OperadorController::class,  'show']);
+Route::post("operador/{id}",[OperadorController::class,  'update']);
+Route::delete("operador/{id}",[OperadorController::class,  'destroy']);

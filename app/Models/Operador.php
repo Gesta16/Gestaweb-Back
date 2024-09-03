@@ -11,16 +11,20 @@ class Operador extends Model
 
     protected $table = 'operador'; 
 
+    protected $primaryKey = 'id_operador';
+
+
 
     protected $fillable = [
         'id_operador',
         'id_admin',
+        'cod_ips',
         'nom_operador',
         'ape_operador',
         'tel_operador',
         'email_operador',
         'esp_operador',
-        'usu_operador',
+        'documento_operador',
     ];
     public $timestamps = false;
 

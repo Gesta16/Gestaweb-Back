@@ -15,7 +15,7 @@ class CreateOperadorxusuarioTable extends Migration
     {
         Schema::create('operadorxusuario', function (Blueprint $table) {
             $table->integer('cod_opexusu');
-            $table->integer('id_operador');
+            $table->unsignedBigInteger('id_operador');
             $table->integer('id_usuario');
 
             $table->primary(['cod_opexusu', 'id_operador', 'id_usuario']);

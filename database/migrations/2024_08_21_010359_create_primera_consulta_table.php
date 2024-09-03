@@ -19,7 +19,7 @@ class CreatePrimeraConsultaTable extends Migration
             $table->integer('cod_opexusu');
             $table->foreign('cod_opexusu')->references('cod_opexusu')->on('operadorxusuario');
 
-            $table->integer('id_operador');
+            $table->unsignedBigInteger('id_operador');
             $table->foreign('id_operador')->references('id_operador')->on('operador');
 
             $table->integer('id_usuario');
