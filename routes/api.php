@@ -7,7 +7,6 @@ use App\Http\Controllers\API\SuperAdminController;
 use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\IpsController;
 use App\Http\Controllers\API\OperadorController;
-
 use App\Http\Controllers\API\UsuarioController;
 
 /*

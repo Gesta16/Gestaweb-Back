@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\API;
 
 use App\Mail\WelcomeSuperAdminMail;
 use Illuminate\Support\Facades\Mail;
