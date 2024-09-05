@@ -4,10 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\SuperAdminController;
-use App\Http\Controllers\API\UsuarioController;
 use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\IpsController;
-
+use App\Http\Controllers\API\UsuarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,27 +29,38 @@ Route::group([
     Route::post('login', [AuthController::class,'login']);
 });
 
-/* RUTAS DEL SUPERADMIN */
+//Route::middleware('auth:api')->group(function () {
 
-Route::get("superadmin",[SuperAdminController::class, 'index']);
-Route::post("superadmin",[SuperAdminController::class, 'store']);
-Route::get("superadmin/{id}",[SuperAdminController::class, 'show']);
-Route::post("superadmin/{id}",[SuperAdminController::class, 'update']);
-Route::delete("superadmin/{id}",[SuperAdminController::class, 'destroy']);
+    /* RUTAS DEL SUPERADMIN */
 
-/** RUTAS DEL ADMIN */
+    Route::get("superadmin",[SuperAdminController::class, 'index']);
+    Route::post("superadmin",[SuperAdminController::class, 'store']);
+    Route::get("superadmin/{id}",[SuperAdminController::class, 'show']);
+    Route::post("superadmin/{id}",[SuperAdminController::class, 'update']);
+    Route::delete("superadmin/{id}",[SuperAdminController::class, 'destroy']);
 
-Route::get("admin",[AdminController::class, 'index']);
-Route::post("admin",[AdminController::class, 'store']);
-Route::get("admin/{id}",[AdminController::class, 'show']);
-Route::post("admin/{id}",[AdminController::class, 'update']);
-Route::delete("admin/{id}",[AdminController::class, 'destroy']);
+    /** RUTAS DEL ADMIN */
 
-/** RUTAS DE LA IPS */
+    Route::get("admin",[AdminController::class, 'index']);
+    Route::post("admin",[AdminController::class, 'store']);
+    Route::get("admin/{id}",[AdminController::class, 'show']);
+    Route::post("admin/{id}",[AdminController::class, 'update']);
+    Route::delete("admin/{id}",[AdminController::class, 'destroy']);
 
-Route::get("ips",[IpsController::class, 'index']);
-Route::post("ips",[IpsController::class , 'store']);
-Route::get("ips/{id}",[IpsController::class, 'show']);
-Route::post("ips/{id}",[IpsController::class, 'update']);
-Route::delete("ips/{id}",[IpsController::class, 'destroy']);
+    /** RUTAS DE LA IPS */
 
+    Route::get("ips",[IpsController::class, 'index']);
+    Route::post("ips",[IpsController::class , 'store']);
+    Route::get("ips/{id}",[IpsController::class, 'show']);
+    Route::post("ips/{id}",[IpsController::class, 'update']);
+    Route::delete("ips/{id}",[IpsController::class, 'destroy']);
+
+    /** RUTAS DE LA Usuario */
+
+    Route::get("usuario",[UsuarioController::class, 'index']);
+    Route::post("usuario",[UsuarioController::class , 'store']);
+    Route::get("usuario/{id}",[UsuarioController::class, 'show']);
+    Route::post("usuario/{id}",[UsuarioController::class, 'update']);
+    Route::delete("usuario/{id}",[UsuarioController::class, 'destroy']);
+
+//});
