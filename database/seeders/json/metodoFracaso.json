@@ -1,0 +1,37 @@
+{
+    "metodos_anticonceptivos": [
+      {
+        "cod_fracaso": 1,
+        "nom_metodo": "Inyectable trimestral"
+      },
+      {
+        "cod_fracaso": 2,
+        "nom_metodo": "Inyectable mensual"
+      },
+      {
+        "cod_fracaso": 3,
+        "nom_metodo": "ACO"
+      },
+      {
+        "cod_fracaso": 4,
+        "nom_metodo": "Implante subdérmico"
+      },
+      {
+        "cod_fracaso": 5,
+        "nom_metodo": "Dispositivo intrauterino"
+      },
+      {
+        "cod_fracaso": 6,
+        "nom_metodo": "Preservativo"
+      },
+      {
+        "cod_fracaso": 7,
+        "nom_metodo": "Emergencia"
+      },
+      {
+        "cod_fracaso": 8,
+        "nom_metodo": "Esterilización"
+      }
+    ]
+  }
+  

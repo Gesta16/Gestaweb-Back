@@ -14,10 +14,8 @@ class CreateMortalidadPerinatalTable extends Migration
     public function up()
 {
     Schema::create('mortalidad_perinatal', function (Blueprint $table) {
-        $table->integer('cod_mortalidad')->primary(); // Clave primaria
+        $table->id('cod_mortalidad'); // Clave primaria
         
-        // Campos adicionales
-        $table->date('fec_defuncion');               // Fecha de defunción
         $table->string('cla_muerte');                // Clasificación según momento de muerte (Perinatal, neonatal temprana, neonatal tardía, Aborto (Menor a 22 semanas), mortalidad perinatal- dejar en blanco)
         
     });

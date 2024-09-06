@@ -1,0 +1,41 @@
+{
+    "niveles_reactividad": [
+      {
+        "cod_treponemica": 1,
+        "nom_treponemica": "No reactivo"
+      },
+      {
+        "cod_treponemica": 2,
+        "nom_treponemica": "1:2"
+      },
+      {
+        "cod_treponemica": 3,
+        "nom_treponemica": "1:4"
+      },
+      {
+        "cod_treponemica": 4,
+        "nom_treponemica": "1:8"
+      },
+      {
+        "cod_treponemica": 5,
+        "nom_treponemica": "1:16"
+      },
+      {
+        "cod_treponemica": 6,
+        "nom_treponemica": "1:32"
+      },
+      {
+        "cod_treponemica": 7,
+        "nom_treponemica": "1:64"
+      },
+      {
+        "cod_treponemica": 8,
+        "nom_treponemica": "1:128"
+      },
+      {
+        "cod_treponemica": 9,
+        "nom_treponemica": "1:256"
+      }
+    ]
+  }
+  

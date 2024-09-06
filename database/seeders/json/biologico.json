@@ -1,0 +1,25 @@
+{
+    "vacunas_covid": [
+      {
+        "cod_biologico": 1,
+        "nom_biologico": "Sinovac"
+      },
+      {
+        "cod_biologico": 2,
+        "nom_biologico": "Janssen"
+      },
+      {
+        "cod_biologico": 3,
+        "nom_biologico": "AstraZeneca"
+      },
+      {
+        "cod_biologico": 4,
+        "nom_biologico": "Pfizer"
+      },
+      {
+        "cod_biologico": 5,
+        "nom_biologico": "Moderna"
+      }
+    ]
+  }
+  

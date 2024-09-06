@@ -14,7 +14,7 @@ class CreateMetodoFracasoTable extends Migration
     public function up()
     {
         Schema::create('metodo_fracaso', function (Blueprint $table) {
-            $table->integer('cod_fracaso')->primary();
+            $table->id('cod_fracaso');
             $table->string('nom_metodo');
 
             //$table->timestamps();

@@ -1,0 +1,38 @@
+[
+    {
+        "cod_documento": 1,
+        "nom_documento": "Cédula de Ciudadanía"
+    },
+    {
+        "cod_documento": 2,
+        "nom_documento": "Cédula de Extranjería"
+    },
+    {
+        "cod_documento": 3,
+        "nom_documento": "Cédula Diplomática"
+    },
+    {
+        "cod_documento": 4,
+        "nom_documento": "Pasaporte"
+    },
+    {
+        "cod_documento": 5,
+        "nom_documento": "Salvoconducto"
+    },
+    {
+        "cod_documento": 6,
+        "nom_documento": "Permiso Especial de Permanencia"
+    },
+    {
+        "cod_documento": 7,
+        "nom_documento": "Tarjeta de Identidad"
+    },
+    {
+        "cod_documento": 8,
+        "nom_documento": "Adulto Sin Identificación"
+    },
+    {
+        "cod_documento": 9,
+        "nom_documento": "Permiso de Trabajo"
+    }
+]

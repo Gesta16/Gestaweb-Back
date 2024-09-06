@@ -25,7 +25,7 @@ class CreateVacunacionTable extends Migration
             $table->integer('id_usuario');
             $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
 
-            $table->integer('cod_biologico');
+            $table->unsignedBigInteger('cod_biologico');
             $table->foreign('cod_biologico')->references('cod_biologico')->on('biologico');
 
             $table->date('fec_unocovid');

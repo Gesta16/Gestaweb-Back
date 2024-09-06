@@ -1,0 +1,17 @@
+{
+    "tipos_diabetes": [
+      {
+        "cod_dm": 1,
+        "tip_dm": "Tipo I"
+      },
+      {
+        "cod_dm": 2,
+        "tip_dm": "Tipo II"
+      },
+      {
+        "cod_dm": 3,
+        "tip_dm": "Tipo II INSULINOREQUIRIENTE"
+      }
+    ]
+  }
+  

@@ -14,7 +14,7 @@ class CreatePoblacionDiferencialTable extends Migration
     public function up()
     {
         Schema::create('poblacion_diferencial', function (Blueprint $table) {
-            $table->integer('cod_poblacion')->primary();
+            $table->id('cod_poblacion');
             $table->string('nom_poblacion');
 
             //$table->timestamps();

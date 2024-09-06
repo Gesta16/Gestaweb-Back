@@ -1,0 +1,17 @@
+{
+    "forma_medicion_edad_gestacional": [
+      {
+        "cod_medicion": 1,
+        "nom_forma": "1-FUR confiable"
+      },
+      {
+        "cod_medicion": 2,
+        "nom_forma": "2-FUR no confiable"
+      },
+      {
+        "cod_medicion": 3,
+        "nom_forma": "3-Ecografía"
+      }
+    ]
+  }
+  

@@ -25,10 +25,10 @@ class CreatePrimeraConsultaTable extends Migration
             $table->integer('id_usuario');
             $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
 
-            $table->integer('cod_riesgo');
+            $table->unsignedBigInteger('cod_riesgo');
             $table->foreign('cod_riesgo')->references('cod_riesgo')->on('riesgo');
 
-            $table->integer('cod_dm');
+            $table->unsignedBigInteger('cod_dm');
             $table->foreign('cod_dm')->references('cod_dm')->on('tipo_dm');
 
             $table->integer('peso_previo');

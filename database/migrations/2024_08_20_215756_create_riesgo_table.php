@@ -14,7 +14,7 @@ class CreateRiesgoTable extends Migration
     public function up()
     {
         Schema::create('riesgo', function (Blueprint $table) {
-            $table->integer('cod_riesgo')->primary();
+            $table->id('cod_riesgo');
             $table->string('nom_riesgo');
 
             //$table->timestamps();

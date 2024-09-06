@@ -1,0 +1,29 @@
+{
+    "clasificacion_momento_muerte": [
+      {
+        "cod_mortalidad": 1,
+        "cla_muerte": "Perinatal"
+      },
+      {
+        "cod_mortalidad": 2,
+        "cla_muerte": "Neonatal temprana"
+      },
+      {
+        "cod_mortalidad": 3,
+        "cla_muerte": "Neonatal tardía"
+      },
+      {
+        "cod_mortalidad": 4,
+        "cla_muerte": "Aborto (Menor a 22 semanas)"
+      },
+      {
+        "cod_mortalidad": 5,
+        "cla_muerte": "No es"
+      },
+      {
+        "cod_mortalidad": 6,
+        "cla_muerte": "Mortalidad perinatal - dejar en blanco"
+      }
+    ]
+  }
+  

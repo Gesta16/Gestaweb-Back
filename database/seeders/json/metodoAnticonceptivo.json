@@ -1,0 +1,37 @@
+{
+    "metodos_anticonceptivos": [
+      {
+        "cod_metodo": 1,
+        "nom_metodo": "Inyectable trimestral"
+      },
+      {
+        "cod_metodo": 2,
+        "nom_metodo": "Inyectable mensual"
+      },
+      {
+        "cod_metodo": 3,
+        "nom_metodo": "Oral"
+      },
+      {
+        "cod_metodo": 4,
+        "nom_metodo": "Implante subdérmico"
+      },
+      {
+        "cod_metodo": 5,
+        "nom_metodo": "DIU T"
+      },
+      {
+        "cod_metodo": 6,
+        "nom_metodo": "Preservativo"
+      },
+      {
+        "cod_metodo": 7,
+        "nom_metodo": "Emergencia"
+      },
+      {
+        "cod_metodo": 8,
+        "nom_metodo": "Esterilización"
+      }
+    ]
+  }
+  

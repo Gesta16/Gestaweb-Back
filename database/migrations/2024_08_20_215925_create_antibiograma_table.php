@@ -14,7 +14,7 @@ class CreateAntibiogramaTable extends Migration
     public function up()
     {
         Schema::create('antibiograma', function (Blueprint $table) {
-            $table->integer('cod_antibiograma')->primary();
+            $table->id('cod_antibiograma');
             $table->string('nom_antibiograma');
 
             //$table->timestamps();

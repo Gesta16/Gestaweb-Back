@@ -25,7 +25,7 @@ class CreateControlPrenatalTable extends Migration
             $table->integer('id_usuario');
             $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
 
-            $table->integer('cod_fracaso');
+            $table->unsignedBigInteger('cod_fracaso');
             $table->foreign('cod_fracaso')->references('cod_fracaso')->on('metodo_fracaso');
 
             $table->decimal('edad_gestacional', 4, 1);

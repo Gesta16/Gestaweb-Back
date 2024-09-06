@@ -1,0 +1,49 @@
+{
+    "poblacion_diferencial": [
+      {
+        "cod_poblacion": 1,
+        "nom_poblacion": "Indígena"
+      },
+      {
+        "cod_poblacion": 2,
+        "nom_poblacion": "ROM (gitanos)"
+      },
+      {
+        "cod_poblacion": 3,
+        "nom_poblacion": "Raizal (San Andrés y Providencia)"
+      },
+      {
+        "cod_poblacion": 4,
+        "nom_poblacion": "Palenquero de San Basilio de Palenque"
+      },
+      {
+        "cod_poblacion": 5,
+        "nom_poblacion": "Negro(a)"
+      },
+      {
+        "cod_poblacion": 6,
+        "nom_poblacion": "Afrocolombiano(a)"
+      },
+      {
+        "cod_poblacion": 7,
+        "nom_poblacion": "Población privada de la libertad"
+      },
+      {
+        "cod_poblacion": 8,
+        "nom_poblacion": "LGTBI"
+      },
+      {
+        "cod_poblacion": 9,
+        "nom_poblacion": "Victima del conflicto armado"
+      },
+      {
+        "cod_poblacion": 10,
+        "nom_poblacion": "Migrante"
+      },
+      {
+        "cod_poblacion": 11,
+        "nom_poblacion": "Ninguna de las anteriores"
+      }
+    ]
+  }
+  

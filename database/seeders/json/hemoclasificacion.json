@@ -1,0 +1,37 @@
+{
+    "tipos_sanguineos": [
+      {
+        "cod_hemoclasifi": 1,
+        "tip_hemoclasificacion": "A+"
+      },
+      {
+        "cod_hemoclasifi": 2,
+        "tip_hemoclasificacion": "A-"
+      },
+      {
+        "cod_hemoclasifi": 3,
+        "tip_hemoclasificacion": "B+"
+      },
+      {
+        "cod_hemoclasifi": 4,
+        "tip_hemoclasificacion": "B-"
+      },
+      {
+        "cod_hemoclasifi": 5,
+        "tip_hemoclasificacion": "AB+"
+      },
+      {
+        "cod_hemoclasifi": 6,
+        "tip_hemoclasificacion": "AB-"
+      },
+      {
+        "cod_hemoclasifi": 7,
+        "tip_hemoclasificacion": "O+"
+      },
+      {
+        "cod_hemoclasifi": 8,
+        "tip_hemoclasificacion": "O-"
+      }
+    ]
+  }
+  

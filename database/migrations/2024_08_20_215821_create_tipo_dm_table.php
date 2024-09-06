@@ -14,8 +14,8 @@ class CreateTipoDmTable extends Migration
     public function up()
     {
         Schema::create('tipo_dm', function (Blueprint $table) {
-            $table->integer('cod_dm')->primary();
-            $table->integer('tip_dm');
+            $table->id('cod_dm');
+            $table->string('tip_dm');
 
             //$table->timestamps();
         });

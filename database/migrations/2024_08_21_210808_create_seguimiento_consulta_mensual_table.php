@@ -17,7 +17,7 @@ class CreateSeguimientoConsultaMensualTable extends Migration
         $table->integer('cod_seguimiento')->primary(); // Clave primaria
         
         // Claves foráneas
-        $table->integer('cod_riesgo'); // FK a la tabla de riesgos
+        $table->unsignedBigInteger('cod_riesgo'); // FK a la tabla de riesgos
         $table->unsignedBigInteger('cod_controles'); // FK a la tabla de controles
         $table->unsignedBigInteger('cod_diagnostico'); // FK a la tabla de diagnóstico
         $table->unsignedBigInteger('cod_medicion'); // FK a la tabla de forma de medición

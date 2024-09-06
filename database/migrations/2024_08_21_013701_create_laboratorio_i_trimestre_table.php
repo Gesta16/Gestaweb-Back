@@ -25,10 +25,10 @@ class CreateLaboratorioITrimestreTable extends Migration
             $table->integer('id_usuario');
             $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
 
-            $table->integer('cod_hemoclasifi');
+            $table->unsignedBigInteger('cod_hemoclasifi');
             $table->foreign('cod_hemoclasifi')->references('cod_hemoclasifi')->on('hemoclasificacion');
 
-            $table->integer('cod_antibiograma');
+            $table->unsignedBigInteger('cod_antibiograma');
             $table->foreign('cod_antibiograma')->references('cod_antibiograma')->on('antibiograma');
 
             $table->date('fec_hemoclasificacion');

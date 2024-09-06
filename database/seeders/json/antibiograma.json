@@ -1,0 +1,33 @@
+{
+    "sensibilidad_antibioticos": [
+      {
+        "cod_antibiograma": 1,
+        "nom_antibiograma": "Sensible a todos los antibióticos"
+      },
+      {
+        "cod_antibiograma": 2,
+        "nom_antibiograma": "Sensible a 5 antibióticos"
+      },
+      {
+        "cod_antibiograma": 3,
+        "nom_antibiograma": "Sensible a 4 antibióticos"
+      },
+      {
+        "cod_antibiograma": 4,
+        "nom_antibiograma": "Sensible a 3 antibióticos"
+      },
+      {
+        "cod_antibiograma": 5,
+        "nom_antibiograma": "Sensible a 2 antibióticos"
+      },
+      {
+        "cod_antibiograma": 6,
+        "nom_antibiograma": "Sensible a 1 antibiótico"
+      },
+      {
+        "cod_antibiograma": 7,
+        "nom_antibiograma": "Resistente"
+      }
+    ]
+  }
+  

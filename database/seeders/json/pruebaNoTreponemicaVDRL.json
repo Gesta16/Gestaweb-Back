@@ -1,0 +1,41 @@
+{
+    "niveles_reactividad": [
+      {
+        "cod_vdrl": 1,
+        "num_vdrl": "No reactivo"
+      },
+      {
+        "cod_vdrl": 2,
+        "num_vdrl": "1:2"
+      },
+      {
+        "cod_vdrl": 3,
+        "num_vdrl": "1:4"
+      },
+      {
+        "cod_vdrl": 4,
+        "num_vdrl": "1:8"
+      },
+      {
+        "cod_vdrl": 5,
+        "num_vdrl": "1:16"
+      },
+      {
+        "cod_vdrl": 6,
+        "num_vdrl": "1:32"
+      },
+      {
+        "cod_vdrl": 7,
+        "num_vdrl": "1:64"
+      },
+      {
+        "cod_vdrl": 8,
+        "num_vdrl": "1:128"
+      },
+      {
+        "cod_vdrl": 9,
+        "num_vdrl": "1:256"
+      }
+    ]
+  }
+  

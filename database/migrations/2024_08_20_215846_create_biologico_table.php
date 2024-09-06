@@ -14,7 +14,7 @@ class CreateBiologicoTable extends Migration
     public function up()
     {
         Schema::create('biologico', function (Blueprint $table) {
-            $table->integer('cod_biologico')->primary();
+            $table->id('cod_biologico');
             $table->string('nom_biologico');
 
             //$table->timestamps();

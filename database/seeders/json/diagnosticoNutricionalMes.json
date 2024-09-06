@@ -1,0 +1,21 @@
+{
+    "estado_nutricional_edad_gestacional": [
+      {
+        "cod_diagnostico": 1,
+        "nom_diagnostico": "IMC adecuado para la edad gestacional"
+      },
+      {
+        "cod_diagnostico": 2,
+        "nom_diagnostico": "Bajo peso para la edad gestacional"
+      },
+      {
+        "cod_diagnostico": 3,
+        "nom_diagnostico": "Sobrepeso para la edad gestacional"
+      },
+      {
+        "cod_diagnostico": 4,
+        "nom_diagnostico": "Obesidad para la edad gestacional"
+      }
+    ]
+  }
+  

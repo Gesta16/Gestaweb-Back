@@ -1,0 +1,21 @@
+{
+    "niveles_riesgo": [
+      {
+        "cod_riesgo": 1,
+        "nom_riesgo": "Muy alto riesgo"
+      },
+      {
+        "cod_riesgo": 2,
+        "nom_riesgo": "Alto riesgo"
+      },
+      {
+        "cod_riesgo": 3,
+        "nom_riesgo": "Moderado riesgo"
+      },
+      {
+        "cod_riesgo": 4,
+        "nom_riesgo": "Bajo riesgo"
+      }
+    ]
+  }
+  
