@@ -19,6 +19,9 @@ class CreateIpsTable extends Migration
 
             $table->foreign('cod_regimen')->references('cod_regimen')->on('regimen');
 
+            $table->integer('cod_departamento');
+            $table->foreign('cod_departamento')->references('cod_departamento')->on('departamento');
+
             $table->string('nom_ips');
             $table->string('dir_ips');
             $table->integer('tel_ips');

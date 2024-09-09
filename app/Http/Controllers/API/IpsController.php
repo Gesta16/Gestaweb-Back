@@ -57,6 +57,7 @@ class IpsController extends Controller
             $ips = new Ips();
             $ips->cod_ips = $request->cod_ips;
             $ips->cod_regimen = $request->cod_regimen;
+            $ips->cod_departamento = $request->cod_departamento;
             $ips->nom_ips = $request->nom_ips;
             $ips->dir_ips = $request->dir_ips;
             $ips->tel_ips = $request->tel_ips;
@@ -157,6 +158,7 @@ class IpsController extends Controller
             if ($ips) {
                 $ips->cod_regimen = $request->cod_regimen;
                 $ips->nom_ips = $request->nom_ips;
+                $ips->cod_departamento = $request->cod_departamento;
                 $ips->dir_ips = $request->dir_ips;
                 $ips->tel_ips = $request->tel_ips;
                 $ips->email_ips = $request->email_ips;
