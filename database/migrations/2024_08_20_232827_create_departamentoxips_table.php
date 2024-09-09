@@ -15,11 +15,11 @@ class CreateDepartamentoxipsTable extends Migration
     {
         Schema::create('departamentoxips', function (Blueprint $table) {
             $table->integer('cod_depxips');
-            $table->integer('cod_departamento');
             $table->unsignedBigInteger('cod_ips');
-
+            
             $table->primary(['cod_depxips', 'cod_departamento', 'cod_ips']); //Llave compuesta
-
+            
+            $table->integer('cod_departamento');
             $table->foreign('cod_departamento')->references('cod_departamento')->on('departamento');
 
             $table->foreign('cod_ips')->references('cod_ips')->on('ips');
