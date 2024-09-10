@@ -25,6 +25,9 @@ class CreateOperadorTable extends Migration
 
             $table->string('nom_operador');
             $table->string('ape_operador');
+
+            $table->unsignedBigInteger('cod_documento');
+            $table->foreign('cod_documento')->references('cod_documento')->on('tipo_de_documento');
             $table->string('documento_operador')->unique();
             $table->integer('tel_operador')->unique();
             $table->string('email_operador')->unique();

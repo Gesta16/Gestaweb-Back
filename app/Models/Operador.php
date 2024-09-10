@@ -25,6 +25,8 @@ class Operador extends Model
         'email_operador',
         'esp_operador',
         'documento_operador',
+        'cod_documento',
+
     ];
     public $timestamps = false;
 

@@ -18,7 +18,6 @@ class Usuario extends Model
 
     protected $fillable = [
         'id_usuario',
-        'cod_depxips',
         'cod_departamento',
         'cod_ips',
         'cod_documento',

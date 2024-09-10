@@ -37,23 +37,43 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction(); // Inicia la transacción
+    
         try {
-
+            /*$request->validate([
+                'id_usuario' => 'required|string|max:255',
+                'nom_usuario' => 'required|string|max:255',
+                'ape_usuario' => 'required|string|max:255',
+                'email_usuario' => 'required|email|max:255|unique:usuarios,email_usuario',
+                'tel_usuario' => 'required|string|max:20',
+                'cel_usuario' => 'required|string|max:20',
+                'dir_usuario' => 'nullable|string|max:255',
+                'fec_nacimiento' => 'required|date',
+                'edad_usuario' => 'required|integer',
+                'cod_documento' => 'required|string|max:20',
+                'fec_diag_usuario' => 'nullable|date',
+                'fec_ingreso' => 'required|date',
+                'cod_depxips' => 'required|string|max:20',
+                'cod_departamento' => 'required|string|max:20',
+                'cod_ips' => 'required|string|max:20',
+                'cod_poblacion' => 'required|string|max:20',
+            ]);*/
+    
             $authUser = Auth::user();
-
+    
             if (!$authUser) {
                 return response()->json([
                     'error' => 'No autorizado. Debes estar autenticado para crear un usuario.'  
                 ], 401);
             }
-
+    
             // Verificar si el usuario autenticado es un Operador
             if ($authUser->rol_id !== 3) {
                 return response()->json([
-                    'error' => 'No autorizado. Solo un Operador pueden crear un usuario.'
+                    'error' => 'No autorizado. Solo un Operador puede crear un usuario.'
                 ], 403);
             }
-
+    
             // Crear el Usuario
             $usuario = new Usuario();
             $usuario->id_usuario = $request->id_usuario;
@@ -72,28 +92,32 @@ class UsuarioController extends Controller
             $usuario->cod_departamento = $request->cod_departamento;
             $usuario->cod_ips = $request->cod_ips;
             $usuario->cod_poblacion = $request->cod_poblacion;
-
+    
             if ($usuario->save()) {
                 // Generar una contraseña aleatoria
                 $contrasenaGenerada = $this->generarContrasena($usuario->nom_usuario, $usuario->ape_usuario);
-
+    
                 // Crear el User asociado
                 $user = new User();
                 $user->name = $usuario->nom_usuario . ' ' . $usuario->ape_usuario;
                 $user->documento = $usuario->cel_usuario;
-                $user->password = bcrypt('password'); // Asignar una contraseña por defecto
+                $user->password = bcrypt($contrasenaGenerada); // Usa la contraseña generada
                 $user->rol_id = 4; // Asignar el rol de Usuario
-
-                // Asocia el Usuario al User
+    
+                // Asociar el Usuario al User
                 $usuario->user()->save($user);
-
+    
                 // Enviar email de bienvenida (descomentar si tienes configurado el correo)
                 // Mail::to($usuario->email_usuario)->send(new WelcomeUserMail($usuario, $contrasenaGenerada));
             }
-
+    
+            DB::commit(); // Confirmar la transacción
+    
             return response()->json(['message' => 'Usuario creado correctamente'], 201);
-
+    
         } catch (\Exception $e) {
+            DB::rollBack(); // Deshacer la transacción en caso de error
+    
             return response()->json([
                 'error' => 'Ocurrió un error interno',
                 'exception_message' => $e->getMessage(),
@@ -102,6 +126,7 @@ class UsuarioController extends Controller
             ], 500);
         }
     }
+    
 
     function generarContrasena($nombre, $apellido)
     {

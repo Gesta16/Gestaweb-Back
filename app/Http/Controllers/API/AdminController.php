@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Mail\WelcomeSuperAdminMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin;
@@ -38,40 +39,43 @@ class AdminController extends Controller
     {
         try {
             $authUser = Auth::user();
-
-        if (!$authUser) {
-            return response()->json([
-                'error' => 'No autorizado. Debes estar autenticado para crear un Admin.'
-            ], 401);
-        }
-
-        // Verificar si la IPS existe
-        $newAdminIps = Ips::find($request->cod_ips);
-        if (!$newAdminIps) {
-            return response()->json([
-                'error' => 'IPS no encontrada.'
-            ], 404);
-        }
-
-        // Verificar si el usuario autenticado es un SuperAdmin
-        if ($authUser->rol_id !== 1) {
-            $authAdmin = $authUser->userable; // Obtén el admin asociado al usuario autenticado
-            if (!$authAdmin) {
+    
+            if (!$authUser) {
                 return response()->json([
-                    'error' => 'No se pudo encontrar el admin asociado al usuario autenticado.'
+                    'error' => 'No autorizado. Debes estar autenticado para crear un Admin.'
+                ], 401);
+            }
+    
+            // Verificar si la IPS existe
+            $newAdminIps = Ips::find($request->cod_ips);
+            if (!$newAdminIps) {
+                return response()->json([
+                    'error' => 'IPS no encontrada.'
                 ], 404);
             }
-
-            $authIps = $authAdmin->ips; // Obtén la IPS del admin autenticado
-
-            // Verificar si la IPS del nuevo admin coincide con la IPS del admin autenticado
-            if ($authIps->cod_ips !== $newAdminIps->cod_ips) {
-                return response()->json([
-                    'error' => 'No autorizado. El admin solo puede crear otros admins en la misma IPS.'
-                ], 403);
+    
+            // Verificar si el usuario autenticado es un SuperAdmin
+            if ($authUser->rol_id !== 1) {
+                $authAdmin = $authUser->userable; // Obtén el admin asociado al usuario autenticado
+                if (!$authAdmin) {
+                    return response()->json([
+                        'error' => 'No se pudo encontrar el admin asociado al usuario autenticado.'
+                    ], 404);
+                }
+    
+                $authIps = $authAdmin->ips; // Obtén la IPS del admin autenticado
+    
+                // Verificar si la IPS del nuevo admin coincide con la IPS del admin autenticado
+                if ($authIps->cod_ips !== $newAdminIps->cod_ips) {
+                    return response()->json([
+                        'error' => 'No autorizado. El admin solo puede crear otros admins en la misma IPS.'
+                    ], 403);
+                }
             }
-        }
-
+    
+            // Ahora que todas las validaciones han pasado, usamos una transacción
+            DB::beginTransaction();
+    
             // Crear el admin
             $Admin = new Admin();
             $Admin->cod_ips = $request->cod_ips;
@@ -79,28 +83,36 @@ class AdminController extends Controller
             $Admin->ape_admin = $request->ape_admin;
             $Admin->email_admin = $request->email_admin;
             $Admin->tel_admin = $request->tel_admin;
+            $Admin->cod_documento = $request->cod_documento;
             $Admin->documento_admin = $request->documento_admin;
-
+    
             if ($Admin->save()) {
                 // Generar una contraseña aleatoria
                 $contrasenaGenerada = $this->generarContrasena($Admin->nom_admin, $Admin->ape_admin);
-
+    
                 // Crear el User asociado
                 $user = new User();
                 $user->name = $Admin->nom_admin . ' ' . $Admin->ape_admin;
-                $user->documento = $Admin->documento_admin; 
+                $user->documento = $Admin->documento_admin;
                 $user->password = bcrypt($contrasenaGenerada);
                 $user->rol_id = 2; // Asignar el rol de admin
-
+    
                 // Asocia el admin al User
                 $Admin->user()->save($user);
-
-                //Mail::to($Admin->email_admin)->send(new WelcomeSuperAdminMail ($Admin, $contrasenaGenerada));
+    
+                // Enviar el correo solo si todo lo anterior fue exitoso
+                Mail::to($Admin->email_admin)->send(new WelcomeSuperAdminMail($Admin, $contrasenaGenerada));
             }
-
-            return response()->json(['message' => 'admin creado correctamente'], 201);
-
+    
+            // Si todo fue bien, confirmamos la transacción
+            DB::commit();
+    
+            return response()->json(['message' => 'Admin creado correctamente'], 201);
+    
         } catch (\Exception $e) {
+            // Si algo falla, revertimos la transacción
+            DB::rollBack();
+    
             return response()->json([
                 'error' => 'Ocurrió un error interno',
                 'exception_message' => $e->getMessage(),
@@ -109,6 +121,7 @@ class AdminController extends Controller
             ], 500);
         }
     }
+    
 
 
     function generarContrasena($nombre, $apellido)

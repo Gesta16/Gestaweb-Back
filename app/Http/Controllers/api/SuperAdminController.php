@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Mail\WelcomeSuperAdminMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SuperAdmin;
@@ -36,8 +37,9 @@ class SuperAdminController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();  // Inicia una transacción para garantizar que todo se complete o se deshaga
+    
         try {
-
             /*$request->validate([
                 'nom_superadmin' => 'required|string|max:255',
                 'ape_superadmin' => 'required|string|max:255',
@@ -45,51 +47,58 @@ class SuperAdminController extends Controller
                 'tel_superadmin' => 'required|string|max:20',
                 'documento_superadmin' => 'required|string|max:20|unique:superadmin,documento_superadmin',
             ]);*/
-
+    
             $authUser = Auth::user();
-
+    
             if (!$authUser) {
                 return response()->json([
                     'error' => 'No autorizado. Debes estar autenticado para crear un SuperAdmin.'
                 ], 401);
             }
-
+    
             // Verificar si el usuario autenticado es un SuperAdmin
             if ($authUser->rol_id !== 1) {
                 return response()->json([
                     'error' => 'No autorizado. Solo un SuperAdmin puede crear otros SuperAdmins.'
                 ], 403);
             }
-
+    
             // Crear el SuperAdmin
             $superAdmin = new SuperAdmin();
             $superAdmin->nom_superadmin = $request->nom_superadmin;
             $superAdmin->ape_superadmin = $request->ape_superadmin;
             $superAdmin->email_superadmin = $request->email_superadmin;
             $superAdmin->tel_superadmin = $request->tel_superadmin;
+            $superAdmin->cod_documento = $request->cod_documento;
             $superAdmin->documento_superadmin = $request->documento_superadmin;
-
+    
             if ($superAdmin->save()) {
                 // Generar una contraseña aleatoria
                 $contrasenaGenerada = $this->generarContrasena($superAdmin->nom_superadmin, $superAdmin->ape_superadmin);
-
+    
                 // Crear el User asociado
                 $user = new User();
                 $user->name = $superAdmin->nom_superadmin . ' ' . $superAdmin->ape_superadmin;
                 $user->documento = $superAdmin->documento_superadmin; 
                 $user->password = bcrypt($contrasenaGenerada);
                 $user->rol_id = 1; // Asignar el rol de SuperAdmin
-
-                // Asocia el SuperAdmin al User
+    
+                // Asociar el SuperAdmin al User
                 $superAdmin->user()->save($user);
-
-                //Mail::to($superAdmin->email_superadmin)->send(new WelcomeSuperAdminMail($superAdmin, $contrasenaGenerada));
-
+    
+                // Enviar un correo de bienvenida con la contraseña generada (opcional)
+                // Mail::to($superAdmin->email_superadmin)->send(new WelcomeSuperAdminMail($superAdmin, $contrasenaGenerada));
             }
-
+    
+            // Confirmar la transacción si todo salió bien
+            DB::commit();
+    
             return response()->json(['message' => 'SuperAdmin creado correctamente'], 201);
-
+    
         } catch (\Exception $e) {
+            // Deshacer la transacción si ocurre un error
+            DB::rollBack();
+    
             return response()->json([
                 'error' => 'Ocurrió un error interno',
                 'exception_message' => $e->getMessage(),
@@ -98,6 +107,7 @@ class SuperAdminController extends Controller
             ], 500);
         }
     }
+    
 
 
     function generarContrasena($nombre, $apellido)
@@ -155,6 +165,7 @@ class SuperAdminController extends Controller
             $superAdmin->ape_superadmin = $request->ape_superadmin ?? $superAdmin->ape_superadmin;
             $superAdmin->email_superadmin = $request->email_superadmin ?? $superAdmin->email_superadmin;
             $superAdmin->tel_superadmin = $request->tel_superadmin ?? $superAdmin->tel_superadmin;
+            $superAdmin->cod_documento = $request->cod_documento ?? $superAdmin->cod_documento;
             $superAdmin->documento_superadmin = $request->documento_superadmin ?? $superAdmin->documento_superadmin;
 
             if ($superAdmin->save()) {
