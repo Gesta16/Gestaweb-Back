@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Mail\WelcomeSuperAdminMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Operador;
@@ -36,6 +37,8 @@ class OperadorController extends Controller
      */
     public function store(Request $request)
     {
+        DB::beginTransaction();
+    
         try {
             $authUser = Auth::user();
     
@@ -84,6 +87,7 @@ class OperadorController extends Controller
             $operador->tel_operador = $request->tel_operador;
             $operador->email_operador = $request->email_operador;
             $operador->esp_operador = $request->esp_operador;
+            $operador->cod_documento = $request->cod_documento;
             $operador->documento_operador = $request->documento_operador;
     
             if ($operador->save()) {
@@ -101,9 +105,15 @@ class OperadorController extends Controller
                 // Mail::to($operador->email_operador)->send(new WelcomeOperadorMail($operador, $user->password));
             }
     
+            // Si todo salió bien, confirmar la transacción
+            DB::commit();
+    
             return response()->json(['message' => 'Operador creado correctamente'], 201);
     
         } catch (\Exception $e) {
+            // Si algo falla, deshacer la transacción
+            DB::rollBack();
+    
             return response()->json([
                 'error' => 'Ocurrió un error interno',
                 'exception_message' => $e->getMessage(),
@@ -112,8 +122,6 @@ class OperadorController extends Controller
             ], 500);
         }
     }
-    
-    
 
     /**
      * Display the specified resource.
@@ -156,6 +164,7 @@ class OperadorController extends Controller
             $operador->tel_operador = $request->tel_operador ?? $operador->tel_operador;
             $operador->email_operador = $request->email_operador ?? $operador->email_operador;
             $operador->esp_operador = $request->esp_operador ?? $operador->esp_operador;
+            $operador->cod_documento = $request->cod_documento ?? $operador->cod_documento;
             $operador->documento_operador = $request->documento_operador ?? $operador->documento_operador;
     
             if ($operador->save()) {

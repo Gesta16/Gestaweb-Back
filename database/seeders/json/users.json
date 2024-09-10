@@ -1,0 +1,11 @@
+[
+    {
+    "id": 1,
+    "name": "SuperAdmin",
+    "documento": "12345678",
+    "password": "12345678",
+    "userable_id": 1,
+    "userable_type": "App\\Models\\SuperAdmin",
+    "rol_id": 1
+    }
+]

@@ -24,6 +24,8 @@ class SuperAdmin extends Model
         'documento_superadmin',
         'email_superadmin',
         'tel_superadmin',
+        'cod_documento',
+
         
     ];
 

@@ -35,6 +35,8 @@ class DatabaseSeeder extends Seeder
         $this->call(MetodoAnticonceptivoSeeder::class);
         $this->call(MortalidadPerinatalSeeder::class);
         $this->call(PruebaNoTreponemicaRecienNacidoSeeder::class);
+        $this->call(SuperAdminSeeder::class);
+        $this->call(UserSeeder::class);
 
 
 

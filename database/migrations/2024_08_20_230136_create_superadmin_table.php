@@ -17,6 +17,10 @@ class CreateSuperadminTable extends Migration
             $table->id('id_superadmin');
             $table->string('nom_superadmin');
             $table->string('ape_superadmin');
+
+            $table->unsignedBigInteger('cod_documento');
+            $table->foreign('cod_documento')->references('cod_documento')->on('tipo_de_documento');
+            
             $table->string('documento_superadmin')->unique();
             $table->string('email_superadmin')->unique();
             $table->integer('tel_superadmin');

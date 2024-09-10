@@ -24,6 +24,8 @@ class Admin extends Model
         'ape_admin',
         'email_admin',
         'tel_admin',
+        'cod_documento',
+
     ];
 
     public function user()
