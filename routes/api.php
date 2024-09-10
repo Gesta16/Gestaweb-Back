@@ -8,6 +8,9 @@ use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\IpsController;
 use App\Http\Controllers\API\OperadorController;
 use App\Http\Controllers\API\UsuarioController;
+use App\Http\Controllers\API\DepartamentoController;
+use App\Http\Controllers\API\TipoDocumentoController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -71,3 +74,13 @@ Route::post("operador",[OperadorController::class,  'store']);
 Route::get("operador/{id}",[OperadorController::class,  'show']);
 Route::post("operador/{id}",[OperadorController::class,  'update']);
 Route::delete("operador/{id}",[OperadorController::class,  'destroy']);
+
+/** RUTAS DEL DEPARTAMENTO */
+
+Route::get("departamento",[DepartamentoController::class, 'index']);
+Route::get("departamento/{id}",[DepartamentoController::class, 'show']);
+
+/** RUTAS DEL TIPO DOCUMENTO */
+
+Route::get("documento",[TipoDocumentoController::class , 'index']);
+Route::get("documento/{id}",[TipoDocumentoController::class, 'show']);

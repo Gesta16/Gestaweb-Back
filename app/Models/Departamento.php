@@ -16,6 +16,9 @@ class Departamento extends Model
         'nom_departamento',
     ];
 
+    protected $primaryKey = 'cod_departamento';
+
+
     public $timestamps = false;
 
     public function municipios()

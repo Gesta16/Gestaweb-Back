@@ -26,7 +26,8 @@ class IpsController extends Controller
         return [
             'estado'=>'Ok',
             'ips'=>$Ips
-        ];    }
+        ];    
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -70,6 +71,7 @@ class IpsController extends Controller
                 $admin->cod_ips = $ips->cod_ips; // Asociar el admin a la IPS recién creada
                 $admin->nom_admin = $request->nom_ips;
                 $admin->ape_admin = ' ';
+                $admin->tipo_documento = 10;
                 $admin->email_admin = $request->email_ips;
                 $admin->tel_admin = $request->tel_ips;
                 $admin->documento_admin = $request->nit_ips;

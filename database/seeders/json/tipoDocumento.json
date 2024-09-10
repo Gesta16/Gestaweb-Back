@@ -34,5 +34,9 @@
     {
         "cod_documento": 9,
         "nom_documento": "Permiso de Trabajo"
+    },
+    {
+        "cod_documento": 10,
+        "nom_documento": "NIT"
     }
 ]
