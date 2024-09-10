@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Operador;
 use App\Models\User;
+use App\Models\Ips;
 
 
 class OperadorController extends Controller
