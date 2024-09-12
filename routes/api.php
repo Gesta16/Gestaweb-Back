@@ -10,6 +10,12 @@ use App\Http\Controllers\API\OperadorController;
 use App\Http\Controllers\API\UsuarioController;
 use App\Http\Controllers\API\DepartamentoController;
 use App\Http\Controllers\API\TipoDocumentoController;
+use App\Http\Controllers\API\RegimenController;
+use App\Http\Controllers\API\PoblacionDiferencialController;
+use App\Http\Controllers\API\MetodoFracasoController;
+use App\Http\Controllers\API\RiesgoController;
+
+
 
 
 /*
@@ -59,7 +65,7 @@ Route::group([
     Route::post("ips/{id}",[IpsController::class, 'update']);
     Route::delete("ips/{id}",[IpsController::class, 'destroy']);
 
-    /** RUTAS DE LA Usuario */
+    /** RUTAS DEL USUARIO*/
 
     Route::get("usuario",[UsuarioController::class, 'index']);
     Route::post("usuario",[UsuarioController::class , 'store']);
@@ -84,3 +90,23 @@ Route::get("departamento/{id}",[DepartamentoController::class, 'show']);
 
 Route::get("documento",[TipoDocumentoController::class , 'index']);
 Route::get("documento/{id}",[TipoDocumentoController::class, 'show']);
+
+/** RUTAS DEL REGIMEN */
+
+Route::get("regimen",[RegimenController::class , 'index']);
+Route::get("regimen/{id}",[RegimenController::class, 'show']);
+
+/** RUTAS DE POBLACION DIFERENCIAL */
+
+Route::get("poblacion-diferencial",[PoblacionDiferencialController::class , 'index']);
+Route::get("poblacion-diferencial/{id}",[PoblacionDiferencialController::class, 'show']);
+
+/** RUTAS DEL METODO FRACASO */
+
+Route::get("metodo-fracaso",[MetodoFracasoController::class , 'index']);
+Route::get("metodo-fracaso/{id}",[MetodoFracasoController::class, 'show']);
+
+/** RUTAS DEL RIESGO */
+
+Route::get("riesgo",[RiesgoController::class , 'index']);
+Route::get("riesgo/{id}",[RiesgoController::class, 'show']);
