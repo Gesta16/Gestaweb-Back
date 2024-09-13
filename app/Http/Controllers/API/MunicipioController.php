@@ -24,8 +24,11 @@ class MunicipioController extends Controller
                         ->where('municipio.cod_departamento', $cod_departamento)
                         ->get();
     
-        // Retornar los resultados como respuesta JSON o a una vista
-        return response()->json($municipios);
+
+        return response()->json([
+            'estado' => 'Ok',
+            'Municipios' => $municipios
+        ], 200);
     }
 
     /**
