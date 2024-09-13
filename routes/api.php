@@ -28,6 +28,7 @@ use App\Http\Controllers\API\TerminacionGestacionController;
 use App\Http\Controllers\API\MetodoAnticonceptivoController;
 use App\Http\Controllers\API\MortalidadPerinatalController;
 use App\Http\Controllers\API\PruebaNoTreponemicaRecienNacidoController;
+use App\Http\Controllers\API\MunicipioController;
 
 
 
@@ -193,3 +194,8 @@ Route::get("mortalidad-perinatal/{id}",[MortalidadPerinatalController::class, 's
 
 Route::get("prueba-no-treponemica-recien-nacido",[PruebaNoTreponemicaRecienNacidoController::class , 'index']);
 Route::get("prueba-no-treponemica-recien-nacido/{id}",[PruebaNoTreponemicaRecienNacidoController::class, 'show']);
+
+/** RUTAS DE MUNICIPIO */
+
+Route::get("municipio/{cod_departamento}",[MunicipioController::class , 'index']);
+Route::get("municipio-individual/{id}",[MunicipioController::class, 'show']);

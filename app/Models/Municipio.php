@@ -12,6 +12,8 @@ class Municipio extends Model
 
     protected $table = 'municipio'; 
 
+    protected $primaryKey = 'cod_municipio';
+
 
     protected $fillable = [
         'cod_municipio',
