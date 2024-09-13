@@ -23,6 +23,8 @@ class Operador extends Model
         'ape_operador',
         'tel_operador',
         'email_operador',
+        'cod_departamento',
+        'cod_municipio',
         'esp_operador',
         'documento_operador',
         'cod_documento',

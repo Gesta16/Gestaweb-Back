@@ -81,6 +81,8 @@ class AdminController extends Controller
             $Admin->cod_ips = $request->cod_ips;
             $Admin->nom_admin = $request->nom_admin;
             $Admin->ape_admin = $request->ape_admin;
+            $Admin->cod_departamento = $request->cod_departamento;
+            $Admin->cod_municipio = $request->cod_municipio;
             $Admin->email_admin = $request->email_admin;
             $Admin->tel_admin = $request->tel_admin;
             $Admin->cod_documento = $request->cod_documento;

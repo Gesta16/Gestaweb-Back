@@ -87,6 +87,8 @@ class OperadorController extends Controller
             $operador->ape_operador = $request->ape_operador;
             $operador->tel_operador = $request->tel_operador;
             $operador->email_operador = $request->email_operador;
+            $operador->cod_departamento = $request->cod_departamento;
+            $operador->cod_municipio = $request->cod_municipio;
             $operador->esp_operador = $request->esp_operador;
             $operador->cod_documento = $request->cod_documento;
             $operador->documento_operador = $request->documento_operador;
@@ -164,10 +166,12 @@ class OperadorController extends Controller
             $operador->ape_operador = $request->ape_operador ?? $operador->ape_operador;
             $operador->tel_operador = $request->tel_operador ?? $operador->tel_operador;
             $operador->email_operador = $request->email_operador ?? $operador->email_operador;
+            $operador->cod_departamento = $request->cod_departamento;
+            $operador->cod_municipio = $request->cod_municipio;
             $operador->esp_operador = $request->esp_operador ?? $operador->esp_operador;
             $operador->cod_documento = $request->cod_documento ?? $operador->cod_documento;
             $operador->documento_operador = $request->documento_operador ?? $operador->documento_operador;
-    
+
             if ($operador->save()) {
                 return response()->json(['message' => 'Operador actualizado correctamente'], 200);
             }

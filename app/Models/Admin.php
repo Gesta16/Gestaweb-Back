@@ -22,6 +22,8 @@ class Admin extends Model
         'cod_ips',
         'nom_admin',
         'ape_admin',
+        'cod_departamento',
+        'cod_municipio',
         'email_admin',
         'tel_admin',
         'cod_documento',

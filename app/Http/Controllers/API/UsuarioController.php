@@ -90,6 +90,7 @@ class UsuarioController extends Controller
             $usuario->fec_ingreso = $request->fec_ingreso;
             $usuario->cod_depxips = $request->cod_depxips;
             $usuario->cod_departamento = $request->cod_departamento;
+            $usuario->cod_municipio = $request->cod_municipio;
             $usuario->cod_ips = $request->cod_ips;
             $usuario->cod_poblacion = $request->cod_poblacion;
     
@@ -201,6 +202,7 @@ class UsuarioController extends Controller
                 $usuario->fec_ingreso = $request->fec_ingreso;
                 $usuario->cod_depxips = $request->cod_depxips;
                 $usuario->cod_departamento = $request->cod_departamento;
+                $usuario->cod_municipio = $request->cod_municipio;
                 $usuario->cod_ips = $request->cod_ips;
                 $usuario->cod_poblacion = $request->cod_poblacion;
 

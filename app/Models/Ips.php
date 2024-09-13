@@ -22,6 +22,8 @@ class Ips extends Model
         'cod_regimen',
         'nom_ips',
         'dir_ips',
+        'cod_municipio',
+        'cod_departamento',
         'tel_ips',
         'email_ips',
     ];

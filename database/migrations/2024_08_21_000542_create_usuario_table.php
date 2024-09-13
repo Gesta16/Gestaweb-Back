@@ -16,12 +16,12 @@ class CreateUsuarioTable extends Migration
         Schema::create('usuario', function (Blueprint $table) {
             $table->integer('id_usuario')->primary();
             
-            $table->integer('cod_depxips');
-            $table->foreign('cod_depxips')->references('cod_depxips')->on('departamentoxips'); //Debe ser auto incremental??
+            $table->unsignedBigInteger('cod_departamento');
+            $table->foreign('cod_departamento')->references('cod_departamento')->on('departamento');
 
-            $table->integer('cod_departamento');
-            $table->foreign('cod_departamento')->references('cod_departamento')->on('departamentoxips');
-
+            $table->unsignedBigInteger('cod_municipio');
+            $table->foreign('cod_municipio')->references('cod_municipio')->on('municipio');
+            
             $table->unsignedBigInteger('cod_ips');
             $table->foreign('cod_ips')->references('cod_ips')->on('departamentoxips');
 

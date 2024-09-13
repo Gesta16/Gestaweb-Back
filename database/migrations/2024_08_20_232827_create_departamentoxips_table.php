@@ -19,7 +19,7 @@ class CreateDepartamentoxipsTable extends Migration
             
             $table->primary(['cod_depxips', 'cod_departamento', 'cod_ips']); //Llave compuesta
             
-            $table->integer('cod_departamento');
+            $table->UnsignedBigInteger('cod_departamento');
             $table->foreign('cod_departamento')->references('cod_departamento')->on('departamento');
 
             $table->foreign('cod_ips')->references('cod_ips')->on('ips');

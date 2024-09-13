@@ -62,6 +62,7 @@ class IpsController extends Controller
             $ips->cod_ips = $request->cod_ips;
             $ips->cod_regimen = $request->cod_regimen;
             $ips->cod_departamento = $request->cod_departamento;
+            $ips->cod_municipio = $request->cod_municipio;
             $ips->nom_ips = $request->nom_ips;
             $ips->dir_ips = $request->dir_ips;
             $ips->tel_ips = $request->tel_ips;
@@ -78,6 +79,8 @@ class IpsController extends Controller
             $admin->nom_admin = $request->nom_ips;
             $admin->ape_admin = ' ';
             $admin->cod_documento = 10;
+            $admin->cod_departamento = $request->cod_departamento;
+            $admin->cod_municipio = $request->cod_municipio;
             $admin->email_admin = $request->email_ips;
             $admin->tel_admin = $request->tel_ips;
             $admin->documento_admin = $request->nit_ips;
