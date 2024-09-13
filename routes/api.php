@@ -14,7 +14,20 @@ use App\Http\Controllers\API\RegimenController;
 use App\Http\Controllers\API\PoblacionDiferencialController;
 use App\Http\Controllers\API\MetodoFracasoController;
 use App\Http\Controllers\API\RiesgoController;
-
+use App\Http\Controllers\API\TipoDmController;
+use App\Http\Controllers\API\BiologicoController;
+use App\Http\Controllers\API\HemoclasificacionController;
+use App\Http\Controllers\API\AntibiogramaController;
+use App\Http\Controllers\API\PruebaNoTreponemicaVDRLController;
+use App\Http\Controllers\API\PruebaNoTreponemicaRPRController;
+use App\Http\Controllers\API\NumeroControlesController;
+use App\Http\Controllers\API\DiagnosticoNutricionalMesController;
+use App\Http\Controllers\API\FormaMedicionEdadGestacionalController;
+use App\Http\Controllers\API\NumSesionesCursoPaternidadMaternidadController;
+use App\Http\Controllers\API\TerminacionGestacionController;
+use App\Http\Controllers\API\MetodoAnticonceptivoController;
+use App\Http\Controllers\API\MortalidadPerinatalController;
+use App\Http\Controllers\API\PruebaNoTreponemicaRecienNacidoController;
 
 
 
@@ -110,3 +123,73 @@ Route::get("metodo-fracaso/{id}",[MetodoFracasoController::class, 'show']);
 
 Route::get("riesgo",[RiesgoController::class , 'index']);
 Route::get("riesgo/{id}",[RiesgoController::class, 'show']);
+
+/** RUTAS DEL TIPO DM */
+
+Route::get("tipo-dm",[TipoDmController::class , 'index']);
+Route::get("tipo-dm/{id}",[TipoDmController::class, 'show']);
+
+/** RUTAS DEL BIOLOGICO */
+
+Route::get("biologico",[BiologicoController::class , 'index']);
+Route::get("biologico/{id}",[BiologicoController::class, 'show']);
+
+/** RUTAS DE LA HEMOCLASIFICACION */
+
+Route::get("hemoclasificacion",[HemoclasificacionController::class , 'index']);
+Route::get("hemoclasificacion/{id}",[HemoclasificacionController::class, 'show']);
+
+/** RUTAS DEL ANTIBIOGRAMA */
+
+Route::get("antibiograma",[AntibiogramaController::class , 'index']);
+Route::get("antibiograma/{id}",[AntibiogramaController::class, 'show']);
+
+/** RUTAS DE LA PRUEBA NO TREPONEMICA VDRL */
+
+Route::get("prueba-no-treponemica-VDRL",[PruebaNoTreponemicaVDRLController::class , 'index']);
+Route::get("prueba-no-treponemica-VDRL/{id}",[PruebaNoTreponemicaVDRLController::class, 'show']);
+
+/** RUTAS DE LA PRUEBA NO TREPONEMICA RPR */
+
+Route::get("prueba-no-treponemica-RPR",[PruebaNoTreponemicaRPRController::class , 'index']);
+Route::get("prueba-no-treponemica-RPR/{id}",[PruebaNoTreponemicaRPRController::class, 'show']);
+
+/** RUTAS DE NUMERO CONTROLES */
+
+Route::get("numero-controles",[NumeroControlesController::class , 'index']);
+Route::get("numero-controles/{id}",[NumeroControlesController::class, 'show']);
+
+/** RUTAS DE DIAGNOSTICO NUTRICIONAL MES */
+
+Route::get("diagnostico-nutricional-mes",[DiagnosticoNutricionalMesController::class , 'index']);
+Route::get("diagnostico-nutricional-mes/{id}",[DiagnosticoNutricionalMesController::class, 'show']);
+
+/** RUTAS DE FORMA MEDICION EDAD GESTACIONAL */
+
+Route::get("forma-medicion-edad-gestacional",[FormaMedicionEdadGestacionalController::class , 'index']);
+Route::get("forma-medicion-edad-gestacional/{id}",[FormaMedicionEdadGestacionalController::class, 'show']);
+
+/** RUTAS DE SESIONES CURSO PATERNIDAD Y MATERNIDAD */
+
+Route::get("sesiones-curso-paternidad-maternidad",[NumSesionesCursoPaternidadMaternidadController::class , 'index']);
+Route::get("sesiones-curso-paternidad-maternidad/{id}",[NumSesionesCursoPaternidadMaternidadController::class, 'show']);
+
+/** RUTAS DE TERMINACION GESTACION */
+
+Route::get("terminacion-gestacion",[TerminacionGestacionController::class , 'index']);
+Route::get("terminacion-gestacion/{id}",[TerminacionGestacionController::class, 'show']);
+
+/** RUTAS DE METODO ANTICONCEPTIVO */
+
+Route::get("metodo-anticonceptivo",[MetodoAnticonceptivoController::class , 'index']);
+Route::get("metodo-anticonceptivo/{id}",[MetodoAnticonceptivoController::class, 'show']);
+
+/** RUTAS DE MORTALIDAD PERINATAL */
+
+Route::get("mortalidad-perinatal",[MortalidadPerinatalController::class , 'index']);
+Route::get("mortalidad-perinatal/{id}",[MortalidadPerinatalController::class, 'show']);
+
+/** RUTAS DE MORTALIDAD PERINATAL */
+
+Route::get("prueba-no-treponemica-recien-nacido",[PruebaNoTreponemicaRecienNacidoController::class , 'index']);
+Route::get("prueba-no-treponemica-recien-nacido/{id}",[PruebaNoTreponemicaRecienNacidoController::class, 'show']);
