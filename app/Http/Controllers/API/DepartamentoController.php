@@ -17,10 +17,10 @@ class DepartamentoController extends Controller
 
     public function index()
     {
-        $departamento = Departamento::all();
+        $departamentos = Departamento::all();
         return response()->json([
             'estado' => 'Ok',
-            'departamento' => $departamento
+            'Departamentos' => $departamentos
         ], 200); 
     }
 
@@ -47,7 +47,7 @@ class DepartamentoController extends Controller
             $departamento = Departamento::findOrFail($id);
             return response()->json([
                 'estado' => 'Ok',
-                'departamento' => $departamento
+                'Departamento' => $departamento
             ], 200); 
         } catch (ModelNotFoundException $e) {
             return response()->json([
