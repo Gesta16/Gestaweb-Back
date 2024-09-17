@@ -14,7 +14,7 @@ class CreateControlPrenatalTable extends Migration
     public function up()
     {
         Schema::create('control_prenatal', function (Blueprint $table) {
-            $table->integer('cod_control')->primary();
+            $table->id('cod_control');
 
             $table->unsignedBigInteger('id_operador');
             $table->foreign('id_operador')->references('id_operador')->on('operador');
