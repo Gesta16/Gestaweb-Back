@@ -13,15 +13,14 @@ class DepartamentoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-
     public function index()
     {
-        $departamentos = Departamento::all();
-        return response()->json([
-            'estado' => 'Ok',
-            'Departamentos' => $departamentos
-        ], 200); 
+        $Departamento = Departamento::orderBy('cod_departamento','asc')->get();
+
+        return [
+            'estado'=>'Ok',
+            'departamento'=>$Departamento
+        ];    
     }
 
     /**
@@ -43,19 +42,18 @@ class DepartamentoController extends Controller
      */
     public function show($id)
     {
-        try {
-            $departamento = Departamento::findOrFail($id);
+        $Departamento = Departamento::find($id);
+    
+        if ($Departamento) {
             return response()->json([
                 'estado' => 'Ok',
-                'Departamento' => $departamento
-            ], 200); 
-        } catch (ModelNotFoundException $e) {
+                'departamento' => $Departamento
+            ], 200);
+        } else {
             return response()->json([
-                'estado' => 'Error',
-                'mensaje' => 'Departamento no encontrado'
-            ], 404); 
-        }
-    }
+                'error' => 'Departamento no encontrado'
+            ], 404);
+        }    }
 
     /**
      * Update the specified resource in storage.
