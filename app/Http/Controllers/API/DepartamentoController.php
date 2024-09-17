@@ -20,7 +20,7 @@ class DepartamentoController extends Controller
         $departamento = Departamento::all();
         return response()->json([
             'estado' => 'Ok',
-            'Departamento' => $departamento
+            'departamento' => $departamento
         ], 200); 
     }
 
@@ -47,7 +47,7 @@ class DepartamentoController extends Controller
             $departamento = Departamento::findOrFail($id);
             return response()->json([
                 'estado' => 'Ok',
-                'Departamento' => $departamento
+                'departamento' => $departamento
             ], 200); 
         } catch (ModelNotFoundException $e) {
             return response()->json([
