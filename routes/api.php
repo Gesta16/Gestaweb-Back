@@ -29,8 +29,7 @@ use App\Http\Controllers\API\MetodoAnticonceptivoController;
 use App\Http\Controllers\API\MortalidadPerinatalController;
 use App\Http\Controllers\API\PruebaNoTreponemicaRecienNacidoController;
 use App\Http\Controllers\API\MunicipioController;
-
-
+use App\Http\Controllers\API\ControlPrenatalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -199,3 +198,11 @@ Route::get("prueba-no-treponemica-recien-nacido/{id}",[PruebaNoTreponemicaRecien
 
 Route::get("municipio/{cod_departamento}",[MunicipioController::class , 'index']);
 Route::get("municipio-individual/{id}",[MunicipioController::class, 'show']);
+
+/** RUTAS DEL CONTROL PRENATAL */
+
+Route::get('/control-prenatal', [ControlPrenatalController::class, 'index']);
+Route::get('/control-prenatal/{cod_control}', [ControlPrenatalController::class, 'show']);
+Route::post('/control-prenatal', [ControlPrenatalController::class, 'store']);
+Route::POST('/control-prenatal/{cod_control}', [ControlPrenatalController::class, 'update']);
+Route::delete('/control-prenatal/{cod_control}', [ControlPrenatalController::class, 'destroy']);

@@ -179,6 +179,7 @@ class IpsController extends Controller
                 $ips->cod_regimen = $request->cod_regimen;
                 $ips->nom_ips = $request->nom_ips;
                 $ips->cod_departamento = $request->cod_departamento;
+                $ips->cod_municipio = $request->cod_municipio;
                 $ips->dir_ips = $request->dir_ips;
                 $ips->tel_ips = $request->tel_ips;
                 $ips->email_ips = $request->email_ips;

@@ -18,4 +18,9 @@ class MetodoFracaso extends Model
     public $timestamps = false;
 
     protected $fillable = ['nom_fracaso'];
+
+    public function controlesPrenatales()
+    {
+        return $this->hasMany(ControlPrenatal::class, 'cod_fracaso', 'cod_fracaso');
+    }
 }

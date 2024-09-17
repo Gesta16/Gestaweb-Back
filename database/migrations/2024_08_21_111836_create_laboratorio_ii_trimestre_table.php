@@ -16,13 +16,10 @@ class CreateLaboratorioIiTrimestreTable extends Migration
         Schema::create('laboratorio_ii_trimestre', function (Blueprint $table) {
             $table->integer('cod_doslaboratorio')->primary();
 
-            $table->integer('cod_opexusu');
-            $table->foreign('cod_opexusu')->references('cod_opexusu')->on('operadorxusuario');
-
             $table->unsignedBigInteger('id_operador');
             $table->foreign('id_operador')->references('id_operador')->on('operador');
 
-            $table->integer('id_usuario');
+            $table->unsignedBigInteger('id_usuario');
             $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
 
             $table->string('pru_vih');

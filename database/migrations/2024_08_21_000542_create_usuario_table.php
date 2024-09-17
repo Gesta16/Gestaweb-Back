@@ -14,7 +14,7 @@ class CreateUsuarioTable extends Migration
     public function up()
     {
         Schema::create('usuario', function (Blueprint $table) {
-            $table->integer('id_usuario')->primary();
+            $table->id('id_usuario');
             
             $table->unsignedBigInteger('cod_departamento');
             $table->foreign('cod_departamento')->references('cod_departamento')->on('departamento');
@@ -23,7 +23,7 @@ class CreateUsuarioTable extends Migration
             $table->foreign('cod_municipio')->references('cod_municipio')->on('municipio');
             
             $table->unsignedBigInteger('cod_ips');
-            $table->foreign('cod_ips')->references('cod_ips')->on('departamentoxips');
+            $table->foreign('cod_ips')->references('cod_ips')->on('ips');
 
             $table->unsignedBigInteger('cod_documento');
             $table->foreign('cod_documento')->references('cod_documento')->on('tipo_de_documento');

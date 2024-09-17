@@ -36,4 +36,9 @@ class Operador extends Model
     {
         return $this->morphOne(User::class, 'userable');
     }
+
+    public function controlesPrenatales()
+    {
+        return $this->hasMany(ControlPrenatal::class, 'id_operador', 'id_operador');
+    }
 }
