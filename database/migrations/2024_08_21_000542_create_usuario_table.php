@@ -27,6 +27,7 @@ class CreateUsuarioTable extends Migration
 
             $table->unsignedBigInteger('cod_documento');
             $table->foreign('cod_documento')->references('cod_documento')->on('tipo_de_documento');
+            $table->string('documento_usuario')->unique();
 
             $table->unsignedBigInteger('cod_poblacion');
             $table->foreign('cod_poblacion')->references('cod_poblacion')->on('poblacion_diferencial');

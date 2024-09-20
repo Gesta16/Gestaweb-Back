@@ -22,6 +22,7 @@ class Usuario extends Model
         'cod_municipio',
         'cod_ips',
         'cod_documento',
+        'documento_usuario',
         'cod_poblacion',
         'fec_diag_usuario',
         'fec_ingreso',
