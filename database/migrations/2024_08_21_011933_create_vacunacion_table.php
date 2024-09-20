@@ -14,7 +14,7 @@ class CreateVacunacionTable extends Migration
     public function up()
     {
         Schema::create('vacunacion', function (Blueprint $table) {
-            $table->integer('cod_vacunacion')->primary();
+            $table->id('cod_vacunacion');
 
             $table->unsignedBigInteger('id_operador');
             $table->foreign('id_operador')->references('id_operador')->on('operador');
@@ -25,12 +25,12 @@ class CreateVacunacionTable extends Migration
             $table->unsignedBigInteger('cod_biologico');
             $table->foreign('cod_biologico')->references('cod_biologico')->on('biologico');
 
-            $table->date('fec_unocovid');
-            $table->date('fec_doscovid');
-            $table->date('fec_refuerzo');
-            $table->date('fec_influenza');
-            $table->date('fec_tetanico');
-            $table->date('fec_dpt');
+            $table->date('fec_unocovid')->nullable();
+            $table->date('fec_doscovid')->nullable();
+            $table->date('fec_refuerzo')->nullable();
+            $table->date('fec_influenza')->nullable();
+            $table->date('fec_tetanico')->nullable();
+            $table->date('fec_dpt')->nullable();
             
             //$table->timestamps();
         });

@@ -47,4 +47,14 @@ class Usuario extends Model
     {
         return $this->hasMany(ControlPrenatal::class, 'id_usuario', 'id_usuario');
     }
+
+    public function primeraConsultas()
+    {
+        return $this->hasMany(PrimeraConsulta::class, 'id_usuario');
+    }
+
+    public function vacunaciones()
+    {
+        return $this->hasMany(Vacunacion::class, 'id_usuario');
+    }
 }

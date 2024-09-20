@@ -17,4 +17,9 @@ class Biologico extends Model
     public $timestamps = false;
 
     protected $fillable = ['nom_biologico'];
+
+    public function vacunaciones()
+    {
+        return $this->hasMany(Vacunacion::class, 'cod_biologico');
+    }
 }

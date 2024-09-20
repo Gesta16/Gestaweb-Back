@@ -14,7 +14,7 @@ class CreatePrimeraConsultaTable extends Migration
     public function up()
     {
         Schema::create('primera_consulta', function (Blueprint $table) {
-            $table->integer('cod_consulta')->primary();
+            $table->id('cod_consulta');
 
             $table->unsignedBigInteger('id_operador');
             $table->foreign('id_operador')->references('id_operador')->on('operador');

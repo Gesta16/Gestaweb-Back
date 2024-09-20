@@ -30,6 +30,10 @@ use App\Http\Controllers\API\MortalidadPerinatalController;
 use App\Http\Controllers\API\PruebaNoTreponemicaRecienNacidoController;
 use App\Http\Controllers\API\MunicipioController;
 use App\Http\Controllers\API\ControlPrenatalController;
+use App\Http\Controllers\API\PrimeraConsultaController;
+use App\Http\Controllers\API\VacunacionController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -206,3 +210,19 @@ Route::get('/control-prenatal/{cod_control}', [ControlPrenatalController::class,
 Route::post('/control-prenatal', [ControlPrenatalController::class, 'store']);
 Route::POST('/control-prenatal/{cod_control}', [ControlPrenatalController::class, 'update']);
 Route::delete('/control-prenatal/{cod_control}', [ControlPrenatalController::class, 'destroy']);
+
+/** RUTAS DE LA PRIMERA CONSULTA */
+
+Route::get("primera-consulta",[PrimeraConsultaController::class, 'index']);
+Route::post("primera-consulta",[PrimeraConsultaController::class, 'store']);
+Route::get("primera-consulta/{id}",[PrimeraConsultaController::class, 'show']);
+Route::post("primera-consulta/{id}",[PrimeraConsultaController::class, 'update']);
+Route::delete("primera-consulta/{id}",[PrimeraConsultaController::class, 'destroy']);
+
+/** RUTAS DE LA VACUNACION */
+
+Route::get("vacunacion",[VacunacionController::class, 'index']);
+Route::post("vacunacion",[VacunacionController::class, 'store']);
+Route::get("vacunacion/{id}",[VacunacionController::class, 'show']);
+Route::post("vacunacion/{id}",[VacunacionController::class, 'update']);
+Route::delete("vacunacion/{id}",[VacunacionController::class, 'destroy']);
