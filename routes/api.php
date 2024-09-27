@@ -32,6 +32,9 @@ use App\Http\Controllers\API\MunicipioController;
 use App\Http\Controllers\API\ControlPrenatalController;
 use App\Http\Controllers\API\PrimeraConsultaController;
 use App\Http\Controllers\API\VacunacionController;
+use App\Http\Controllers\API\FinalizacionGestacionController;
+use App\Http\Controllers\API\LaboratorioInTrapartoController;
+use App\Http\Controllers\API\SeguimientoGestantePostObstetricoController;
 
 
 
@@ -226,3 +229,21 @@ Route::post("vacunacion",[VacunacionController::class, 'store']);
 Route::get("vacunacion/{id}",[VacunacionController::class, 'show']);
 Route::post("vacunacion/{id}",[VacunacionController::class, 'update']);
 Route::delete("vacunacion/{id}",[VacunacionController::class, 'destroy']);
+
+/** RUTAS DE FINALIZACION DE LA GESTACION */
+
+Route::get('/finalizacion-gestacion', [FinalizacionGestacionController::class, 'index']);
+Route::post('/finalizacion-gestacion', [FinalizacionGestacionController::class, 'store']);
+Route::delete('/finalizacion-gestacion/{id}', [FinalizacionGestacionController::class, 'destroy']);
+
+/** RUTAS DE LABORATORIO INTRAPARTO */
+
+Route::get('/laboratorio-intraparto', [LaboratorioInTrapartoController::class, 'index']);
+Route::post('/laboratorio-intraparto', [LaboratorioInTrapartoController::class, 'store']);
+Route::delete('/laboratorio-intraparto/{id}', [LaboratorioInTrapartoController::class, 'destroy']);
+
+/** RUTAS DE SEGUIMIENTO GESTANTE POST OBSTETRICO */
+
+Route::get('/seguimiento-post-obstetrico', [SeguimientoGestantePostObstetricoController::class, 'index']);
+Route::post('/seguimiento-post-obstetrico', [SeguimientoGestantePostObstetricoController::class, 'store']);
+Route::delete('/seguimiento-post-obstetrico/{id}', [SeguimientoGestantePostObstetricoController::class, 'destroy']);
