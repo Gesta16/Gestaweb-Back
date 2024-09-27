@@ -14,7 +14,7 @@ class CreateSeguimientoGestantePostObstetricoTable extends Migration
     public function up()
 {
     Schema::create('seguimiento_gestante_post_obstetrico', function (Blueprint $table) {
-        $table->integer('cod_evento')->primary(); // Clave primaria
+        $table->id('cod_evento');// Clave primaria
         
         // Clave foránea
         $table->unsignedBigInteger('cod_metodo'); // FK a la tabla de métodos anticonceptivos

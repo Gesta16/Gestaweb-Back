@@ -14,7 +14,7 @@ class CreateFinalizacionGestacionTable extends Migration
     public function up()
     {
         Schema::create('finalizacion_gestacion', function (Blueprint $table) {
-            $table->integer('cod_finalizacion')->primary(); // Clave primaria
+            $table->id('cod_finalizacion'); // Clave primaria
             
             // Clave foránea
             $table->unsignedBigInteger('cod_terminacion'); // FK a la tabla de terminación

@@ -14,7 +14,7 @@ class CreateLaboratoriosIntrapartoGestanteTable extends Migration
     public function up()
 {
     Schema::create('laboratorios_intraparto_gestante', function (Blueprint $table) {
-        $table->integer('cod_intraparto')->primary(); // Clave primaria
+        $table->id('cod_intraparto'); // Clave primaria
         
         // Clave foránea
         $table->unsignedBigInteger('cod_vdrl'); // FK a la tabla de pruebas no treponémicas (VDRL)
