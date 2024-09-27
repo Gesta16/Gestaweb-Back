@@ -19,7 +19,7 @@ class RiesgoController extends Controller
 
         return [
             'estado'=>'Ok',
-            'Riesgo'=>$Riesgo
+            'riesgo'=>$Riesgo
         ];  
     }
 

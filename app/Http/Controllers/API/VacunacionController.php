@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Vacunacion;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class VacunacionController extends Controller
@@ -32,8 +34,16 @@ class VacunacionController extends Controller
      */
     public function store(Request $request)
     {
+        // Verificar que el usuario esté autenticado
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'No autenticado'
+            ], 401);
+        }
+    
+        // Validación de los datos recibidos
         $validator = Validator::make($request->all(), [
-            'id_operador' => 'required|exists:operador,id_operador',
             'id_usuario' => 'required|exists:usuario,id_usuario',
             'cod_biologico' => 'required|exists:biologico,cod_biologico',
             'fec_unocovid' => 'nullable|date',
@@ -43,21 +53,29 @@ class VacunacionController extends Controller
             'fec_tetanico' => 'nullable|date',
             'fec_dpt' => 'nullable|date',
         ]);
-
+    
+        // Si la validación falla
         if ($validator->fails()) {
             return response()->json([
                 'estado' => 'Error',
                 'errores' => $validator->errors()
             ], 422);
         }
-
-        $vacunacion = Vacunacion::create($request->all());
-
+    
+        // Asignar el id_operador autenticado
+        $validatedData = $request->all();
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+    
+        // Crear el registro de vacunación
+        $vacunacion = Vacunacion::create($validatedData);
+    
+        // Retornar la respuesta exitosa
         return response()->json([
             'estado' => 'Ok',
             'vacunacion' => $vacunacion
         ], 201);
     }
+    
 
     /**
      * Display the specified resource.

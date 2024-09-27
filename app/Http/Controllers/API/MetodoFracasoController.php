@@ -19,7 +19,7 @@ class MetodoFracasoController extends Controller
 
         return [
             'estado'=>'Ok',
-            'metodo Fracaso'=>$metodoFracaso
+            'metodo'=>$metodoFracaso
         ];  
     }
 

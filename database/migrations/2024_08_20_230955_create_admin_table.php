@@ -33,7 +33,7 @@ class CreateAdminTable extends Migration
             $table->foreign('cod_municipio')->references('cod_municipio')->on('municipio');
 
             $table->string('email_admin')->unique();
-            $table->integer('tel_admin')->unique();
+            $table->string('tel_admin')->unique();
 
             //$table->timestamps();
         });
