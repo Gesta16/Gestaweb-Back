@@ -27,10 +27,10 @@ class MicronutrienteController extends Controller
 
         $validatedData = $request->validate([
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
-            'aci_folico' => 'required|numeric',
-            'sul_ferroso' => 'required|numeric',
-            'car_calcio' => 'required|numeric',
-            'desparasitacion' => 'required|boolean',
+            'aci_folico' => 'required|string',
+            'sul_ferroso' => 'required|string',
+            'car_calcio' => 'required|string',
+            'desparasitacion' => 'required|string',
         ]);
 
         $validatedData['id_operador'] = auth()->user()->userable_id;
