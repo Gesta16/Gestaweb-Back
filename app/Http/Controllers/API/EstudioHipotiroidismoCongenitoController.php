@@ -28,6 +28,7 @@ class EstudioHipotiroidismoCongenitoController extends Controller
 
         $validatedData = $request->validate([
             'tsh' => 'required|string',
+            'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'fec_resultado' => 'required|date',
             't4_libre' => 'required|string',
             'fec_resultadot4' => 'required|date',
@@ -37,7 +38,7 @@ class EstudioHipotiroidismoCongenitoController extends Controller
 
         $validatedData['id_operador'] = auth()->user()->userable_id;
 
-        $estudio = EstudioHipotiroidismoCongenito::create($validatedData->all());
+        $estudio = EstudioHipotiroidismoCongenito::create($validatedData);
         return response()->json(['estado' => 'Ok', 'data' => $estudio], 201);
     }
 

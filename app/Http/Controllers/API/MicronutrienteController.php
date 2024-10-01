@@ -26,8 +26,7 @@ class MicronutrienteController extends Controller
         }
 
         $validatedData = $request->validate([
-            'id_usuario' => 'required|integer',
-            'id_operador' => 'required|integer',
+            'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'aci_folico' => 'required|numeric',
             'sul_ferroso' => 'required|numeric',
             'car_calcio' => 'required|numeric',
@@ -36,7 +35,7 @@ class MicronutrienteController extends Controller
 
         $validatedData['id_operador'] = auth()->user()->userable_id;
 
-        $micronutriente = Micronutriente::create($validatedData->all());
+        $micronutriente = Micronutriente::create($validatedData);
         return response()->json($micronutriente, 201);
     }
 

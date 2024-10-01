@@ -28,6 +28,7 @@ class SeguimientoGestantePostObstetricoController extends Controller
 
         $validatedData = $request->validate([
             'cod_metodo' => 'required|exists:metodos_anticonceptivos,cod_metodo',
+            'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'con_egreso' => 'required|string',
             'fec_fallecimiento' => 'nullable|date',
             'fec_planificacion' => 'nullable|date',
@@ -35,7 +36,7 @@ class SeguimientoGestantePostObstetricoController extends Controller
 
         $validatedData['id_operador'] = auth()->user()->userable_id;
 
-        $seguimiento = SeguimientoGestantePostObstetrico::create($validatedData->all());
+        $seguimiento = SeguimientoGestantePostObstetrico::create($validatedData);
         return response()->json($seguimiento, 201); // 201 Created
     }
 

@@ -29,6 +29,7 @@ class LaboratorioInTrapartoController extends Controller
 
         $validatedData = $request->validate([
             'cod_vdrl' => 'required|integer',
+            'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'pru_sifilis' => 'required|string',
             'fec_sifilis' => 'required|date',
             'fec_vdrl' => 'required|date',
@@ -40,7 +41,7 @@ class LaboratorioInTrapartoController extends Controller
 
         $validatedData['id_operador'] = auth()->user()->userable_id;
 
-        $laboratorio = LaboratorioInTraparto::create($validatedData->all());
+        $laboratorio = LaboratorioInTraparto::create($validatedData);
         return response()->json(['estado' => 'Ok', 'data' => $laboratorio], 201);
     }
 

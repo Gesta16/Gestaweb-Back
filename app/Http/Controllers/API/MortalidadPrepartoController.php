@@ -27,12 +27,13 @@ class MortalidadPrepartoController extends Controller
 
         $validatedData = $request->validate([
             'cod_mortalidad' => 'required|exists:mortalidad_perinatal,cod_mortalidad',
+            'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'fec_defuncion' => 'required|date',
         ]);
 
         $validatedData['id_operador'] = auth()->user()->userable_id;
 
-        $mortalidadPreparto = MortalidadPreparto::create($validatedData->all());
+        $mortalidadPreparto = MortalidadPreparto::create($validatedData);
         return response()->json($mortalidadPreparto, 201);
     }
 

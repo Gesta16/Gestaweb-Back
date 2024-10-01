@@ -28,12 +28,13 @@ class FinalizacionGestacionController extends Controller
 
         $validatedData = $request->validate([
             'cod_terminacion' => 'required|exists:terminacion_gestacion,cod_terminacion',
+            'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'fec_evento' => 'required|date',
         ]);
 
         $validatedData['id_operador'] = auth()->user()->userable_id;
 
-        $finalizacion = FinalizacionGestacion::create($validatedData->all());
+        $finalizacion = FinalizacionGestacion::create($validatedData);
         return response()->json($finalizacion, 201);
     }
 

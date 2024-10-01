@@ -28,6 +28,7 @@ class SeguimientoComplementarioController extends Controller
 
         $validatedData = $request->validate([
             'cod_sesiones' => 'required|exists:num_sesiones_curso_paternidad_maternidad,cod_sesiones',
+            'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'fec_nutricion' => 'required|date',
             'fec_ginecologia' => 'required|date',
             'fec_psicologia' => 'required|date',
@@ -38,7 +39,7 @@ class SeguimientoComplementarioController extends Controller
 
         $validatedData['id_operador'] = auth()->user()->userable_id;
 
-        $seguimiento = SeguimientoComplementario::create($validatedData->all());
+        $seguimiento = SeguimientoComplementario::create($validatedData);
         return response()->json($seguimiento, 201);
     }
 

@@ -28,6 +28,7 @@ class RutaPYMSController extends Controller
         }
 
         $validatedData = $request->validate([
+            'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'fec_bcg' => 'required|date',
             'fec_hepatitis' => 'required|date',
             'fec_seguimiento' => 'required|date',
@@ -36,7 +37,7 @@ class RutaPYMSController extends Controller
 
         $validatedData['id_operador'] = auth()->user()->userable_id;
 
-        $ruta = RutaPYMS::create($validatedData->all());
+        $ruta = RutaPYMS::create($validatedData);
         return response()->json($ruta, 201);
     }
 

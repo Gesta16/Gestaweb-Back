@@ -28,6 +28,7 @@ class TamizacionNeonatalController extends Controller
 
         $validatedData = $request->validate([
             'cod_hemoclasifi' => 'required|exists:hemoclasificacion,cod_hemoclasifi',
+            'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'fec_tsh' => 'required|date',
             'resul_tsh' => 'required|string',
             'fec_pruetrepo' => 'required|date',
@@ -39,7 +40,7 @@ class TamizacionNeonatalController extends Controller
 
         $validatedData['id_operador'] = auth()->user()->userable_id;
 
-        $tamizacion = TamizacionNeonatal::create($validatedData->all());
+        $tamizacion = TamizacionNeonatal::create($validatedData);
         return response()->json(['estado' => 'Ok', 'data' => $tamizacion], 201);
     }
 

@@ -28,6 +28,7 @@ class DatosRecienNacidoController extends Controller
         
         $validatedData = $request->validate([
             'tip_embarazo' => 'required|string',
+            'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'num_nacido' => 'required|integer',
             'sexo' => 'required|string',
             'peso' => 'required|integer',
@@ -38,7 +39,7 @@ class DatosRecienNacidoController extends Controller
 
         $validatedData['id_operador'] = auth()->user()->userable_id;
 
-        $datosRecienNacido = DatosRecienNacido::create($validatedData->all());
+        $datosRecienNacido = DatosRecienNacido::create($validatedData);
         return response()->json(['estado' => 'Ok', 'data' => $datosRecienNacido], 201);
     }
 
