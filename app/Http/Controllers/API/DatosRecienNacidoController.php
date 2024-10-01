@@ -18,7 +18,15 @@ class DatosRecienNacidoController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401); // 401 Unauthorized
+        }
+        
+        $validatedData = $request->validate([
             'tip_embarazo' => 'required|string',
             'num_nacido' => 'required|integer',
             'sexo' => 'required|string',
@@ -28,7 +36,9 @@ class DatosRecienNacidoController extends Controller
             'ips_canguro' => 'nullable|string',
         ]);
 
-        $datosRecienNacido = DatosRecienNacido::create($request->all());
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+
+        $datosRecienNacido = DatosRecienNacido::create($validatedData->all());
         return response()->json(['estado' => 'Ok', 'data' => $datosRecienNacido], 201);
     }
 

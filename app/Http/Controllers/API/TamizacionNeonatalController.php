@@ -18,7 +18,15 @@ class TamizacionNeonatalController extends Controller
     
     public function store(Request $request)
     {
-        $request->validate([
+
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401); // 401 Unauthorized
+        }
+
+        $validatedData = $request->validate([
             'cod_hemoclasifi' => 'required|exists:hemoclasificacion,cod_hemoclasifi',
             'fec_tsh' => 'required|date',
             'resul_tsh' => 'required|string',
@@ -29,7 +37,9 @@ class TamizacionNeonatalController extends Controller
             'tamiza_visual' => 'required|string',
         ]);
 
-        $tamizacion = TamizacionNeonatal::create($request->all());
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+
+        $tamizacion = TamizacionNeonatal::create($validatedData->all());
         return response()->json(['estado' => 'Ok', 'data' => $tamizacion], 201);
     }
 

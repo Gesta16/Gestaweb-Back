@@ -18,7 +18,14 @@ class SeguimientoConsultaMensualController extends Controller
     
     public function store(Request $request)
     {
-        $request->validate([
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401); // 401 Unauthorized
+        }
+
+        $validatedData = $request->validate([
             'cod_riesgo' => 'required|exists:riesgo,cod_riesgo',
             'cod_controles' => 'required|exists:numero_controles,cod_controles',
             'cod_diagnostico' => 'required|exists:diagnostico_nutricional_mes,cod_diagnostico',
@@ -34,7 +41,9 @@ class SeguimientoConsultaMensualController extends Controller
             'ten_artd' => 'required|numeric',
         ]);
 
-        $seguimiento = SeguimientoConsultaMensual::create($request->all());
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+
+        $seguimiento = SeguimientoConsultaMensual::create($validatedData->all());
         return response()->json($seguimiento, 201);
     }
 

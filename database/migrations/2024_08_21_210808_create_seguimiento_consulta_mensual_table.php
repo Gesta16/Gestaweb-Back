@@ -15,12 +15,7 @@ class CreateSeguimientoConsultaMensualTable extends Migration
 {
     Schema::create('seguimiento_consulta_mensual', function (Blueprint $table) {
         $table->id('cod_seguimiento'); // Clave primaria
-        
-            $table->unsignedBigInteger('id_operador');
-            $table->foreign('id_operador')->references('id_operador')->on('operador');
 
-            $table->unsignedBigInteger('id_usuario');
-            $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
 
         // Claves foráneas
         $table->unsignedBigInteger('id_operador');

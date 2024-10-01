@@ -19,7 +19,6 @@ class MortalidadPerinatal extends Model
 
     protected $fillable = [
         'cla_muerte',
-        'id_usuario',
-        'id_operador',
+
     ];
 }

@@ -19,7 +19,15 @@ class LaboratorioInTrapartoController extends Controller
     // Crear un nuevo registro
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401); // 401 Unauthorized
+        }
+
+        $validatedData = $request->validate([
             'cod_vdrl' => 'required|integer',
             'pru_sifilis' => 'required|string',
             'fec_sifilis' => 'required|date',
@@ -30,11 +38,9 @@ class LaboratorioInTrapartoController extends Controller
             'fec_vih' => 'required|date',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['estado' => 'Error', 'errors' => $validator->errors()], 422);
-        }
+        $validatedData['id_operador'] = auth()->user()->userable_id;
 
-        $laboratorio = LaboratorioInTraparto::create($request->all());
+        $laboratorio = LaboratorioInTraparto::create($validatedData->all());
         return response()->json(['estado' => 'Ok', 'data' => $laboratorio], 201);
     }
 

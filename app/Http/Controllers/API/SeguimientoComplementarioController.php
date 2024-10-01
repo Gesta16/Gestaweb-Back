@@ -18,7 +18,15 @@ class SeguimientoComplementarioController extends Controller
     
     public function store(Request $request)
     {
-        $request->validate([
+
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401); // 401 Unauthorized
+        }
+
+        $validatedData = $request->validate([
             'cod_sesiones' => 'required|exists:num_sesiones_curso_paternidad_maternidad,cod_sesiones',
             'fec_nutricion' => 'required|date',
             'fec_ginecologia' => 'required|date',
@@ -28,7 +36,9 @@ class SeguimientoComplementarioController extends Controller
             'cau_inasistencia' => 'nullable|string',
         ]);
 
-        $seguimiento = SeguimientoComplementario::create($request->all());
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+
+        $seguimiento = SeguimientoComplementario::create($validatedData->all());
         return response()->json($seguimiento, 201);
     }
 

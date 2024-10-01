@@ -18,12 +18,21 @@ class MortalidadPrepartoController extends Controller
     
     public function store(Request $request)
     {
-        $request->validate([
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401); // 401 Unauthorized
+        }
+
+        $validatedData = $request->validate([
             'cod_mortalidad' => 'required|exists:mortalidad_perinatal,cod_mortalidad',
             'fec_defuncion' => 'required|date',
         ]);
 
-        $mortalidadPreparto = MortalidadPreparto::create($request->all());
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+
+        $mortalidadPreparto = MortalidadPreparto::create($validatedData->all());
         return response()->json($mortalidadPreparto, 201);
     }
 

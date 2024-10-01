@@ -16,6 +16,8 @@ class MortalidadPreparto extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'id_usuario',
+        'id_operador',
         'cod_mortalpreparto',
         'cod_mortalidad',
         'fec_defuncion',

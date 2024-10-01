@@ -18,7 +18,15 @@ class EstudioHipotiroidismoCongenitoController extends Controller
     
     public function store(Request $request)
     {
-        $request->validate([
+
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401); // 401 Unauthorized
+        }
+
+        $validatedData = $request->validate([
             'tsh' => 'required|string',
             'fec_resultado' => 'required|date',
             't4_libre' => 'required|string',
@@ -27,7 +35,9 @@ class EstudioHipotiroidismoCongenitoController extends Controller
             'fec_primera' => 'required|date',
         ]);
 
-        $estudio = EstudioHipotiroidismoCongenito::create($request->all());
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+
+        $estudio = EstudioHipotiroidismoCongenito::create($validatedData->all());
         return response()->json(['estado' => 'Ok', 'data' => $estudio], 201);
     }
 

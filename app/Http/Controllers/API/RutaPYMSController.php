@@ -19,18 +19,24 @@ class RutaPYMSController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401); // 401 Unauthorized
+        }
+
+        $validatedData = $request->validate([
             'fec_bcg' => 'required|date',
             'fec_hepatitis' => 'required|date',
             'fec_seguimiento' => 'required|date',
             'fec_entrega' => 'required|date',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
+        $validatedData['id_operador'] = auth()->user()->userable_id;
 
-        $ruta = RutaPYMS::create($request->all());
+        $ruta = RutaPYMS::create($validatedData->all());
         return response()->json($ruta, 201);
     }
 

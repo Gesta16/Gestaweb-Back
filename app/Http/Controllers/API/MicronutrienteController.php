@@ -18,7 +18,25 @@ class MicronutrienteController extends Controller
     
     public function store(Request $request)
     {
-        $micronutriente = Micronutriente::create($request->all());
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401); // 401 Unauthorized
+        }
+
+        $validatedData = $request->validate([
+            'id_usuario' => 'required|integer',
+            'id_operador' => 'required|integer',
+            'aci_folico' => 'required|numeric',
+            'sul_ferroso' => 'required|numeric',
+            'car_calcio' => 'required|numeric',
+            'desparasitacion' => 'required|boolean',
+        ]);
+
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+
+        $micronutriente = Micronutriente::create($validatedData->all());
         return response()->json($micronutriente, 201);
     }
 

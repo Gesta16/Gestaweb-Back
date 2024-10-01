@@ -18,14 +18,24 @@ class SeguimientoGestantePostObstetricoController extends Controller
     
     public function store(Request $request)
     {
-        $request->validate([
+
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401); // 401 Unauthorized
+        }
+
+        $validatedData = $request->validate([
             'cod_metodo' => 'required|exists:metodos_anticonceptivos,cod_metodo',
             'con_egreso' => 'required|string',
             'fec_fallecimiento' => 'nullable|date',
             'fec_planificacion' => 'nullable|date',
         ]);
 
-        $seguimiento = SeguimientoGestantePostObstetrico::create($request->all());
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+
+        $seguimiento = SeguimientoGestantePostObstetrico::create($validatedData->all());
         return response()->json($seguimiento, 201); // 201 Created
     }
 

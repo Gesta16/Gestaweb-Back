@@ -18,12 +18,22 @@ class FinalizacionGestacionController extends Controller
     
     public function store(Request $request)
     {
-        $request->validate([
+
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401); // 401 Unauthorized
+        }
+
+        $validatedData = $request->validate([
             'cod_terminacion' => 'required|exists:terminacion_gestacion,cod_terminacion',
             'fec_evento' => 'required|date',
         ]);
 
-        $finalizacion = FinalizacionGestacion::create($request->all());
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+
+        $finalizacion = FinalizacionGestacion::create($validatedData->all());
         return response()->json($finalizacion, 201);
     }
 
