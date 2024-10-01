@@ -35,6 +35,10 @@ use App\Http\Controllers\API\VacunacionController;
 use App\Http\Controllers\API\FinalizacionGestacionController;
 use App\Http\Controllers\API\LaboratorioInTrapartoController;
 use App\Http\Controllers\API\SeguimientoGestantePostObstetricoController;
+use App\Http\Controllers\API\LaboratorioITrimestreController;
+use App\Http\Controllers\API\LaboratorioIITrimestreController;
+use App\Http\Controllers\API\LaboratorioIIITrimestreController;
+use App\Http\Controllers\API\ItsController;
 use App\Http\Controllers\API\SeguimientoConsultaMensualController;
 use App\Http\Controllers\API\SeguimientoComplementarioController;
 use App\Http\Controllers\API\MicronutrienteController;
@@ -254,6 +258,38 @@ Route::delete('/laboratorio-intraparto/{id}', [LaboratorioInTrapartoController::
 Route::get('/seguimiento-post-obstetrico', [SeguimientoGestantePostObstetricoController::class, 'index']);
 Route::post('/seguimiento-post-obstetrico', [SeguimientoGestantePostObstetricoController::class, 'store']);
 Route::delete('/seguimiento-post-obstetrico/{id}', [SeguimientoGestantePostObstetricoController::class, 'destroy']);
+
+/** RUTAS DEL LABORATORIO-I-SEMESTRE*/
+
+Route::get("laboratorio-primer-semestre",[LaboratorioITrimestreController::class, 'index']);
+Route::post("laboratorio-primer-semestre",[LaboratorioITrimestreController::class, 'store']);
+Route::get("laboratorio-primer-semestre/{id}",[LaboratorioITrimestreController::class, 'show']);
+Route::post("laboratorio-primer-semestre/{id}",[LaboratorioITrimestreController::class, 'update']);
+Route::delete("laboratorio-primer-semestre/{id}",[LaboratorioITrimestreController::class, 'destroy']);
+
+/** RUTAS DEL LABORATORIO-II-SEMESTRE*/
+
+Route::get("laboratorio-segundo-semestre",[LaboratorioIITrimestreController::class, 'index']);
+Route::post("laboratorio-segundo-semestre",[LaboratorioIITrimestreController::class, 'store']);
+Route::get("laboratorio-segundo-semestre/{id}",[LaboratorioIITrimestreController::class, 'show']);
+Route::post("laboratorio-segundo-semestre/{id}",[LaboratorioIITrimestreController::class, 'update']);
+Route::delete("laboratorio-segundo-semestre/{id}",[LaboratorioIITrimestreController::class, 'destroy']);
+
+/** RUTAS DEL LABORATORIO-III-SEMESTRE*/
+
+Route::get("laboratorio-tercer-semestre",[LaboratorioIIITrimestreController::class, 'index']);
+Route::post("laboratorio-tercer-semestre",[LaboratorioIIITrimestreController::class, 'store']);
+Route::get("laboratorio-tercer-semestre/{id}",[LaboratorioIIITrimestreController::class, 'show']);
+Route::post("laboratorio-tercer-semestre/{id}",[LaboratorioIIITrimestreController::class, 'update']);
+Route::delete("laboratorio-tercer-semestre/{id}",[LaboratorioIIITrimestreController::class, 'destroy']);
+
+/** RUTAS ITS*/
+
+Route::get("its",[ItsController::class, 'index']);
+Route::post("its",[ItsController::class, 'store']);
+Route::get("its/{id}",[ItsController::class, 'show']);
+Route::post("its/{id}",[ItsController::class, 'update']);
+Route::delete("its/{id}",[ItsController::class, 'destroy']);
 
 /** RUTAS DE SEGUIMIENTO CONSULTA MENSUAL*/
 

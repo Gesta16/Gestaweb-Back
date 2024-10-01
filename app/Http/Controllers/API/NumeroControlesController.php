@@ -19,7 +19,7 @@ class NumeroControlesController extends Controller
 
         return [
             'estado'=>'Ok',
-            'numero controles'=>$NumeroControles
+            'numero_controles'=>$NumeroControles
         ]; 
     }
 

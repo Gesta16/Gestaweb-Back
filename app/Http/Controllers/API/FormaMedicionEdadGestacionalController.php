@@ -19,7 +19,7 @@ class FormaMedicionEdadGestacionalController extends Controller
 
         return [
             'estado'=>'Ok',
-            'Forma Medicion Edad Gestacional'=>$FormaMedicionEdadGestacional
+            'Forma_Medicion'=>$FormaMedicionEdadGestacional
         ];  
     }
 

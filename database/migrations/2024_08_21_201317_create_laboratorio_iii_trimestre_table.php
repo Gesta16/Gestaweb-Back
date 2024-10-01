@@ -16,6 +16,12 @@ class CreateLaboratorioIiiTrimestreTable extends Migration
         Schema::create('laboratorio_iii_trimestre', function (Blueprint $table) {
             $table->id('cod_treslaboratorio'); // Primary Key
             
+            $table->unsignedBigInteger('id_operador');
+            $table->foreign('id_operador')->references('id_operador')->on('operador');
+
+            $table->unsignedBigInteger('id_usuario');
+            $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
+            
             // Hemograma
             $table->string('hemograma');
             $table->date('fec_hemograma');

@@ -58,4 +58,24 @@ class Usuario extends Model
     {
         return $this->hasMany(Vacunacion::class, 'id_usuario');
     }
+
+    public function laboratorios()
+    {
+        return $this->hasMany(LaboratorioITrimestre::class, 'id_usuario', 'id_usuario');
+    }
+
+    public function laboratorios2()
+    {
+        return $this->hasMany(LaboratorioIITrimestre::class, 'id_usuario', 'id_usuario');
+    }
+
+    public function its()
+    {
+        return $this->hasMany(Its::class, 'id_usuario', 'id_usuario');
+    }
+
+    public function seguimientos()
+    {
+        return $this->hasMany(SeguimientoConsultaMensual::class, 'id_usuario');
+    }
 }

@@ -9,16 +9,15 @@ class SeguimientoConsultaMensual extends Model
 {
     use HasFactory;
 
-    protected $table = 'seguimiento_consulta_mensual'; 
+    protected $table = 'seguimiento_consulta_mensual';
 
-    protected $primaryKey = 'cod_seguimiento'; 
+    protected $primaryKey = 'cod_seguimiento';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'cod_seguimiento',
-        'id_usuario',
         'id_operador',
+        'id_usuario',
         'cod_riesgo',
         'cod_controles',
         'cod_diagnostico',
@@ -31,10 +30,19 @@ class SeguimientoConsultaMensual extends Model
         'talla',
         'imc',
         'ten_arts',
-        'ten_artd',
+        'ten_artd'
     ];
 
-    
+    public function operador()
+    {
+        return $this->belongsTo(Operador::class, 'id_operador');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'id_usuario');
+    }
+
     public function riesgo()
     {
         return $this->belongsTo(Riesgo::class, 'cod_riesgo');

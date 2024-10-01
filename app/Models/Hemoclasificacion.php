@@ -17,8 +17,10 @@ class Hemoclasificacion extends Model
 
     public $timestamps = false;
 
-    protected $fillable = [
-        'cod_hemoclasifi',
-        'tip_hemoclasificacion',
-    ];
+    protected $fillable = ['tip_hemoclasificacion'];
+
+    public function laboratorios()
+    {
+        return $this->hasMany(LaboratorioITrimestre::class, 'cod_hemoclasifi', 'cod_hemoclasifi');
+    }
 }
