@@ -17,6 +17,11 @@ class CreateSeguimientoGestantePostObstetricoTable extends Migration
         $table->id('cod_evento');// Clave primaria
         
         // Clave foránea
+        $table->unsignedBigInteger('id_operador');
+        $table->foreign('id_operador')->references('id_operador')->on('operador');
+
+        $table->unsignedBigInteger('id_usuario');
+        $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
         $table->unsignedBigInteger('cod_metodo'); // FK a la tabla de métodos anticonceptivos
         
         // Campos adicionales

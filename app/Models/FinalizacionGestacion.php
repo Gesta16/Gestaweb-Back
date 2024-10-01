@@ -17,6 +17,8 @@ class FinalizacionGestacion extends Model
 
     protected $fillable = [
         'cod_finalizacion',
+        'id_usuario',
+        'id_operador',
         'cod_terminacion', 
         'fec_evento',
     ];

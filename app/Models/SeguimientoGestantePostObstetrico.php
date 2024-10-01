@@ -17,6 +17,8 @@ class SeguimientoGestantePostObstetrico extends Model
 
     protected $fillable = [
         'cod_evento',
+        'id_usuario',
+        'id_operador',
         'cod_metodo',
         'con_egreso',
         'fec_fallecimiento',

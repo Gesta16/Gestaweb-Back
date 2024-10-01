@@ -17,5 +17,8 @@ class Hemoclasificacion extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['tip_hemoclasificacion'];
+    protected $fillable = [
+        'cod_hemoclasifi',
+        'tip_hemoclasificacion',
+    ];
 }

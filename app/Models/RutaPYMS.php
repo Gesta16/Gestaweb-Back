@@ -5,21 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MortalidadPerinatal extends Model
+class RutaPYMS extends Model
 {
     use HasFactory;
 
-    protected $table = 'mortalidad_perinatal';
+    protected $table = '_ruta__p_y_m_s';
 
-    protected $primaryKey = 'cod_mortalidad';
-
-    public $incrementing = true;
+    protected $primaryKey = 'cod_ruta';
 
     public $timestamps = false;
 
     protected $fillable = [
-        'cla_muerte',
+        'cod_ruta',
         'id_usuario',
         'id_operador',
+        'fec_bcg',
+        'fec_hepatitis',
+        'fec_seguimiento',
+        'fec_entrega',
     ];
 }

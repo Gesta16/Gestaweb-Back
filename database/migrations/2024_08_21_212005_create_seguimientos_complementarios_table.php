@@ -15,8 +15,13 @@ class CreateSeguimientosComplementariosTable extends Migration
 {
     Schema::create('seguimientos_complementarios', function (Blueprint $table) {
         $table->id('cod_segcomplementario'); // Clave primaria
-        
+
         // Clave foránea
+        $table->unsignedBigInteger('id_operador');
+        $table->foreign('id_operador')->references('id_operador')->on('operador');
+
+        $table->unsignedBigInteger('id_usuario');
+        $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
         $table->unsignedBigInteger('cod_sesiones'); // FK a la tabla de sesiones
         
         // Campos adicionales

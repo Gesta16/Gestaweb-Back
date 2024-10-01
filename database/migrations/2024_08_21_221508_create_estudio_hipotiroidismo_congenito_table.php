@@ -14,7 +14,13 @@ class CreateEstudioHipotiroidismoCongenitoTable extends Migration
     public function up()
 {
     Schema::create('estudio_hipotiroidismo_congenito', function (Blueprint $table) {
-        $table->integer('cod_estudio')->primary(); // Clave primaria
+        $table->id('cod_estudio'); // Clave primaria
+
+        $table->unsignedBigInteger('id_operador');
+        $table->foreign('id_operador')->references('id_operador')->on('operador');
+
+        $table->unsignedBigInteger('id_usuario');
+        $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
         
         // Campos adicionales
         $table->string('tsh');                   // TSH de seguimiento

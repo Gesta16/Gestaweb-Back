@@ -107,7 +107,7 @@ class OperadorController extends Controller
                 $operador->user()->save($user);
     
                 // Enviar un correo de bienvenida (opcional)
-                 Mail::to($operador->email_operador)->send(new WelcomeSuperAdminMail($operador->documento_operador,  $contrasenaGenerada));
+                 //Mail::to($operador->email_operador)->send(new WelcomeSuperAdminMail($operador->documento_operador,  $contrasenaGenerada));
             }
     
             // Si todo salió bien, confirmar la transacción

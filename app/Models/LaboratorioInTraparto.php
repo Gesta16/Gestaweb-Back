@@ -17,6 +17,8 @@ class LaboratorioInTraparto extends Model
 
     protected $fillable = [
         'cod_intraparto',
+        'id_usuario',
+        'id_operador',
         'cod_vdrl',
         'pru_sifilis',
         'fec_sifilis',

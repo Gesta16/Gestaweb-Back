@@ -14,8 +14,14 @@ class CreateMicronutrientesTable extends Migration
     public function up()
     {
         Schema::create('micronutrientes', function (Blueprint $table) {
-            $table->integer('cod_micronutriente')->primary(); // Clave primaria
+            $table->id('cod_micronutriente'); // Clave primaria
             
+            $table->unsignedBigInteger('id_operador');
+            $table->foreign('id_operador')->references('id_operador')->on('operador');
+    
+            $table->unsignedBigInteger('id_usuario');
+            $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
+
             // Campos adicionales
             $table->string('aci_folico');         // Ácido fólico (sí, no)
             $table->string('sul_ferroso');        // Sulfato ferroso (sí, no)

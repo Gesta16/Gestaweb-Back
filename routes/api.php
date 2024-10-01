@@ -35,7 +35,14 @@ use App\Http\Controllers\API\VacunacionController;
 use App\Http\Controllers\API\FinalizacionGestacionController;
 use App\Http\Controllers\API\LaboratorioInTrapartoController;
 use App\Http\Controllers\API\SeguimientoGestantePostObstetricoController;
-
+use App\Http\Controllers\API\SeguimientoConsultaMensualController;
+use App\Http\Controllers\API\SeguimientoComplementarioController;
+use App\Http\Controllers\API\MicronutrienteController;
+use App\Http\Controllers\API\MortalidadPrepartoController;
+use App\Http\Controllers\API\DatosRecienNacidoController;
+use App\Http\Controllers\API\EstudioHipotiroidismoCongenitoController;
+use App\Http\Controllers\API\RutaPYMSController;
+use App\Http\Controllers\Api\TamizacionNeonatalController;
 
 
 /*
@@ -247,3 +254,52 @@ Route::delete('/laboratorio-intraparto/{id}', [LaboratorioInTrapartoController::
 Route::get('/seguimiento-post-obstetrico', [SeguimientoGestantePostObstetricoController::class, 'index']);
 Route::post('/seguimiento-post-obstetrico', [SeguimientoGestantePostObstetricoController::class, 'store']);
 Route::delete('/seguimiento-post-obstetrico/{id}', [SeguimientoGestantePostObstetricoController::class, 'destroy']);
+
+/** RUTAS DE SEGUIMIENTO CONSULTA MENSUAL*/
+
+Route::get('seguimiento-consulta-mensual', [SeguimientoConsultaMensualController::class, 'index']); 
+Route::post('seguimiento-consulta-mensual', [SeguimientoConsultaMensualController::class, 'store']);
+Route::get('seguimiento-consulta-mensual/{id}', [SeguimientoConsultaMensualController::class, 'show']); 
+Route::delete('seguimiento-consulta-mensual/{id}', [SeguimientoConsultaMensualController::class, 'destroy']);
+
+/** RUTAS DE SEGUIMIENTO COMPLEMENTARIOS */
+
+Route::get('seguimientos-complementarios', [SeguimientoComplementarioController::class, 'index']); 
+Route::post('seguimientos-complementarios', [SeguimientoComplementarioController::class, 'store']); 
+Route::delete('seguimientos-complementarios/{id}', [SeguimientoComplementarioController::class, 'destroy']);
+
+/** RUTAS DE MICRONUTRIENTES */
+
+Route::get('micronutrientes', [MicronutrienteController::class, 'index']); 
+Route::post('micronutrientes', [MicronutrienteController::class, 'store']); 
+Route::delete('micronutrientes/{id}', [MicronutrienteController::class, 'destroy']);
+
+/** RUTAS DE MORTALIDAD PREPARTO */
+
+Route::get('mortalidad-preparto', [MortalidadPrepartoController::class, 'index']);
+Route::post('mortalidad-preparto', [MortalidadPrepartoController::class, 'store']);
+Route::delete('mortalidad-preparto/{id}', [MortalidadPrepartoController::class, 'destroy']);
+
+/** RUTAS DE DATOS DEL RECIEN NACIDO */
+
+Route::get('datos-recien-nacido', [DatosRecienNacidoController::class, 'index']);
+Route::post('datos-recien-nacido', [DatosRecienNacidoController::class, 'store']);
+Route::delete('datos-recien-nacido/{id}', [DatosRecienNacidoController::class, 'destroy']);
+
+/** RUTAS DE ESTUDIO HIPOTIROIDISMO*/
+
+Route::get('/estudios-hipotiroidismo', [EstudioHipotiroidismoCongenitoController::class, 'index']);
+Route::post('/estudios-hipotiroidismo', [EstudioHipotiroidismoCongenitoController::class, 'store']);
+Route::delete('/estudios-hipotiroidismo/{id}', [EstudioHipotiroidismoCongenitoController::class, 'destroy']);
+
+/** RUTAS DE RUTAS PYMS*/
+
+Route::get('/rutas-pyms', [RutaPYMSController::class, 'index']);
+Route::post('/rutas-pyms', [RutaPYMSController::class, 'store']);
+Route::delete('/rutas-pyms/{id}', [RutaPYMSController::class, 'destroy']);
+
+/** RUTAS DE RUTAS TAMIZACIONES NEONATALES*/
+
+Route::get('/tamizaciones-neonatales', [TamizacionNeonatalController::class, 'index']);
+Route::post('/tamizaciones-neonatales', [TamizacionNeonatalController::class, 'store']);
+Route::delete('/tamizaciones-neonatales/{id}', [TamizacionNeonatalController::class, 'destroy']);

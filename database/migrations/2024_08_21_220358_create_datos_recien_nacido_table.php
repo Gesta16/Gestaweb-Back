@@ -14,16 +14,22 @@ class CreateDatosRecienNacidoTable extends Migration
     public function up()
 {
     Schema::create('datos_recien_nacido', function (Blueprint $table) {
-        $table->integer('cod_recien')->primary(); // Clave primaria
+        $table->id('cod_recien'); // Clave primaria
+        
+        $table->unsignedBigInteger('id_operador');
+        $table->foreign('id_operador')->references('id_operador')->on('operador');
+
+        $table->unsignedBigInteger('id_usuario');
+        $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
         
         // Campos adicionales
-        $table->string('tip_embarazo');           // Tipo de embarazo (único, múltiple)
-        $table->integer('num_nacido');            // Número de recién nacido
-        $table->string('sexo');                   // Sexo (Femenino, masculino)
-        $table->integer('peso');                  // Peso al nacer en gramos
-        $table->integer('talla');                 // Talla al nacer en cm
-        $table->string('pla_canguro');            // Está en plan canguro (Si, No)
-        $table->string('ips_canguro');            // IPS atención plan canguro
+        $table->string('tip_embarazo');           
+        $table->integer('num_nacido');          
+        $table->string('sexo');                 
+        $table->integer('peso');                  
+        $table->integer('talla');                
+        $table->string('pla_canguro');            
+        $table->string('ips_canguro')->nullable();
         
     });
 }
