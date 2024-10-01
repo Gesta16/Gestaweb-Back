@@ -42,6 +42,22 @@ class EstudioHipotiroidismoCongenitoController extends Controller
         return response()->json(['estado' => 'Ok', 'data' => $estudio], 201);
     }
 
+    public function show($id)
+    {
+        $estudio = EstudioHipotiroidismoCongenito::find($id);
+    
+        if ($estudio) {
+            return response()->json([
+                'estado' => 'Ok',
+                'data' => $estudio
+            ], 200);
+        } else {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Estudio de hipotiroidismo congénito no encontrado'
+            ], 404);
+        }
+    }
     
     public function destroy($id)
     {

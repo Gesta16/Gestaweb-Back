@@ -23,16 +23,21 @@ class LaboratorioIIITrimestreController extends Controller
 
     public function show($id)
     {
-        if (!auth()->check()) {
+        $laboratorio = LaboratorioIIITrimestre::find($id);
+    
+        if (!$laboratorio) {
             return response()->json([
                 'estado' => 'Error',
-                'mensaje' => 'Debes estar autenticado para realizar esta acción'
-            ], 401); 
+                'mensaje' => 'Registro no encontrado'
+            ], 404);
         }
-
-        $laboratorio = LaboratorioIIITrimestre::findOrFail($id);
-        return response()->json($laboratorio);
+    
+        return response()->json([
+            'estado' => 'Ok',
+            'data' => $laboratorio
+        ]);
     }
+    
 
     public function store(Request $request)
     {

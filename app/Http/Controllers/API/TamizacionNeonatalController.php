@@ -44,7 +44,23 @@ class TamizacionNeonatalController extends Controller
         return response()->json(['estado' => 'Ok', 'data' => $tamizacion], 201);
     }
 
-  
+    public function show($id)
+    {
+        $tamizacion = TamizacionNeonatal::find($id);
+    
+        if ($tamizacion) {
+            return response()->json([
+                'estado' => 'Ok',
+                'data' => $tamizacion
+            ], 200);
+        } else {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Registro de tamización neonatal no encontrado'
+            ], 404);
+        }
+    }
+    
     public function destroy($id)
     {
         $tamizacion = TamizacionNeonatal::find($id);

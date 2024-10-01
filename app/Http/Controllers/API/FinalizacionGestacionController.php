@@ -38,6 +38,21 @@ class FinalizacionGestacionController extends Controller
         return response()->json($finalizacion, 201);
     }
 
+    public function show($id)
+    {
+        $finalizacion = FinalizacionGestacion::find($id);
+
+        if ($finalizacion) {
+            return response()->json([
+                'estado' => 'Ok',
+                'finalizacion' => $finalizacion
+            ], 200);
+        } else {
+            return response()->json([
+                'error' => 'Finalización de gestación no encontrada'
+            ], 404);
+        }
+    }
     
     public function destroy($id)
     {

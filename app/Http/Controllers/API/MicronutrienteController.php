@@ -39,6 +39,21 @@ class MicronutrienteController extends Controller
         return response()->json($micronutriente, 201);
     }
 
+    public function show($id)
+    {
+        $micronutriente = Micronutriente::find($id);
+
+        if ($micronutriente) {
+            return response()->json([
+                'estado' => 'Ok',
+                'micronutriente' => $micronutriente
+            ], 200);
+        } else {
+            return response()->json([
+                'error' => 'Micronutriente no encontrado'
+            ], 404);
+        }
+    }
     
     public function destroy($id)
     {

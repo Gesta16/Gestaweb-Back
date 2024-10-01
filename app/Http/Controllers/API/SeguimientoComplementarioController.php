@@ -43,7 +43,22 @@ class SeguimientoComplementarioController extends Controller
         return response()->json($seguimiento, 201);
     }
 
-    
+    public function show($id)
+    {
+        $seguimiento = SeguimientoComplementario::find($id);
+
+        if ($seguimiento) {
+            return response()->json([
+                'estado' => 'Ok',
+                'seguimiento' => $seguimiento
+            ], 200);
+        } else {
+            return response()->json([
+                'error' => 'Seguimiento no encontrado'
+            ], 404);
+        }
+    }
+
     public function destroy($id)
     {
         $seguimiento = SeguimientoComplementario::findOrFail($id);

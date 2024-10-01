@@ -245,18 +245,21 @@ Route::delete("vacunacion/{id}",[VacunacionController::class, 'destroy']);
 
 Route::get('/finalizacion-gestacion', [FinalizacionGestacionController::class, 'index']);
 Route::post('/finalizacion-gestacion', [FinalizacionGestacionController::class, 'store']);
+Route::get('/finalizacion-gestacion/{id}', [FinalizacionGestacionController::class, 'show']);
 Route::delete('/finalizacion-gestacion/{id}', [FinalizacionGestacionController::class, 'destroy']);
 
 /** RUTAS DE LABORATORIO INTRAPARTO */
 
 Route::get('/laboratorio-intraparto', [LaboratorioInTrapartoController::class, 'index']);
 Route::post('/laboratorio-intraparto', [LaboratorioInTrapartoController::class, 'store']);
+Route::get('/laboratorio-intraparto/{id}', [LaboratorioInTrapartoController::class, 'show']);
 Route::delete('/laboratorio-intraparto/{id}', [LaboratorioInTrapartoController::class, 'destroy']);
 
 /** RUTAS DE SEGUIMIENTO GESTANTE POST OBSTETRICO */
 
 Route::get('/seguimiento-post-obstetrico', [SeguimientoGestantePostObstetricoController::class, 'index']);
 Route::post('/seguimiento-post-obstetrico', [SeguimientoGestantePostObstetricoController::class, 'store']);
+Route::get('/seguimiento-post-obstetrico/{id}', [SeguimientoGestantePostObstetricoController::class, 'show']);
 Route::delete('/seguimiento-post-obstetrico/{id}', [SeguimientoGestantePostObstetricoController::class, 'destroy']);
 
 /** RUTAS DEL LABORATORIO-I-SEMESTRE*/
@@ -302,40 +305,47 @@ Route::delete('seguimiento-consulta-mensual/{id}', [SeguimientoConsultaMensualCo
 
 Route::get('seguimientos-complementarios', [SeguimientoComplementarioController::class, 'index']); 
 Route::post('seguimientos-complementarios', [SeguimientoComplementarioController::class, 'store']); 
+Route::get('seguimientos-complementarios/{id}', [SeguimientoComplementarioController::class, 'show']);
 Route::delete('seguimientos-complementarios/{id}', [SeguimientoComplementarioController::class, 'destroy']);
 
 /** RUTAS DE MICRONUTRIENTES */
 
 Route::get('micronutrientes', [MicronutrienteController::class, 'index']); 
 Route::post('micronutrientes', [MicronutrienteController::class, 'store']); 
+Route::get('micronutrientes/{id}', [MicronutrienteController::class, 'show']);
 Route::delete('micronutrientes/{id}', [MicronutrienteController::class, 'destroy']);
 
 /** RUTAS DE MORTALIDAD PREPARTO */
 
 Route::get('mortalidad-preparto', [MortalidadPrepartoController::class, 'index']);
 Route::post('mortalidad-preparto', [MortalidadPrepartoController::class, 'store']);
+Route::get('mortalidad-preparto/{id}', [MortalidadPrepartoController::class, 'show']);
 Route::delete('mortalidad-preparto/{id}', [MortalidadPrepartoController::class, 'destroy']);
 
 /** RUTAS DE DATOS DEL RECIEN NACIDO */
 
 Route::get('datos-recien-nacido', [DatosRecienNacidoController::class, 'index']);
 Route::post('datos-recien-nacido', [DatosRecienNacidoController::class, 'store']);
+Route::get('datos-recien-nacido/{id}', [DatosRecienNacidoController::class, 'show']);
 Route::delete('datos-recien-nacido/{id}', [DatosRecienNacidoController::class, 'destroy']);
 
 /** RUTAS DE ESTUDIO HIPOTIROIDISMO*/
 
 Route::get('/estudios-hipotiroidismo', [EstudioHipotiroidismoCongenitoController::class, 'index']);
 Route::post('/estudios-hipotiroidismo', [EstudioHipotiroidismoCongenitoController::class, 'store']);
+Route::get('/estudios-hipotiroidismo/{id}', [EstudioHipotiroidismoCongenitoController::class, 'show']);
 Route::delete('/estudios-hipotiroidismo/{id}', [EstudioHipotiroidismoCongenitoController::class, 'destroy']);
 
 /** RUTAS DE RUTAS PYMS*/
 
 Route::get('/rutas-pyms', [RutaPYMSController::class, 'index']);
 Route::post('/rutas-pyms', [RutaPYMSController::class, 'store']);
+Route::get('/rutas-pyms/{id}', [RutaPYMSController::class, 'show']);
 Route::delete('/rutas-pyms/{id}', [RutaPYMSController::class, 'destroy']);
 
 /** RUTAS DE RUTAS TAMIZACIONES NEONATALES*/
 
 Route::get('/tamizaciones-neonatales', [TamizacionNeonatalController::class, 'index']);
 Route::post('/tamizaciones-neonatales', [TamizacionNeonatalController::class, 'store']);
+Route::get('/tamizaciones-neonatales/{id}', [TamizacionNeonatalController::class, 'show']);
 Route::delete('/tamizaciones-neonatales/{id}', [TamizacionNeonatalController::class, 'destroy']);

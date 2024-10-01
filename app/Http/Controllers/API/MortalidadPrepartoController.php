@@ -37,7 +37,23 @@ class MortalidadPrepartoController extends Controller
         return response()->json($mortalidadPreparto, 201);
     }
 
-   
+    public function show($id)
+    {
+        $mortalidadPreparto = MortalidadPreparto::find($id);
+    
+        if ($mortalidadPreparto) {
+            return response()->json([
+                'estado' => 'Ok',
+                'mortalidad' => $mortalidadPreparto
+            ], 200);
+        } else {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Registro de mortalidad no encontrado'
+            ], 404);
+        }
+    }
+
     public function destroy($id)
     {
         $mortalidadPreparto = MortalidadPreparto::findOrFail($id);

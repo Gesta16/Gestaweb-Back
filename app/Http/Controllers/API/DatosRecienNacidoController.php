@@ -43,7 +43,23 @@ class DatosRecienNacidoController extends Controller
         return response()->json(['estado' => 'Ok', 'data' => $datosRecienNacido], 201);
     }
 
-
+    public function show($id)
+    {
+        $datosRecienNacido = DatosRecienNacido::find($id);
+    
+        if ($datosRecienNacido) {
+            return response()->json([
+                'estado' => 'Ok',
+                'data' => $datosRecienNacido
+            ], 200);
+        } else {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Registro de recién nacido no encontrado'
+            ], 404);
+        }
+    }
+    
     public function destroy($id)
     {
         $datosRecienNacido = DatosRecienNacido::find($id);

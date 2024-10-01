@@ -45,7 +45,23 @@ class LaboratorioInTrapartoController extends Controller
         return response()->json(['estado' => 'Ok', 'data' => $laboratorio], 201);
     }
 
-    // Eliminar un registro
+    public function show($id)
+    {
+        $laboratorio = LaboratorioInTraparto::find($id);
+
+        if ($laboratorio) {
+            return response()->json([
+                'estado' => 'Ok',
+                'data' => $laboratorio
+            ], 200);
+        } else {
+            return response()->json([
+                'estado' => 'Error',
+                'message' => 'Registro no encontrado'
+            ], 404);
+        }
+    }
+    
     public function destroy($id)
     {
         $laboratorio = LaboratorioInTraparto::find($id);

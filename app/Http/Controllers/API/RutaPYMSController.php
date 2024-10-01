@@ -41,7 +41,23 @@ class RutaPYMSController extends Controller
         return response()->json($ruta, 201);
     }
 
-
+    public function show($id)
+    {
+        $ruta = RutaPYMS::find($id);
+    
+        if ($ruta) {
+            return response()->json([
+                'estado' => 'Ok',
+                'data' => $ruta
+            ], 200);
+        } else {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Ruta no encontrada'
+            ], 404);
+        }
+    }
+    
     public function destroy($id)
     {
         $ruta = RutaPYMS::find($id);

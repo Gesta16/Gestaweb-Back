@@ -40,6 +40,22 @@ class SeguimientoGestantePostObstetricoController extends Controller
         return response()->json($seguimiento, 201); // 201 Created
     }
 
+    public function show($id)
+    {
+        $seguimiento = SeguimientoGestantePostObstetrico::find($id);
+
+        if ($seguimiento) {
+            return response()->json([
+                'estado' => 'Ok',
+                'seguimiento' => $seguimiento
+            ], 200);
+        } else {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Seguimiento no encontrado'
+            ], 404);
+        }
+    }
     
     public function destroy($id)
     {
