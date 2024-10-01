@@ -27,6 +27,7 @@ class SeguimientoConsultaMensualController extends Controller
 
         $validatedData = $request->validate([
             'cod_riesgo' => 'required|exists:riesgo,cod_riesgo',
+            'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'cod_controles' => 'required|exists:numero_controles,cod_controles',
             'cod_diagnostico' => 'required|exists:diagnostico_nutricional_mes,cod_diagnostico',
             'cod_medicion' => 'required|exists:forma_medicion_edad_gestacional,cod_medicion',
@@ -43,7 +44,7 @@ class SeguimientoConsultaMensualController extends Controller
 
         $validatedData['id_operador'] = auth()->user()->userable_id;
 
-        $seguimiento = SeguimientoConsultaMensual::create($validatedData->all());
+        $seguimiento = SeguimientoConsultaMensual::create($validatedData);
         return response()->json($seguimiento, 201);
     }
 
