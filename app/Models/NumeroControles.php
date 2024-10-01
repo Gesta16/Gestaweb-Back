@@ -17,4 +17,9 @@ class NumeroControles extends Model
     public $timestamps = false;
 
     protected $fillable = ['num_control'];
+
+    public function seguimientos()
+    {
+        return $this->hasMany(SeguimientoConsultaMensual::class, 'cod_controles');
+    }
 }

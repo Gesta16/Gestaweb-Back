@@ -14,7 +14,7 @@ class CreateLaboratorioITrimestreTable extends Migration
     public function up()
     {
         Schema::create('laboratorio_i_trimestre', function (Blueprint $table) {
-            $table->integer('cod_laboratorio')->primary();
+            $table->id('cod_laboratorio');
 
             $table->unsignedBigInteger('id_operador');
             $table->foreign('id_operador')->references('id_operador')->on('operador');

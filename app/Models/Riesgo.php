@@ -23,4 +23,9 @@ class Riesgo extends Model
     {
         return $this->hasMany(PrimeraConsulta::class, 'cod_riesgo');
     }
+
+    public function seguimientos()
+    {
+        return $this->hasMany(SeguimientoConsultaMensual::class, 'cod_riesgo');
+    }
 }

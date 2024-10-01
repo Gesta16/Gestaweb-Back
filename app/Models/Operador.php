@@ -51,4 +51,24 @@ class Operador extends Model
     {
         return $this->hasMany(Vacunacion::class, 'id_operador');
     }
+
+    public function laboratorios()
+    {
+        return $this->hasMany(LaboratorioITrimestre::class, 'id_operador', 'id_operador');
+    }
+
+    public function laboratorios2()
+    {
+        return $this->hasMany(LaboratorioIITrimestre::class, 'id_operador', 'id_operador');
+    }
+
+    public function its()
+    {
+        return $this->hasMany(Its::class, 'id_operador', 'id_operador');
+    }
+    
+    public function seguimientos()
+    {
+        return $this->hasMany(SeguimientoConsultaMensual::class, 'id_operador');
+    }
 }

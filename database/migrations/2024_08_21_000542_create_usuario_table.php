@@ -38,8 +38,8 @@ class CreateUsuarioTable extends Migration
             $table->string('ape_usuario');
             $table->date('fec_nacimiento');
             $table->integer('edad_usuario');
-            $table->integer('tel_usuario')->unique();
-            $table->integer('cel_usuario')->unique();
+            $table->string('tel_usuario')->unique();
+            $table->string('cel_usuario')->unique();
             $table->string('dir_usuario');
             $table->string('email_usuario')->unique();
 

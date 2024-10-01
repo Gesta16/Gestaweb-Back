@@ -19,7 +19,7 @@ class NumSesionesCursoPaternidadMaternidadController extends Controller
 
         return [
             'estado'=>'Ok',
-            'Sesiones Curso Paternidad Maternidad'=>$NumSesionesCursoPaternidadMaternidad
+            'Sesiones_Curso'=>$NumSesionesCursoPaternidadMaternidad
         ];  
     }
 

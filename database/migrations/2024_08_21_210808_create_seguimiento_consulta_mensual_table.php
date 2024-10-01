@@ -14,8 +14,14 @@ class CreateSeguimientoConsultaMensualTable extends Migration
     public function up()
 {
     Schema::create('seguimiento_consulta_mensual', function (Blueprint $table) {
-        $table->integer('cod_seguimiento')->primary(); // Clave primaria
+        $table->id('cod_seguimiento'); // Clave primaria
         
+            $table->unsignedBigInteger('id_operador');
+            $table->foreign('id_operador')->references('id_operador')->on('operador');
+
+            $table->unsignedBigInteger('id_usuario');
+            $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
+
         // Claves foráneas
         $table->unsignedBigInteger('cod_riesgo'); // FK a la tabla de riesgos
         $table->unsignedBigInteger('cod_controles'); // FK a la tabla de controles

@@ -14,8 +14,13 @@ class CreateItsTable extends Migration
     public function up()
 {
     Schema::create('its', function (Blueprint $table) {
-        $table->integer('cod_its')->primary(); // Primary Key
+        $table->id('cod_its'); // Primary Key
 
+        $table->unsignedBigInteger('id_operador');
+            $table->foreign('id_operador')->references('id_operador')->on('operador');
+
+            $table->unsignedBigInteger('id_usuario');
+            $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
         // Claves foráneas
         $table->unsignedBigInteger('cod_vdrl');  
         $table->unsignedBigInteger('cod_rpr'); 

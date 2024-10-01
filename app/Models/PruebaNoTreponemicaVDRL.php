@@ -18,5 +18,10 @@ class PruebaNoTreponemicaVDRL extends Model
     public $timestamps = false;
 
     protected $fillable = ['num_vdrl'];
+
+    public function its()
+    {
+        return $this->hasMany(Its::class, 'cod_vdrl', 'cod_vdrl');
+    }
     
 }
