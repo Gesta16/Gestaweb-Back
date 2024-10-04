@@ -47,7 +47,7 @@ class LaboratorioInTrapartoController extends Controller
 
     public function show($id)
     {
-        $laboratorio = LaboratorioInTraparto::find($id);
+        $laboratorio = LaboratorioInTraparto::where('id_usuario', $id)->firstOrFail();
 
         if ($laboratorio) {
             return response()->json([

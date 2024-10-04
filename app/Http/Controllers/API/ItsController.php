@@ -20,7 +20,7 @@ class ItsController extends Controller
 
     public function show($id)
     {
-        $it = Its::with(['operador', 'usuario', 'vdrl', 'rpr'])->find($id);
+        $it = Its::with(['operador', 'usuario', 'vdrl', 'rpr'])->where('id_usuario', $id)->firstOrFail();
         if (!$it) {
             return response()->json([
                 'estado' => 'Error',
@@ -69,7 +69,6 @@ class ItsController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate([
-            'id_operador' => 'sometimes|exists:operador,id_operador',
             'id_usuario' => 'sometimes|exists:usuario,id_usuario',
             'cod_vdrl' => 'sometimes|exists:prueba_no_treponemica__v_d_r_l,cod_vdrl',
             'cod_rpr' => 'sometimes|exists:prueba_no_treponemica__r_p_r,cod_rpr',
@@ -93,7 +92,13 @@ class ItsController extends Controller
             $data['id_operador'] = auth()->user()->userable_id;
         }
     
+        $it = Its::where('cod_its', $id)
+                  ->where('id_usuario', $data['id_usuario'])
+                  ->firstOrFail();
+        
         $it->update($data);
+
+
         return response()->json([
             'estado' => 'Ok',
             'mensaje' => 'Registro de ITS actualizado exitosamente',

@@ -220,7 +220,7 @@ Route::get("municipio-individual/{id}",[MunicipioController::class, 'show']);
 /** RUTAS DEL CONTROL PRENATAL */
 
 Route::get('/control-prenatal', [ControlPrenatalController::class, 'index']);
-Route::get('/control-prenatal/{cod_control}', [ControlPrenatalController::class, 'show']);
+Route::get('/control-prenatal/{id_usuario}', [ControlPrenatalController::class, 'show']);
 Route::post('/control-prenatal', [ControlPrenatalController::class, 'store']);
 Route::POST('/control-prenatal/{cod_control}', [ControlPrenatalController::class, 'update']);
 Route::delete('/control-prenatal/{cod_control}', [ControlPrenatalController::class, 'destroy']);

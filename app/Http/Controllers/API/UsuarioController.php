@@ -177,10 +177,28 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         try {
+
+            $authUser = Auth::user();
+    
+            if (!$authUser) {
+                return response()->json([
+                    'error' => 'No autorizado. Debes estar autenticado para crear un usuario.'  
+                ], 401);
+            }
+    
+            // Verificar si el usuario autenticado es un Operador
+            if ($authUser->rol_id !== 1 && $authUser->rol_id !== 3) {
+                return response()->json([
+                    'error' => 'No autorizado. Solo un Operador (rol 3) o Administrador (rol 1) puede crear un usuario.'
+                ], 403);
+            }
+            
             $usuario = Usuario::find($id);
 
             if ($usuario) {
+                $usuario->id_usuario = $request->id_usuario;
                 $usuario->nom_usuario = $request->nom_usuario;
                 $usuario->ape_usuario = $request->ape_usuario;
                 $usuario->email_usuario = $request->email_usuario;
@@ -190,9 +208,9 @@ class UsuarioController extends Controller
                 $usuario->fec_nacimiento = $request->fec_nacimiento;
                 $usuario->edad_usuario = $request->edad_usuario;
                 $usuario->cod_documento = $request->cod_documento;
+                $usuario->documento_usuario = $request->documento_usuario;
                 $usuario->fec_diag_usuario = $request->fec_diag_usuario;
                 $usuario->fec_ingreso = $request->fec_ingreso;
-                $usuario->cod_depxips = $request->cod_depxips;
                 $usuario->cod_departamento = $request->cod_departamento;
                 $usuario->cod_municipio = $request->cod_municipio;
                 $usuario->cod_ips = $request->cod_ips;

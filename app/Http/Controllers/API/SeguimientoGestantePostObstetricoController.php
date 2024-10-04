@@ -42,7 +42,7 @@ class SeguimientoGestantePostObstetricoController extends Controller
 
     public function show($id)
     {
-        $seguimiento = SeguimientoGestantePostObstetrico::find($id);
+        $seguimiento = SeguimientoGestantePostObstetrico::where('id_usuario', $id)->firstOrFail();
 
         if ($seguimiento) {
             return response()->json([

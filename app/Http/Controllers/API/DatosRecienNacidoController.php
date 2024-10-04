@@ -45,7 +45,7 @@ class DatosRecienNacidoController extends Controller
 
     public function show($id)
     {
-        $datosRecienNacido = DatosRecienNacido::find($id);
+        $datosRecienNacido = DatosRecienNacido::where('id_usuario', $id)->firstOrFail();
     
         if ($datosRecienNacido) {
             return response()->json([

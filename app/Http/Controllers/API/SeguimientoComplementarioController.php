@@ -45,7 +45,7 @@ class SeguimientoComplementarioController extends Controller
 
     public function show($id)
     {
-        $seguimiento = SeguimientoComplementario::find($id);
+        $seguimiento = SeguimientoComplementario::where('id_usuario', $id)->firstOrFail();
 
         if ($seguimiento) {
             return response()->json([

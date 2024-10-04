@@ -40,7 +40,7 @@ class FinalizacionGestacionController extends Controller
 
     public function show($id)
     {
-        $finalizacion = FinalizacionGestacion::find($id);
+        $finalizacion = FinalizacionGestacion::where('id_usuario', $id)->firstOrFail();
 
         if ($finalizacion) {
             return response()->json([

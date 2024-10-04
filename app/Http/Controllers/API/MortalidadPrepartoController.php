@@ -39,7 +39,7 @@ class MortalidadPrepartoController extends Controller
 
     public function show($id)
     {
-        $mortalidadPreparto = MortalidadPreparto::find($id);
+        $mortalidadPreparto = MortalidadPreparto::where('id_usuario', $id)->firstOrFail();
     
         if ($mortalidadPreparto) {
             return response()->json([

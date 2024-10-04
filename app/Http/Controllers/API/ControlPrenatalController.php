@@ -74,10 +74,10 @@ class ControlPrenatalController extends Controller
 
     
 
-    public function show($cod_control)
+    public function show($id_usuario)
     {
         try {
-            $control = ControlPrenatal::findOrFail($cod_control);
+            $control = ControlPrenatal::where('id_usuario', $id_usuario)->firstOrFail();
             return response()->json([
                 'estado' => 'Ok',
                 'Control' => $control
@@ -93,6 +93,14 @@ class ControlPrenatalController extends Controller
     public function update(Request $request, $cod_control)
     {
         try {
+
+            if (!auth()->check()) {
+                return response()->json([
+                    'estado' => 'Error',
+                    'mensaje' => 'Debes estar autenticado para realizar esta acción'
+                ], 401); // 401 Unauthorized
+            }
+
             $validatedData = $request->validate([
                 'id_operador' => 'integer|exists:operador,id_operador',
                 'id_usuario' => 'integer|exists:usuario,id_usuario',
@@ -111,10 +119,21 @@ class ControlPrenatalController extends Controller
                 'fec_terminacion' => 'date',
                 'per_intergenesico' => 'boolean',
             ]);
-
-            $control = ControlPrenatal::findOrFail($cod_control);
+    
+            if (!isset($validatedData['id_usuario'])) {
+                return response()->json([
+                    'estado' => 'Error',
+                    'mensaje' => 'El campo id_usuario es requerido'
+                ], 400); // Bad request
+            }
+    
+            $control = ControlPrenatal::where('cod_control', $cod_control)
+                ->where('id_usuario', $validatedData['id_usuario'])
+                ->firstOrFail();
+    
+            // Actualizar el registro
             $control->update($validatedData);
-
+    
             return response()->json([
                 'estado' => 'Ok',
                 'mensaje' => 'Control prenatal actualizado correctamente',
@@ -133,6 +152,7 @@ class ControlPrenatalController extends Controller
             ], 500); 
         }
     }
+    
 
     public function destroy($cod_control)
     {

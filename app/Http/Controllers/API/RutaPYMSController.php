@@ -43,7 +43,7 @@ class RutaPYMSController extends Controller
 
     public function show($id)
     {
-        $ruta = RutaPYMS::find($id);
+        $ruta = RutaPYMS::where('id_usuario', $id)->firstOrFail();
     
         if ($ruta) {
             return response()->json([

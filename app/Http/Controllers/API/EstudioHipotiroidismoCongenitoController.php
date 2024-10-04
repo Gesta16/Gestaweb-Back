@@ -44,7 +44,7 @@ class EstudioHipotiroidismoCongenitoController extends Controller
 
     public function show($id)
     {
-        $estudio = EstudioHipotiroidismoCongenito::find($id);
+        $estudio = EstudioHipotiroidismoCongenito::where('id_usuario', $id)->firstOrFail();
     
         if ($estudio) {
             return response()->json([

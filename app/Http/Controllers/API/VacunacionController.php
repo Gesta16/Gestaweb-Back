@@ -85,7 +85,7 @@ class VacunacionController extends Controller
      */
     public function show($id)
     {
-        $vacunacion = Vacunacion::with(['operador', 'usuario', 'biologico'])->find($id);
+        $vacunacion = Vacunacion::with(['operador', 'usuario', 'biologico'])->where('id_usuario', $id)->firstOrFail();
 
         if (!$vacunacion) {
             return response()->json([
@@ -109,17 +109,16 @@ class VacunacionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $vacunacion = Vacunacion::find($id);
-
-        if (!$vacunacion) {
+        // Verificar si el usuario está autenticado
+        if (!auth()->check()) {
             return response()->json([
                 'estado' => 'Error',
-                'mensaje' => 'Vacunación no encontrada'
-            ], 404);
+                'mensaje' => 'No autenticado'
+            ], 401);
         }
-
+    
+        // Validar los datos de entrada
         $validator = Validator::make($request->all(), [
-            'id_operador' => 'sometimes|required|exists:operador,id_operador',
             'id_usuario' => 'sometimes|required|exists:usuario,id_usuario',
             'cod_biologico' => 'sometimes|required|exists:biologico,cod_biologico',
             'fec_unocovid' => 'sometimes|nullable|date',
@@ -129,21 +128,35 @@ class VacunacionController extends Controller
             'fec_tetanico' => 'sometimes|nullable|date',
             'fec_dpt' => 'sometimes|nullable|date',
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json([
                 'estado' => 'Error',
                 'errores' => $validator->errors()
             ], 422);
         }
-
-        $vacunacion->update($request->all());
-
+    
+        // Buscar la vacunación
+        $vacunacion = Vacunacion::where('cod_vacunacion', $id)
+                                ->where('id_usuario', $request->id_usuario)
+                                ->first();
+    
+        if (!$vacunacion) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Vacunación no encontrada'
+            ], 404);
+        }
+    
+        // Actualizar los datos de la vacunación
+        $vacunacion->update($validator->validated());
+    
         return response()->json([
             'estado' => 'Ok',
             'vacunacion' => $vacunacion
         ]);
     }
+    
 
     /**
      * Remove the specified resource from storage.

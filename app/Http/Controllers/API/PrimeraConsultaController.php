@@ -96,7 +96,7 @@ class PrimeraConsultaController extends Controller
      */
     public function show($id)
     {
-        $consulta = PrimeraConsulta::with(['operador', 'usuario', 'riesgo', 'tipoDm'])->find($id);
+        $consulta = PrimeraConsulta::with(['operador', 'usuario', 'riesgo', 'tipoDm'])->where('id_usuario', $id)->firstOrFail();
 
         if (!$consulta) {
             return response()->json([
@@ -120,15 +120,26 @@ class PrimeraConsultaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $consulta = PrimeraConsulta::find($id);
 
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401); 
+        }
+
+        $consulta = PrimeraConsulta::where('cod_consulta', $id)
+                                   ->where('id_usuario', $request->id_usuario)
+                                   ->first();
+    
         if (!$consulta) {
             return response()->json([
                 'estado' => 'Error',
-                'mensaje' => 'Consulta no encontrada'
+                'mensaje' => 'Consulta no encontrada o id_usuario no coincide'
             ], 404);
         }
-
+    
+        // Validación de los datos entrantes
         $validator = Validator::make($request->all(), [
             'id_operador' => 'sometimes|required|exists:operador,id_operador',
             'id_usuario' => 'sometimes|required|exists:usuario,id_usuario',
@@ -150,21 +161,25 @@ class PrimeraConsultaController extends Controller
             'fec_lactancia' => 'sometimes|required|date',
             'fec_consejeria' => 'sometimes|required|date',
         ]);
-
+    
+        // Si la validación falla, devuelve un error 422
         if ($validator->fails()) {
             return response()->json([
                 'estado' => 'Error',
                 'errores' => $validator->errors()
             ], 422);
         }
-
-        $consulta->update($request->all());
-
+    
+        // Actualizar solo con los datos validados
+        $consulta->update($validator->validated());
+    
+        // Devolver respuesta exitosa con los datos actualizados
         return response()->json([
             'estado' => 'Ok',
             'consulta' => $consulta
         ]);
     }
+    
 
     /**
      * Remove the specified resource from storage.

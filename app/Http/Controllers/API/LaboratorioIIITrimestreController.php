@@ -23,7 +23,7 @@ class LaboratorioIIITrimestreController extends Controller
 
     public function show($id)
     {
-        $laboratorio = LaboratorioIIITrimestre::find($id);
+        $laboratorio = LaboratorioIIITrimestre::where('id_usuario', $id)->firstOrFail();
     
         if (!$laboratorio) {
             return response()->json([
@@ -86,7 +86,6 @@ class LaboratorioIIITrimestreController extends Controller
 
         $laboratorio = LaboratorioIIITrimestre::findOrFail($id);
         $validatedData = $request->validate([
-            'id_operador' => 'sometimes|exists:operador,id_operador',
             'id_usuario' => 'sometimes|exists:usuario,id_usuario',
             'hemograma' => 'sometimes|string',
             'fec_hemograma' => 'sometimes|date',
@@ -103,7 +102,12 @@ class LaboratorioIIITrimestreController extends Controller
             'rie_biopsicosocial' => 'sometimes|string',
         ]);
 
+        $laboratorio= LaboratorioIIITrimestre::where('cod_treslaboratorio', $id)
+                                             ->where('id_usuario', $validatedData['id_usuario'])
+                                             ->firstOrFail();
+
         $laboratorio->update($validatedData);
+
         return response()->json([
             'estado' => 'Ok',
             'data' => $laboratorio

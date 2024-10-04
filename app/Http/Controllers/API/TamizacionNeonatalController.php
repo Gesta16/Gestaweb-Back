@@ -46,7 +46,7 @@ class TamizacionNeonatalController extends Controller
 
     public function show($id)
     {
-        $tamizacion = TamizacionNeonatal::find($id);
+        $tamizacion = TamizacionNeonatal::where('id_usuario', $id)->firstOrFail();
     
         if ($tamizacion) {
             return response()->json([

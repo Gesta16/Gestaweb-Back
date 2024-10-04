@@ -91,7 +91,7 @@ class LaboratorioIITrimestreController extends Controller
      */
     public function show($id)
     {
-        $laboratorio = LaboratorioIITrimestre::with(['operador', 'usuario'])->find($id);
+        $laboratorio = LaboratorioIITrimestre::with(['operador', 'usuario'])->where('id_usuario', $id)->firstOrFail();
 
         if (!$laboratorio) {
             return response()->json([
@@ -167,7 +167,12 @@ class LaboratorioIITrimestreController extends Controller
         }
     
         // Actualizar el registro de LaboratorioIITrimestre
+        $laboratorio = LaboratorioIITrimestre::where('cod_doslaboratorio', $id)
+                                            ->where('id_usuario', $validatedData['id_usuario'])
+                                             ->firstOrFail();
+
         $laboratorio->update($validatedData);
+
     
         return response()->json([
             'estado' => 'Ok',

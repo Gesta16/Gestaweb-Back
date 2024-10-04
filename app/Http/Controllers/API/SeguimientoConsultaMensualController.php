@@ -50,7 +50,7 @@ class SeguimientoConsultaMensualController extends Controller
 
     public function show($id)
     {
-        $seguimiento = SeguimientoConsultaMensual::find($id);
+        $seguimiento = SeguimientoConsultaMensual::where('id_usuario', $id)->firstOrFail();
     
         if ($seguimiento) {
             return response()->json([

@@ -41,7 +41,7 @@ class MicronutrienteController extends Controller
 
     public function show($id)
     {
-        $micronutriente = Micronutriente::find($id);
+        $micronutriente = Micronutriente::where('id_usuario', $id)->firstOrFail();
 
         if ($micronutriente) {
             return response()->json([
