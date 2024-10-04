@@ -246,6 +246,7 @@ Route::delete("vacunacion/{id}",[VacunacionController::class, 'destroy']);
 Route::get('/finalizacion-gestacion', [FinalizacionGestacionController::class, 'index']);
 Route::post('/finalizacion-gestacion', [FinalizacionGestacionController::class, 'store']);
 Route::get('/finalizacion-gestacion/{id}', [FinalizacionGestacionController::class, 'show']);
+Route::post('/finalizacion-gestacion/{id}', [FinalizacionGestacionController::class, 'update']);
 Route::delete('/finalizacion-gestacion/{id}', [FinalizacionGestacionController::class, 'destroy']);
 
 /** RUTAS DE LABORATORIO INTRAPARTO */
@@ -299,6 +300,7 @@ Route::delete("its/{id}",[ItsController::class, 'destroy']);
 Route::get('seguimiento-consulta-mensual', [SeguimientoConsultaMensualController::class, 'index']); 
 Route::post('seguimiento-consulta-mensual', [SeguimientoConsultaMensualController::class, 'store']);
 Route::get('seguimiento-consulta-mensual/{id}', [SeguimientoConsultaMensualController::class, 'show']); 
+Route::post('seguimiento-consulta-mensual/{id}', [SeguimientoConsultaMensualController::class, 'update']); 
 Route::delete('seguimiento-consulta-mensual/{id}', [SeguimientoConsultaMensualController::class, 'destroy']);
 
 /** RUTAS DE SEGUIMIENTO COMPLEMENTARIOS */
@@ -306,6 +308,7 @@ Route::delete('seguimiento-consulta-mensual/{id}', [SeguimientoConsultaMensualCo
 Route::get('seguimientos-complementarios', [SeguimientoComplementarioController::class, 'index']); 
 Route::post('seguimientos-complementarios', [SeguimientoComplementarioController::class, 'store']); 
 Route::get('seguimientos-complementarios/{id}', [SeguimientoComplementarioController::class, 'show']);
+Route::post('seguimientos-complementarios/{id}', [SeguimientoComplementarioController::class, 'update']);
 Route::delete('seguimientos-complementarios/{id}', [SeguimientoComplementarioController::class, 'destroy']);
 
 /** RUTAS DE MICRONUTRIENTES */
@@ -313,6 +316,7 @@ Route::delete('seguimientos-complementarios/{id}', [SeguimientoComplementarioCon
 Route::get('micronutrientes', [MicronutrienteController::class, 'index']); 
 Route::post('micronutrientes', [MicronutrienteController::class, 'store']); 
 Route::get('micronutrientes/{id}', [MicronutrienteController::class, 'show']);
+Route::post('micronutrientes/{id}', [MicronutrienteController::class, 'update']);
 Route::delete('micronutrientes/{id}', [MicronutrienteController::class, 'destroy']);
 
 /** RUTAS DE MORTALIDAD PREPARTO */

@@ -53,6 +53,58 @@ class FinalizacionGestacionController extends Controller
             ], 404);
         }
     }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            if (!auth()->check()) {
+                return response()->json([
+                    'estado' => 'Error',
+                    'mensaje' => 'Debes estar autenticado para realizar esta acción'
+                ], 401); // 401 Unauthorized
+            }
+
+            $validatedData = $request->validate([
+                'cod_terminacion' => 'required|exists:terminacion_gestacion,cod_terminacion',
+                'id_usuario' => 'required|integer|exists:usuario,id_usuario',
+                'fec_evento' => 'required|date',
+            ]);
+
+            // Validación del campo id_usuario
+            if (!isset($validatedData['id_usuario'])) {
+                return response()->json([
+                    'estado' => 'Error',
+                    'mensaje' => 'El campo id_usuario es requerido'
+                ], 400); // Bad request
+            }
+
+            // Buscar la finalización de gestación
+            $finalizacion = FinalizacionGestacion::where('cod_finalizacion', $id)
+                ->where('id_usuario', $validatedData['id_usuario'])
+                ->firstOrFail();
+
+            // Actualizar el registro
+            $finalizacion->update($validatedData);
+
+            return response()->json([
+                'estado' => 'Ok',
+                'mensaje' => 'Finalización de gestación actualizada correctamente',
+                'data' => $finalizacion
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Finalización de gestación no encontrada'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Error al actualizar la finalización de gestación',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     
     public function destroy($id)
     {
