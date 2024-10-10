@@ -28,6 +28,7 @@ class MortalidadPrepartoController extends Controller
         $validatedData = $request->validate([
             'cod_mortalidad' => 'required|exists:mortalidad_perinatal,cod_mortalidad',
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
+            'cod_mortalidad' => 'required|integer',
             'fec_defuncion' => 'required|date',
         ]);
 
@@ -67,6 +68,7 @@ class MortalidadPrepartoController extends Controller
             $validatedData = $request->validate([
                 'cod_mortalidad' => 'required|exists:mortalidad_perinatal,cod_mortalidad',
                 'id_usuario' => 'required|integer|exists:usuario,id_usuario',
+                'cod_mortalidad' => 'required|integer',
                 'fec_defuncion' => 'required|date',
             ]);
 
