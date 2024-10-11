@@ -38,4 +38,9 @@ class Ips extends Model
         return $this->hasMany(Admin::class, 'cod_ips', 'cod_ips');
     }
 
+    public function usuarios(){
+        return $this->hasMany(Usuario::class, 'cod_ips', 'cod_ips');
+    }
+
+   
 }

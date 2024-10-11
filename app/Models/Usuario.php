@@ -34,6 +34,7 @@ class Usuario extends Model
         'cel_usuario',
         'dir_usuario',
         'email_usuario',
+        'estrato_social'
     ];
 
     public $timestamps = false;
@@ -77,5 +78,25 @@ class Usuario extends Model
     public function seguimientos()
     {
         return $this->hasMany(SeguimientoConsultaMensual::class, 'id_usuario');
+    }
+
+    public function ips(){
+        return $this->belongsTo(Ips::class, 'cod_ips', 'cod_ips');
+    }
+
+    public function poblacionDiferencial(){
+        return $this->belongsTo(PoblacionDiferencial::class, 'cod_poblacion', 'cod_poblacion');
+    }
+
+    public function departamento(){
+        return $this->belongsTo(Departamento::class, 'cod_departamento', 'cod_departamento');
+    }
+
+    public function municipio(){
+        return $this->belongsTo(Municipio::class, 'cod_municipio', 'cod_municipio');
+    }
+
+    public function mortalidad(){
+        return $this->hasOne(MortalidadPreparto::class, 'id_usuario', 'id_usuario');
     }
 }

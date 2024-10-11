@@ -45,6 +45,7 @@ use App\Http\Controllers\API\MicronutrienteController;
 use App\Http\Controllers\API\MortalidadPrepartoController;
 use App\Http\Controllers\API\DatosRecienNacidoController;
 use App\Http\Controllers\API\EstudioHipotiroidismoCongenitoController;
+use App\Http\Controllers\API\ReportesController;
 use App\Http\Controllers\API\RutaPYMSController;
 use App\Http\Controllers\Api\TamizacionNeonatalController;
 
@@ -353,3 +354,6 @@ Route::get('/tamizaciones-neonatales', [TamizacionNeonatalController::class, 'in
 Route::post('/tamizaciones-neonatales', [TamizacionNeonatalController::class, 'store']);
 Route::get('/tamizaciones-neonatales/{id}', [TamizacionNeonatalController::class, 'show']);
 Route::delete('/tamizaciones-neonatales/{id}', [TamizacionNeonatalController::class, 'destroy']);
+
+/* RUTAS DE REPORTES */
+Route::get('/usuarios-filtrados', [ReportesController::class, 'getUsuariosFiltrados']);

@@ -51,4 +51,8 @@ class ControlPrenatal extends Model
     {
         return $this->belongsTo(MetodoFracaso::class, 'cod_fracaso', 'cod_fracaso');
     }
+
+    public function riesgo(){
+        return $this->belongsTo(Riesgo::class, 'ries_reproductivo', 'cod_riesgo');
+    }
 }
