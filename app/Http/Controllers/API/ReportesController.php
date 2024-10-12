@@ -115,17 +115,23 @@ class ReportesController extends Controller
             });
         }
 
-        // Filtro por factores postparto
-        if ($nacimiento || $prematuro) {
-            $query->whereHas('mortalidadPerinatal', function ($q) use ($nacimiento, $prematuro) {
-                if ($nacimiento) {
-                    $q->where('nacimiento', $nacimiento);
-                }
-                if ($prematuro) {
-                    $q->where('prematuro', $prematuro);
-                }
-            });
-        }
+        $query->whereHas('finalizacion_gestacion', function ($q) use ($nacimiento, $prematuro) {
+            if ($nacimiento) {
+                // Ajustar el campo a 'cod_terminacion' para verificar que no sea aborto, mortalidad perinatal o IVE
+                $q->whereNotIn('cod_terminacion', [3, 4, 5]);
+            }
+            if ($prematuro) {
+                // Ajustar la relación con 'mortalidad_perinatal' usando el campo correcto
+                $q->whereHas('mortalidad_perinatal', function ($q2) {
+                    $q2->whereIn('cod_mortalidad', [2,3,4]);
+                })
+                ->orWhereHas('datos_recien_nacido', function ($q3) {
+                    $q3->whereNotNull('pla_canguro'); // Asegurando que estamos usando el nombre correcto 'pla_canguro' en lugar de 'plan_canguro'
+                });
+            }
+        });
+        
+        
 
         // Obtener los resultados y retornarlos en formato JSON
         $usuarios = $query->with([
