@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
+use App\Models\ProcesoGestativo;
 use App\Models\User;
 
 class UsuarioController extends Controller
@@ -66,15 +67,7 @@ class UsuarioController extends Controller
                     'error' => 'No autorizado. Debes estar autenticado para crear un usuario.'  
                 ], 401);
             }
-    
-            // Verificar si el usuario autenticado es un Operador
-            if ($authUser->rol_id !== 1 && $authUser->rol_id !== 3) {
-                return response()->json([
-                    'error' => 'No autorizado. Solo un Operador (rol 3) o Administrador (rol 1) puede crear un usuario.'
-                ], 403);
-            }
             
-    
             // Crear el Usuario
             $usuario = new Usuario();
             $usuario->id_usuario = $request->id_usuario;
@@ -129,6 +122,68 @@ class UsuarioController extends Controller
         }
     }
     
+    public function crearProcesoGestativo(Request $request, $usuarioId)
+    {
+        $authUser = Auth::user();
+    
+        if (!$authUser) {
+            return response()->json([
+                'error' => 'No autorizado. Debes estar autenticado.'  
+            ], 401);
+        }
+    
+        $usuario = Usuario::findOrFail($usuarioId);
+    
+        $procesoExistente = $usuario->procesosGestativos()
+            ->where('estado', '!=', 0)
+            ->exists(); 
+    
+        if ($procesoExistente) {
+            return response()->json([
+                'error' => 'No se puede crear otro registro. Existen procesos gestativos anteriores que no están en estado 0.'
+            ], 400); 
+        }
+    
+        $numProceso = $usuario->procesosGestativos()->count();
+    
+        if ($numProceso == 0) {
+            $numProceso = 1; 
+        } else {
+            $numProceso = $usuario->procesosGestativos()->max('num_proceso') + 1;
+        }
+    
+        $procesoGestativo = new ProcesoGestativo();
+        $procesoGestativo->id_usuario = $usuarioId;
+        $procesoGestativo->estado = true;
+        $procesoGestativo->num_proceso = $numProceso;
+        $procesoGestativo->save();
+    
+        return response()->json([
+            'message' => 'Proceso gestativo creado con éxito.',
+            'proceso_gestativo' => $procesoGestativo,
+        ], 201);
+    }
+    
+
+    public function contarProcesosGestativos($usuarioId)
+    {
+        $authUser = Auth::user();
+
+        if (!$authUser) {
+            return response()->json([
+                'error' => 'No autorizado. Debes estar autenticado.'  
+            ], 401);
+        }
+
+        $usuario = Usuario::findOrFail($usuarioId);
+
+        $numeroDeProcesos = $usuario->procesosGestativos()->count();
+
+        return response()->json([
+            'usuario_id' => $usuario->id,
+            'numero_de_procesos_gestativos' => $numeroDeProcesos,
+        ], 200);
+    }
 
     function generarContrasena($nombre, $apellido)
     {

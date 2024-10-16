@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\SeguimientoComplementario;
+use App\Models\ConsultasUsuario;
+use App\Models\ProcesoGestativo;
 use Illuminate\Http\Request;
 
 class SeguimientoComplementarioController extends Controller
@@ -18,17 +20,17 @@ class SeguimientoComplementarioController extends Controller
     
     public function store(Request $request)
     {
-
         if (!auth()->check()) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'Debes estar autenticado para realizar esta acción'
             ], 401); // 401 Unauthorized
         }
-
+    
         $validatedData = $request->validate([
             'cod_sesiones' => 'required|exists:num_sesiones_curso_paternidad_maternidad,cod_sesiones',
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
+            'num_proceso' => 'required|integer', // Validación para num_proceso
             'fec_nutricion' => 'required|date',
             'fec_ginecologia' => 'required|date',
             'fec_psicologia' => 'required|date',
@@ -36,28 +38,64 @@ class SeguimientoComplementarioController extends Controller
             'ina_seguimiento' => 'required|string',
             'cau_inasistencia' => 'nullable|string',
         ]);
-
-        $validatedData['id_operador'] = auth()->user()->userable_id;
-
-        $seguimiento = SeguimientoComplementario::create($validatedData);
-        return response()->json($seguimiento, 201);
-    }
-
-    public function show($id)
-    {
-        $seguimiento = SeguimientoComplementario::where('id_usuario', $id)->firstOrFail();
-
-        if ($seguimiento) {
+    
+        // Verificar que el ProcesoGestativo esté activo
+        $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])
+                                            ->where('num_proceso', $validatedData['num_proceso'])
+                                            ->where('estado', 1) // O el estado que definas para "activo"
+                                            ->first();
+    
+        if (!$procesoGestativo) {
             return response()->json([
-                'estado' => 'Ok',
-                'seguimiento' => $seguimiento
-            ], 200);
-        } else {
-            return response()->json([
-                'error' => 'Seguimiento no encontrado'
+                'estado' => 'Error',
+                'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
             ], 404);
         }
+    
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+        $validatedData['proceso_gestativo_id'] = $procesoGestativo->id;
+    
+        $seguimiento = SeguimientoComplementario::create($validatedData);
+    
+        ConsultasUsuario::create([
+            'id_usuario' => $validatedData['id_usuario'],
+            'fecha' => now(),
+            'nombre_consulta' => 'Control Complementario',
+        ]);
+    
+        return response()->json([
+            'estado' => 'Ok',
+            'mensaje' => 'Seguimiento creado exitosamente',
+            'data' => $seguimiento
+        ], 201);
     }
+    
+
+    public function show($id, $num_proceso)
+    {
+        // Verificar que el ProcesoGestativo esté activo
+        $procesoGestativo = ProcesoGestativo::where('id_usuario', $id)
+                                            ->where('num_proceso', $num_proceso)
+                                            ->first();
+    
+        if (!$procesoGestativo) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
+            ], 404);
+        }
+    
+        // Obtener el seguimiento correspondiente
+        $seguimiento = SeguimientoComplementario::where('id_usuario', $id)
+                                                 ->where('proceso_gestativo_id', $procesoGestativo->id)
+                                                 ->firstOrFail();
+    
+        return response()->json([
+            'estado' => 'Ok',
+            'seguimiento' => $seguimiento
+        ], 200);
+    }
+    
 
     public function update(Request $request, $id)
     {

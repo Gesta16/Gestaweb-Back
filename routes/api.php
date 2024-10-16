@@ -46,7 +46,9 @@ use App\Http\Controllers\API\MortalidadPrepartoController;
 use App\Http\Controllers\API\DatosRecienNacidoController;
 use App\Http\Controllers\API\EstudioHipotiroidismoCongenitoController;
 use App\Http\Controllers\API\RutaPYMSController;
-use App\Http\Controllers\Api\TamizacionNeonatalController;
+use App\Http\Controllers\API\TamizacionNeonatalController;
+use App\Http\Controllers\API\DashboardController;
+
 
 
 /*
@@ -103,6 +105,10 @@ Route::group([
     Route::get("usuario/{id}",[UsuarioController::class, 'show']);
     Route::post("usuario/{id}",[UsuarioController::class, 'update']);
     Route::delete("usuario/{id}",[UsuarioController::class, 'destroy']);
+    Route::post("usuario/nuevo-proceso/{usuarioId}",[UsuarioController::class, 'crearProcesoGestativo']);
+    Route::get("usuario/contar-procesos/{usuarioId}",[UsuarioController::class, 'contarProcesosGestativos']);
+
+
 
 //});/** RUTAS DEL OPERADOR */
 
@@ -220,7 +226,7 @@ Route::get("municipio-individual/{id}",[MunicipioController::class, 'show']);
 /** RUTAS DEL CONTROL PRENATAL */
 
 Route::get('/control-prenatal', [ControlPrenatalController::class, 'index']);
-Route::get('/control-prenatal/{id_usuario}', [ControlPrenatalController::class, 'show']);
+Route::get('/control-prenatal/{id_usuario}/{num_proceso}', [ControlPrenatalController::class, 'show']);
 Route::post('/control-prenatal', [ControlPrenatalController::class, 'store']);
 Route::POST('/control-prenatal/{cod_control}', [ControlPrenatalController::class, 'update']);
 Route::delete('/control-prenatal/{cod_control}', [ControlPrenatalController::class, 'destroy']);
@@ -229,7 +235,7 @@ Route::delete('/control-prenatal/{cod_control}', [ControlPrenatalController::cla
 
 Route::get("primera-consulta",[PrimeraConsultaController::class, 'index']);
 Route::post("primera-consulta",[PrimeraConsultaController::class, 'store']);
-Route::get("primera-consulta/{id}",[PrimeraConsultaController::class, 'show']);
+Route::get("primera-consulta/{id}/{num_proceso}",[PrimeraConsultaController::class, 'show']);
 Route::post("primera-consulta/{id}",[PrimeraConsultaController::class, 'update']);
 Route::delete("primera-consulta/{id}",[PrimeraConsultaController::class, 'destroy']);
 
@@ -245,7 +251,7 @@ Route::delete("vacunacion/{id}",[VacunacionController::class, 'destroy']);
 
 Route::get('/finalizacion-gestacion', [FinalizacionGestacionController::class, 'index']);
 Route::post('/finalizacion-gestacion', [FinalizacionGestacionController::class, 'store']);
-Route::get('/finalizacion-gestacion/{id}', [FinalizacionGestacionController::class, 'show']);
+Route::get('/finalizacion-gestacion/{id}/{num_proceso}', [FinalizacionGestacionController::class, 'show']);
 Route::post('/finalizacion-gestacion/{id}', [FinalizacionGestacionController::class, 'update']);
 Route::delete('/finalizacion-gestacion/{id}', [FinalizacionGestacionController::class, 'destroy']);
 
@@ -253,21 +259,21 @@ Route::delete('/finalizacion-gestacion/{id}', [FinalizacionGestacionController::
 
 Route::get('/laboratorio-intraparto', [LaboratorioInTrapartoController::class, 'index']);
 Route::post('/laboratorio-intraparto', [LaboratorioInTrapartoController::class, 'store']);
-Route::get('/laboratorio-intraparto/{id}', [LaboratorioInTrapartoController::class, 'show']);
+Route::get('/laboratorio-intraparto/{id}/{num_proceso}', [LaboratorioInTrapartoController::class, 'show']);
 Route::delete('/laboratorio-intraparto/{id}', [LaboratorioInTrapartoController::class, 'destroy']);
 
 /** RUTAS DE SEGUIMIENTO GESTANTE POST OBSTETRICO */
 
 Route::get('/seguimiento-post-obstetrico', [SeguimientoGestantePostObstetricoController::class, 'index']);
 Route::post('/seguimiento-post-obstetrico', [SeguimientoGestantePostObstetricoController::class, 'store']);
-Route::get('/seguimiento-post-obstetrico/{id}', [SeguimientoGestantePostObstetricoController::class, 'show']);
+Route::get('/seguimiento-post-obstetrico/{id}/{num_proceso}', [SeguimientoGestantePostObstetricoController::class, 'show']);
 Route::delete('/seguimiento-post-obstetrico/{id}', [SeguimientoGestantePostObstetricoController::class, 'destroy']);
 
 /** RUTAS DEL LABORATORIO-I-SEMESTRE*/
 
 Route::get("laboratorio-primer-semestre",[LaboratorioITrimestreController::class, 'index']);
 Route::post("laboratorio-primer-semestre",[LaboratorioITrimestreController::class, 'store']);
-Route::get("laboratorio-primer-semestre/{id}",[LaboratorioITrimestreController::class, 'show']);
+Route::get("laboratorio-primer-semestre/{id}/{num_proceso}",[LaboratorioITrimestreController::class, 'show']);
 Route::post("laboratorio-primer-semestre/{id}",[LaboratorioITrimestreController::class, 'update']);
 Route::delete("laboratorio-primer-semestre/{id}",[LaboratorioITrimestreController::class, 'destroy']);
 
@@ -275,7 +281,7 @@ Route::delete("laboratorio-primer-semestre/{id}",[LaboratorioITrimestreControlle
 
 Route::get("laboratorio-segundo-semestre",[LaboratorioIITrimestreController::class, 'index']);
 Route::post("laboratorio-segundo-semestre",[LaboratorioIITrimestreController::class, 'store']);
-Route::get("laboratorio-segundo-semestre/{id}",[LaboratorioIITrimestreController::class, 'show']);
+Route::get("laboratorio-segundo-semestre/{id}/{num_proceso}",[LaboratorioIITrimestreController::class, 'show']);
 Route::post("laboratorio-segundo-semestre/{id}",[LaboratorioIITrimestreController::class, 'update']);
 Route::delete("laboratorio-segundo-semestre/{id}",[LaboratorioIITrimestreController::class, 'destroy']);
 
@@ -283,7 +289,7 @@ Route::delete("laboratorio-segundo-semestre/{id}",[LaboratorioIITrimestreControl
 
 Route::get("laboratorio-tercer-semestre",[LaboratorioIIITrimestreController::class, 'index']);
 Route::post("laboratorio-tercer-semestre",[LaboratorioIIITrimestreController::class, 'store']);
-Route::get("laboratorio-tercer-semestre/{id}",[LaboratorioIIITrimestreController::class, 'show']);
+Route::get("laboratorio-tercer-semestre/{id}/{num_proceso}",[LaboratorioIIITrimestreController::class, 'show']);
 Route::post("laboratorio-tercer-semestre/{id}",[LaboratorioIIITrimestreController::class, 'update']);
 Route::delete("laboratorio-tercer-semestre/{id}",[LaboratorioIIITrimestreController::class, 'destroy']);
 
@@ -291,7 +297,7 @@ Route::delete("laboratorio-tercer-semestre/{id}",[LaboratorioIIITrimestreControl
 
 Route::get("its",[ItsController::class, 'index']);
 Route::post("its",[ItsController::class, 'store']);
-Route::get("its/{id}",[ItsController::class, 'show']);
+Route::get("its/{id}/{num_proceso}",[ItsController::class, 'show']);
 Route::post("its/{id}",[ItsController::class, 'update']);
 Route::delete("its/{id}",[ItsController::class, 'destroy']);
 
@@ -299,7 +305,7 @@ Route::delete("its/{id}",[ItsController::class, 'destroy']);
 
 Route::get('seguimiento-consulta-mensual', [SeguimientoConsultaMensualController::class, 'index']); 
 Route::post('seguimiento-consulta-mensual', [SeguimientoConsultaMensualController::class, 'store']);
-Route::get('seguimiento-consulta-mensual/{id}', [SeguimientoConsultaMensualController::class, 'show']); 
+Route::get('seguimiento-consulta-mensual/{id}/{num_proceso}', [SeguimientoConsultaMensualController::class, 'show']); 
 Route::post('seguimiento-consulta-mensual/{id}', [SeguimientoConsultaMensualController::class, 'update']); 
 Route::delete('seguimiento-consulta-mensual/{id}', [SeguimientoConsultaMensualController::class, 'destroy']);
 
@@ -307,7 +313,7 @@ Route::delete('seguimiento-consulta-mensual/{id}', [SeguimientoConsultaMensualCo
 
 Route::get('seguimientos-complementarios', [SeguimientoComplementarioController::class, 'index']); 
 Route::post('seguimientos-complementarios', [SeguimientoComplementarioController::class, 'store']); 
-Route::get('seguimientos-complementarios/{id}', [SeguimientoComplementarioController::class, 'show']);
+Route::get('seguimientos-complementarios/{id}/{num_proceso}', [SeguimientoComplementarioController::class, 'show']);
 Route::post('seguimientos-complementarios/{id}', [SeguimientoComplementarioController::class, 'update']);
 Route::delete('seguimientos-complementarios/{id}', [SeguimientoComplementarioController::class, 'destroy']);
 
@@ -315,7 +321,7 @@ Route::delete('seguimientos-complementarios/{id}', [SeguimientoComplementarioCon
 
 Route::get('micronutrientes', [MicronutrienteController::class, 'index']); 
 Route::post('micronutrientes', [MicronutrienteController::class, 'store']); 
-Route::get('micronutrientes/{id}', [MicronutrienteController::class, 'show']);
+Route::get('micronutrientes/{id}/{num_proceso}', [MicronutrienteController::class, 'show']);
 Route::post('micronutrientes/{id}', [MicronutrienteController::class, 'update']);
 Route::delete('micronutrientes/{id}', [MicronutrienteController::class, 'destroy']);
 
@@ -323,33 +329,39 @@ Route::delete('micronutrientes/{id}', [MicronutrienteController::class, 'destroy
 
 Route::get('mortalidad-preparto', [MortalidadPrepartoController::class, 'index']);
 Route::post('mortalidad-preparto', [MortalidadPrepartoController::class, 'store']);
-Route::get('mortalidad-preparto/{id}', [MortalidadPrepartoController::class, 'show']);
+Route::get('mortalidad-preparto/{id}/{num_proceso}', [MortalidadPrepartoController::class, 'show']);
 Route::delete('mortalidad-preparto/{id}', [MortalidadPrepartoController::class, 'destroy']);
 
 /** RUTAS DE DATOS DEL RECIEN NACIDO */
 
 Route::get('datos-recien-nacido', [DatosRecienNacidoController::class, 'index']);
 Route::post('datos-recien-nacido', [DatosRecienNacidoController::class, 'store']);
-Route::get('datos-recien-nacido/{id}', [DatosRecienNacidoController::class, 'show']);
+Route::get('datos-recien-nacido/{id}/{num_proceso}', [DatosRecienNacidoController::class, 'show']);
 Route::delete('datos-recien-nacido/{id}', [DatosRecienNacidoController::class, 'destroy']);
 
 /** RUTAS DE ESTUDIO HIPOTIROIDISMO*/
 
 Route::get('/estudios-hipotiroidismo', [EstudioHipotiroidismoCongenitoController::class, 'index']);
 Route::post('/estudios-hipotiroidismo', [EstudioHipotiroidismoCongenitoController::class, 'store']);
-Route::get('/estudios-hipotiroidismo/{id}', [EstudioHipotiroidismoCongenitoController::class, 'show']);
+Route::get('/estudios-hipotiroidismo/{id}/{num_proceso}', [EstudioHipotiroidismoCongenitoController::class, 'show']);
 Route::delete('/estudios-hipotiroidismo/{id}', [EstudioHipotiroidismoCongenitoController::class, 'destroy']);
 
 /** RUTAS DE RUTAS PYMS*/
 
 Route::get('/rutas-pyms', [RutaPYMSController::class, 'index']);
 Route::post('/rutas-pyms', [RutaPYMSController::class, 'store']);
-Route::get('/rutas-pyms/{id}', [RutaPYMSController::class, 'show']);
+Route::get('/rutas-pyms/{id}/{num_proceso}', [RutaPYMSController::class, 'show']);
 Route::delete('/rutas-pyms/{id}', [RutaPYMSController::class, 'destroy']);
 
 /** RUTAS DE RUTAS TAMIZACIONES NEONATALES*/
 
 Route::get('/tamizaciones-neonatales', [TamizacionNeonatalController::class, 'index']);
 Route::post('/tamizaciones-neonatales', [TamizacionNeonatalController::class, 'store']);
-Route::get('/tamizaciones-neonatales/{id}', [TamizacionNeonatalController::class, 'show']);
+Route::get('/tamizaciones-neonatales/{id}/{num_proceso}', [TamizacionNeonatalController::class, 'show']);
 Route::delete('/tamizaciones-neonatales/{id}', [TamizacionNeonatalController::class, 'destroy']);
+
+/** RUTAS DASHBOARD */
+
+Route::get('/calendario-usuario',[DashboardController::class, 'CalendarioUsuario']);
+Route::get('/conteo',[DashboardController::class, 'contarRegistros']);
+Route::get('/usuario-ips',[DashboardController::class, 'conteoUsuariosPorIps']);

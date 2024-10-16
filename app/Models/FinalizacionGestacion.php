@@ -21,6 +21,7 @@ class FinalizacionGestacion extends Model
         'id_operador',
         'cod_terminacion', 
         'fec_evento',
+        'proceso_gestativo_id'
     ];
 
     

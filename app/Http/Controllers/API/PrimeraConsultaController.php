@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PrimeraConsulta;
+use App\Models\ConsultasUsuario;
+use App\Models\ProcesoGestativo;
 use Illuminate\Support\Facades\Validator;
 
 class PrimeraConsultaController extends Controller
@@ -31,61 +33,102 @@ class PrimeraConsultaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
-    if (!auth()->check()) {
-        return response()->json([
-            'estado' => 'Error',
-            'mensaje' => 'Debes estar autenticado para realizar esta acción'
-        ], 401); 
-    }
-
-    \Log::info('Datos de entrada:', $request->all());
-
-    $validator = Validator::make($request->all(), [
-        'id_usuario' => 'required|exists:usuario,id_usuario',
-        'cod_riesgo' => 'required|exists:riesgo,cod_riesgo',
-        'cod_dm' => 'required|exists:tipo_dm,cod_dm',
-        'peso_previo' => 'required|integer|min:0',
-        'tal_consulta' => 'required|numeric|min:0|max:999.99',
-        'imc_consulta' => 'required|integer|min:0',
-        'diag_nutricional' => 'required|string|max:255',
-        'hta' => 'required|integer|in:0,1',
-        'dm' => 'required|integer|in:0,1',
-        'fact_riesgo' => 'required|string|max:255',
-        'expo_violencia' => 'required|string|max:255',
-        'ries_depresion' => 'required|string|max:255',
-        'for_gestacion' => 'required|integer|min:0',
-        'for_parto' => 'required|integer|min:0',
-        'for_cesarea' => 'required|integer|min:0',
-        'for_aborto' => 'required|integer|min:0',
-        'fec_lactancia' => 'required|date',
-        'fec_consejeria' => 'required|date',
-    ]);
-
-    if ($validator->fails()) {
-        \Log::error('Error al crear control prenatal:', [
-            'errores' => $validator->errors(),
-            'input' => $request->all(), // Captura los datos que causaron el error
+    {
+        // Verificar si el usuario está autenticado
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401); 
+        }
+    
+        \Log::info('Datos de entrada:', $request->all());
+    
+        // Crear el validador para los datos de entrada
+        $validator = Validator::make($request->all(), [
+            'id_usuario' => 'required|exists:usuario,id_usuario',
+            'cod_hemoclasifi' => 'required|exists:hemoclasificacion,cod_hemoclasifi',
+            'cod_antibiograma' => 'required|exists:antibiograma,cod_antibiograma',
+            'fec_hemoclasificacion' => 'required|date',
+            'hem_laboratorio' => 'required|string|max:255',
+            'fec_hemograma' => 'required|date',
+            'gli_laboratorio' => 'required|integer|min:0',
+            'fec_glicemia' => 'required|date',
+            'ant_laboratorio' => 'required|string|max:255',
+            'fec_antigeno' => 'required|date',
+            'pru_vih' => 'required|string|max:255',
+            'fec_vih' => 'required|date',
+            'pru_sifilis' => 'required|string|max:255',
+            'fec_sifilis' => 'required|date',
+            'uro_laboratorio' => 'required|string|max:255',
+            'fec_urocultivo' => 'required|date',
+            'fec_antibiograma' => 'required|date',
+            'ig_rubeola' => 'required|string|max:255',
+            'fec_rubeola' => 'required|date',
+            'ig_toxoplasma' => 'required|string|max:255',
+            'fec_toxoplasma' => 'required|date',
+            'hem_gruesa' => 'required|string|max:255',
+            'fec_hemoparasito' => 'required|date',
+            'pru_antigenos' => 'required|string|max:255',
+            'fec_antigenos' => 'required|date',
+            'eli_recombinante' => 'required|string|max:255',
+            'fec_recombinante' => 'required|date',
+            'coo_cuantitativo' => 'required|string|max:255',
+            'fec_coombs' => 'required|date',
+            'fec_ecografia' => 'required|date',
+            'eda_gestacional' => 'required|numeric|min:0|max:999.99', // Ajuste de rango
+            'rie_biopsicosocial' => 'required|string|max:255',
+            'num_proceso'=> 'required|integer'
         ]);
+    
+        if ($validator->fails()) {
+            \Log::error('Error al crear el registro de laboratorio:', [
+                'errores' => $validator->errors(),
+                'input' => $request->all(),
+            ]);
+            return response()->json([
+                'estado' => 'Error',
+                'errores' => $validator->errors()
+            ], 422);
+        }
+    
+        // Validar los datos
+        $validatedData = $validator->validated();
+        // Asignar el id_operador del usuario autenticado
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+    
+        // Verificar que el proceso gestativo existe
+        $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])
+                                    ->where('num_proceso', $validatedData['num_proceso'])
+                                    ->where('estado', 1)
+                                    ->first();
+        
+        if (!$procesoGestativo) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'No se encontró el proceso gestativo para el usuario proporcionado.'
+            ], 404);
+        }
+    
+        // Asignar el ID del proceso gestativo
+        $validatedData['proceso_gestativo_id'] = $procesoGestativo->id;
+    
+        // Crear el registro de LaboratorioITrimestre
+        $laboratorio = LaboratorioITrimestre::create($validatedData);
+    
+        // Crear el registro de ConsultasUsuario
+        ConsultasUsuario::create([
+            'id_usuario' => $validatedData['id_usuario'],
+            'fecha' => now(), 
+            'nombre_consulta' => 'Laboratorios primer trimestre', 
+        ]);
+    
         return response()->json([
-            'estado' => 'Error',
-            'errores' => $validator->errors()
-        ], 422);
+            'estado' => 'Ok',
+            'data' => $laboratorio
+        ], 201);
     }
-
-    // Validar los datos
-    $validatedData = $validator->validated();
-    // Asignar id_operador
-    $validatedData['id_operador'] = auth()->user()->userable_id;
-
-    // Crear la consulta con todos los datos validados
-    $consulta = PrimeraConsulta::create($validatedData);
-
-    return response()->json([
-        'estado' => 'Ok',
-        'consulta' => $consulta
-    ], 201);
-}
+    
 
 
     /**
@@ -94,9 +137,23 @@ class PrimeraConsultaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,$num_proceso)
     {
-        $consulta = PrimeraConsulta::with(['operador', 'usuario', 'riesgo', 'tipoDm'])->where('id_usuario', $id)->firstOrFail();
+         $procesoGestativo = ProcesoGestativo::where('id_usuario', $id)
+                                ->where('num_proceso', $num_proceso)
+                                ->first();
+    
+        if (!$procesoGestativo) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'No se encontró el proceso gestativo para el usuario proporcionado.'
+            ], 404);
+        }      
+            
+        $consulta = PrimeraConsulta::with(['operador', 'usuario', 'riesgo', 'tipoDm'])
+                                    ->where('id_usuario', $id)
+                                    ->where('proceso_gestativo_id',$procesoGestativo->id)
+                                    ->firstOrFail();
 
         if (!$consulta) {
             return response()->json([

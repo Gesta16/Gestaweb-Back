@@ -23,6 +23,8 @@ class CreateLaboratoriosIntrapartoGestanteTable extends Migration
         $table->unsignedBigInteger('id_usuario');
         $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
         $table->unsignedBigInteger('cod_vdrl'); // FK a la tabla de pruebas no treponémicas (VDRL)
+        $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
+
         
         // Campos adicionales
         $table->string('pru_sifilis');        // Prueba treponémica rápida para sífilis intraparto

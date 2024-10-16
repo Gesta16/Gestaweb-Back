@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ControlPrenatal;
+use App\Models\ConsultasUsuario;
+use App\Models\ProcesoGestativo;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ControlPrenatalController extends Controller
@@ -25,10 +27,9 @@ class ControlPrenatalController extends Controller
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'Debes estar autenticado para realizar esta acción'
-            ], 401); // 401 Unauthorized
+            ], 401); 
         }
 
-        // Log de los datos que se están enviando
         \Log::info('Datos de entrada:', $request->all());
 
         $validatedData = $request->validate([
@@ -47,11 +48,33 @@ class ControlPrenatalController extends Controller
             'usu_solicito' => 'required|boolean',
             'fec_terminacion' => 'required|date',
             'per_intergenesico' => 'required|boolean',
+            'num_proceso'=>'required|integer|'
         ]);
 
         $validatedData['id_operador'] = auth()->user()->userable_id;
 
+         $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])
+                                ->where('num_proceso', $validatedData['num_proceso'])
+                                ->where('estado', 1)
+                                ->first();
+    
+        if (!$procesoGestativo) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'No se encontró el proceso gestativo para el usuario proporcionado.'
+            ], 404);
+        }
+    
+        $validatedData['proceso_gestativo_id'] = $procesoGestativo->id; 
+        
         $control = ControlPrenatal::create($validatedData);
+
+        ConsultasUsuario::create([
+            'id_usuario' => $validatedData['id_usuario'],
+            'fecha' => now(), 
+            'nombre_consulta' => 'Control Prenatal', 
+        ]);
+
 
         return response()->json([
             'estado' => 'Ok',
@@ -74,10 +97,25 @@ class ControlPrenatalController extends Controller
 
     
 
-    public function show($id_usuario)
+    public function show($id_usuario,$num_proceso)
     {
         try {
-            $control = ControlPrenatal::where('id_usuario', $id_usuario)->firstOrFail();
+
+            $procesoGestativo = ProcesoGestativo::where('id_usuario', $id_usuario)
+                                ->where('num_proceso', $num_proceso)
+                                ->first();
+    
+            if (!$procesoGestativo) {
+                return response()->json([
+                    'estado' => 'Error',
+                    'mensaje' => 'No se encontró el proceso gestativo para el usuario proporcionado.'
+                ], 404);
+            }      
+
+            $control = ControlPrenatal::where('id_usuario', $id_usuario)
+                                        ->where('proceso_gestativo_id',$procesoGestativo->id)
+                                        ->firstOrFail();
+
             return response()->json([
                 'estado' => 'Ok',
                 'Control' => $control

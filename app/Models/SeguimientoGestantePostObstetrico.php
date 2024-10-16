@@ -23,6 +23,7 @@ class SeguimientoGestantePostObstetrico extends Model
         'con_egreso',
         'fec_fallecimiento',
         'fec_planificacion',
+        'proceso_gest_id',
     ];
 
     

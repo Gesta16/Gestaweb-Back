@@ -23,12 +23,17 @@ class CreateFinalizacionGestacionTable extends Migration
             $table->unsignedBigInteger('id_usuario');
             $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
             $table->unsignedBigInteger('cod_terminacion'); // FK a la tabla de terminación
+            $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
+
             
             // Fecha del evento obstétrico
             $table->date('fec_evento'); 
                 
             // Definir la relación
             $table->foreign('cod_terminacion')->references('cod_terminacion')->on('terminacion_gestacion');
+
+            $table->timestamp('created_at')->useCurrent();
+
         });
     }
     

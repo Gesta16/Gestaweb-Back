@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\LaboratorioInTraparto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\ProcesoGestativo;
+
 
 class LaboratorioInTrapartoController extends Controller
 {
@@ -19,14 +21,13 @@ class LaboratorioInTrapartoController extends Controller
     // Crear un nuevo registro
     public function store(Request $request)
     {
-
         if (!auth()->check()) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'Debes estar autenticado para realizar esta acción'
             ], 401); // 401 Unauthorized
         }
-
+    
         $validatedData = $request->validate([
             'cod_vdrl' => 'required|integer',
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
@@ -37,18 +38,52 @@ class LaboratorioInTrapartoController extends Controller
             'fec_tratamiento' => 'required|date',
             'pru_vih' => 'required|string',
             'fec_vih' => 'required|date',
+            'num_proceso' => 'required|integer', // Asegúrate de incluir num_proceso
         ]);
-
+    
         $validatedData['id_operador'] = auth()->user()->userable_id;
+    
+        // Verificar que el ProcesoGestativo esté activo
+        $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])
+                                            ->where('num_proceso', $validatedData['num_proceso'])
+                                            ->first();
+    
+        if (!$procesoGestativo) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
+            ], 404);
+        }
 
+        $validatedData['proceso_gestativo_id'] = $procesoGestativo->id;
+
+    
+        // Crear el registro de LaboratorioInTraparto
         $laboratorio = LaboratorioInTraparto::create($validatedData);
+        
         return response()->json(['estado' => 'Ok', 'data' => $laboratorio], 201);
     }
+    
 
-    public function show($id)
+    public function show($id, $num_proceso)
     {
-        $laboratorio = LaboratorioInTraparto::where('id_usuario', $id)->firstOrFail();
-
+        // Verificar que el ProcesoGestativo esté activo
+        $procesoGestativo = ProcesoGestativo::where('id_usuario', $id)
+                                            ->where('num_proceso', $num_proceso)
+                                            ->first();
+    
+        if (!$procesoGestativo) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
+            ], 404);
+        }
+    
+        // Obtener el laboratorio para el usuario y proceso
+        $laboratorio = LaboratorioInTraparto::where('id_usuario', $id)
+                                            ->where('proceso_gestativo_id', $procesoGestativo->id)
+                                            ->first();
+    
         if ($laboratorio) {
             return response()->json([
                 'estado' => 'Ok',

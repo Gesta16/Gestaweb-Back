@@ -22,15 +22,17 @@ class CreateSeguimientosComplementariosTable extends Migration
 
         $table->unsignedBigInteger('id_usuario');
         $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
-        $table->unsignedBigInteger('cod_sesiones'); // FK a la tabla de sesiones
+        $table->unsignedBigInteger('cod_sesiones'); 
+        $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
+
         
         // Campos adicionales
-        $table->date('fec_nutricion');       // Fecha de valoración de nutrición
-        $table->date('fec_ginecologia');     // Fecha de valoración de ginecología
-        $table->date('fec_psicologia');      // Fecha de valoración de psicología
-        $table->date('fec_odontologia');     // Fecha de valoración de odontología
-        $table->string('ina_seguimiento');   // Inasistente (si, no)
-        $table->string('cau_inasistencia');  // Causal de inasistencia
+        $table->date('fec_nutricion');       
+        $table->date('fec_ginecologia');     
+        $table->date('fec_psicologia');      
+        $table->date('fec_odontologia');     
+        $table->string('ina_seguimiento');   
+        $table->string('cau_inasistencia');  
 
         // Definir la relación
         $table->foreign('cod_sesiones')->references('cod_sesiones')->on('num_sesiones_curso_paternidad_maternidad');

@@ -41,6 +41,7 @@ class LaboratorioIITrimestre extends Model
         'fec_ecografia',
         'eda_gestacional',
         'rie_biopsicosocial',
+        'proceso_gestativo_id'
     ];
 
     public function operador()

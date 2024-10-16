@@ -25,6 +25,7 @@ class DatosRecienNacido extends Model
         'peso',
         'talla',
         'pla_canguro',
-        'ips_canguro'
+        'ips_canguro',
+        'proceso_gestativo_id'
     ];
 }

@@ -27,6 +27,7 @@ class LaboratorioInTraparto extends Model
         'fec_tratamiento',
         'pru_vih',
         'fec_vih',
+        'proceso_gestativo_id'
     ];
 
     

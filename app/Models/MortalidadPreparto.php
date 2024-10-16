@@ -21,6 +21,7 @@ class MortalidadPreparto extends Model
         'cod_mortalpreparto',
         'cod_mortalidad',
         'fec_defuncion',
+        'proceso_gestativo_id'
     ];
 
     

@@ -78,4 +78,9 @@ class Usuario extends Model
     {
         return $this->hasMany(SeguimientoConsultaMensual::class, 'id_usuario');
     }
+
+    public function procesosGestativos()
+    {
+        return $this->hasMany(ProcesoGestativo::class, 'id_usuario');
+    }
 }

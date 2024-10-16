@@ -24,7 +24,7 @@ class LaboratorioITrimestre extends Model
         'fec_rubeola', 'ig_toxoplasma', 'fec_toxoplasma', 'hem_gruesa', 
         'fec_hemoparasito', 'pru_antigenos', 'fec_antigenos', 'eli_recombinante', 
         'fec_recombinante', 'coo_cuantitativo', 'fec_coombs', 'fec_ecografia', 
-        'eda_gestacional', 'rie_biopsicosocial'
+        'eda_gestacional', 'rie_biopsicosocial','proceso_gestativo_id'
     ];
 
     public function operador()

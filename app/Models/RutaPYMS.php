@@ -23,5 +23,6 @@ class RutaPYMS extends Model
         'fec_hepatitis',
         'fec_seguimiento',
         'fec_entrega',
+        'proceso_gestativo_id'
     ];
 }

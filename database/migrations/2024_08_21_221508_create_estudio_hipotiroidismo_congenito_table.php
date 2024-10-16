@@ -21,6 +21,9 @@ class CreateEstudioHipotiroidismoCongenitoTable extends Migration
 
         $table->unsignedBigInteger('id_usuario');
         $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
+
+        $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
+
         
         // Campos adicionales
         $table->string('tsh');                   // TSH de seguimiento

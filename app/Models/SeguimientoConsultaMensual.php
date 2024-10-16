@@ -30,7 +30,8 @@ class SeguimientoConsultaMensual extends Model
         'talla',
         'imc',
         'ten_arts',
-        'ten_artd'
+        'ten_artd',
+        'proceso_gestativo_id'
     ];
 
     public function operador()

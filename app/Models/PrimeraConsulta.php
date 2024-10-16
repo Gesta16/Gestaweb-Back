@@ -30,6 +30,7 @@ class PrimeraConsulta extends Model
         'for_aborto',
         'fec_lactancia',
         'fec_consejeria',
+        'proceso_gestativo_id'
     ];
 
     public function operador()

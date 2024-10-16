@@ -25,6 +25,7 @@ class EstudioHipotiroidismoCongenito extends Model
         'fec_resultadot4',
         'eve_confirmado',
         'fec_primera',
+        'proceso_gestativo_id'
     ];
 
 }

@@ -22,6 +22,9 @@ class CreateLaboratorioIiiTrimestreTable extends Migration
             $table->unsignedBigInteger('id_usuario');
             $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
             
+            $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
+
+
             // Hemograma
             $table->string('hemograma');
             $table->date('fec_hemograma');
@@ -50,6 +53,9 @@ class CreateLaboratorioIiiTrimestreTable extends Migration
             
             // Riesgo biopsicosocial escala de Herrera y Hurtado
             $table->string('rie_biopsicosocial');
+
+            $table->timestamp('created_at')->useCurrent();
+
         });
     }
 

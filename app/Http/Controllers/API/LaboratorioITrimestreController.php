@@ -5,6 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\LaboratorioITrimestre;
+use App\Models\ConsultasUsuario;
+use App\Models\ProcesoGestativo;
+
+
 
 class LaboratorioITrimestreController extends Controller
 {
@@ -68,14 +72,36 @@ $validatedData = $request->validate([
     'fec_ecografia' => 'required|date',
     'eda_gestacional' => 'required|numeric|min:0', // Cambia a numeric
     'rie_biopsicosocial' => 'required|string',
+    'num_proceso'=> 'required|integer'
+
 ]);
 
 
-    // Asignar el id_operador del usuario autenticado
-    $validatedData['id_operador'] = auth()->user()->userable_id;
+     // Verificar que el ProcesoGestativo esté activo
+        $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])
+                                            ->where('num_proceso', $validatedData['num_proceso'])
+                                            ->where('estado', 1)
+                                            ->first();
+    
+        if (!$procesoGestativo) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
+            ], 404);
+        }
+    
+        // Asignar el id_operador y el id del proceso gestativo
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+        $validatedData['proceso_gestativo_id'] = $procesoGestativo->id;
 
     // Crear el registro de LaboratorioITrimestre
     $laboratorio = LaboratorioITrimestre::create($validatedData);
+
+    ConsultasUsuario::create([
+        'id_usuario' => $validatedData['id_usuario'],
+        'fecha' => now(), 
+        'nombre_consulta' => 'Laboratorios primer trimestre', 
+    ]);
 
     return response()->json(['estado' => 'Ok', 'data' => $laboratorio], 201);
 }
@@ -86,10 +112,26 @@ $validatedData = $request->validate([
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,$num_proceso)
     {
+
+        $procesoGestativo = ProcesoGestativo::where('id_usuario', $id)
+        ->where('num_proceso', $num_proceso)
+        ->first();
+
+        if (!$procesoGestativo) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'No se encontró el proceso gestativo para el usuario proporcionado.'
+            ], 404);
+        }   
+           
+
         $laboratorio = LaboratorioITrimestre::with(['operador', 'usuario', 'hemoclasificacion', 'antibiograma'])
-            ->where('id_usuario', $id)->firstOrFail();
+            ->where('id_usuario', $id)
+            ->where('proceso_gestativo_id',$procesoGestativo->id)
+            ->firstOrFail();
+
         return response()->json(['estado' => 'Ok', 'data' => $laboratorio]);
     }
 

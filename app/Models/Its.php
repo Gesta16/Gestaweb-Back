@@ -26,7 +26,9 @@ class Its extends Model
           'fec_vdrl',
           'fec_rpr',
           'rec_tratamiento',
-          'rec_pareja'
+          'rec_pareja',
+          'proceso_gestativo_id'
+
       ];
   
   

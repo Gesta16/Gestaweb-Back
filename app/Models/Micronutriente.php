@@ -25,5 +25,6 @@ class Micronutriente extends Model
         'sul_ferroso',
         'car_calcio',
         'desparasitacion',
+        'proceso_gestativo_id'
     ];
 }

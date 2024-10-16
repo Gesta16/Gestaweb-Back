@@ -28,6 +28,8 @@ class CreateLaboratorioITrimestreTable extends Migration
             $table->unsignedBigInteger('cod_antibiograma');
             $table->foreign('cod_antibiograma')->references('cod_antibiograma')->on('antibiograma');
 
+            $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
+
             $table->date('fec_hemoclasificacion');
             $table->string('hem_laboratorio');
             $table->date('fec_hemograma');
@@ -57,6 +59,9 @@ class CreateLaboratorioITrimestreTable extends Migration
             $table->date('fec_ecografia');
             $table->decimal('eda_gestacional', 8, 2);
             $table->string('rie_biopsicosocial');
+
+            $table->timestamp('created_at')->useCurrent();
+
 
             //$table->timestamps();
         });

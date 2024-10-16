@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\FinalizacionGestacion;
+use App\Models\ConsultasUsuario;
+use App\Models\ProcesoGestativo;
 use Illuminate\Http\Request;
 
 class FinalizacionGestacionController extends Controller
@@ -18,30 +20,72 @@ class FinalizacionGestacionController extends Controller
     
     public function store(Request $request)
     {
-
         if (!auth()->check()) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'Debes estar autenticado para realizar esta acción'
-            ], 401); // 401 Unauthorized
+            ], 401);
         }
-
+    
         $validatedData = $request->validate([
             'cod_terminacion' => 'required|exists:terminacion_gestacion,cod_terminacion',
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'fec_evento' => 'required|date',
+            'num_proceso' => 'required|integer',
         ]);
-
+    
         $validatedData['id_operador'] = auth()->user()->userable_id;
-
+    
+        $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])
+                                ->where('num_proceso', $validatedData['num_proceso'])
+                                ->where('estado', 1)
+                                ->first();
+    
+        if (!$procesoGestativo) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'No se encontró el proceso gestativo para el usuario proporcionado.'
+            ], 404);
+        }
+    
+        $validatedData['proceso_gestativo_id'] = $procesoGestativo->id; 
+    
         $finalizacion = FinalizacionGestacion::create($validatedData);
-        return response()->json($finalizacion, 201);
+    
+        $procesoGestativo->update(['estado' => false]);
+    
+        ConsultasUsuario::create([
+            'id_usuario' => $validatedData['id_usuario'],
+            'fecha' => now(),
+            'nombre_consulta' => 'Finalización de Gestación',
+        ]);
+    
+        return response()->json([
+            'estado' => 'Éxito',
+            'mensaje' => 'Finalización de gestación registrada y proceso actualizado.',
+            'data' => $finalizacion
+        ], 201);
     }
-
-    public function show($id)
+    
+    public function show($id, $num_proceso)
     {
-        $finalizacion = FinalizacionGestacion::where('id_usuario', $id)->firstOrFail();
-
+        // Verificar que el ProcesoGestativo esté activo
+        $procesoGestativo = ProcesoGestativo::where('id_usuario', $id)
+                                            ->where('num_proceso', $num_proceso)
+                                            ->first();
+    
+        if (!$procesoGestativo) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
+            ], 404);
+        }
+    
+        // Obtener la finalización de gestación para el usuario y proceso
+        $finalizacion = FinalizacionGestacion::where('id_usuario', $id)
+                                              ->where('proceso_gestativo_id', $procesoGestativo->id)
+                                              ->first();
+    
         if ($finalizacion) {
             return response()->json([
                 'estado' => 'Ok',
@@ -53,6 +97,7 @@ class FinalizacionGestacionController extends Controller
             ], 404);
         }
     }
+    
 
     public function update(Request $request, $id)
     {

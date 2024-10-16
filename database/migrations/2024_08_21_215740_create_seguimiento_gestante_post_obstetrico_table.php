@@ -24,6 +24,8 @@ class CreateSeguimientoGestantePostObstetricoTable extends Migration
         $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
         $table->unsignedBigInteger('cod_metodo'); // FK a la tabla de métodos anticonceptivos
         
+        $table->foreignId('proceso_gest_id')->constrained('procesos_gestativos');
+
         // Campos adicionales
         $table->string('con_egreso');           // Condición al egreso tras el parto o aborto (Vivo, Muerto)
         $table->date('fec_fallecimiento')->nullable(); // Fecha del fallecimiento

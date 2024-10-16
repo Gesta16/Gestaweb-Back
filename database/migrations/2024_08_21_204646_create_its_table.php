@@ -17,10 +17,13 @@ class CreateItsTable extends Migration
         $table->id('cod_its'); // Primary Key
 
         $table->unsignedBigInteger('id_operador');
-            $table->foreign('id_operador')->references('id_operador')->on('operador');
+        $table->foreign('id_operador')->references('id_operador')->on('operador');
 
-            $table->unsignedBigInteger('id_usuario');
-            $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
+        $table->unsignedBigInteger('id_usuario');
+        $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
+
+        $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
+
         // Claves foráneas
         $table->unsignedBigInteger('cod_vdrl');  
         $table->unsignedBigInteger('cod_rpr'); 

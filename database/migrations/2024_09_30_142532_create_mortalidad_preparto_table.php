@@ -23,6 +23,9 @@ class CreateMortalidadPrepartoTable extends Migration
             $table->unsignedBigInteger('id_usuario');
             $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
 
+            $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
+
+
             $table->unsignedBigInteger('cod_mortalidad');
             $table->foreign('cod_mortalidad')->references('cod_mortalidad')->on('mortalidad_perinatal');
 

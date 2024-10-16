@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Its;
+use App\Models\ProcesoGestativo;
+
 
 class ItsController extends Controller
 {
@@ -18,24 +20,36 @@ class ItsController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show($id, $num_proceso)
     {
-        $it = Its::with(['operador', 'usuario', 'vdrl', 'rpr'])->where('id_usuario', $id)->firstOrFail();
-        if (!$it) {
+        // Verificar que el ProcesoGestativo esté activo
+        $procesoGestativo = ProcesoGestativo::where('id_usuario', $id)
+                                            ->where('num_proceso', $num_proceso)
+                                            ->first();
+    
+        if (!$procesoGestativo) {
             return response()->json([
                 'estado' => 'Error',
-                'mensaje' => 'Registro no encontrado'
+                'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
             ], 404);
         }
+    
+        // Obtener el registro de ITS con relaciones
+        $it = Its::with(['operador', 'usuario', 'vdrl', 'rpr'])
+                  ->where('id_usuario', $id)
+                  ->where('proceso_gestativo_id', $procesoGestativo->id)
+                  ->firstOrFail();
+    
         return response()->json([
             'estado' => 'Ok',
             'mensaje' => 'Registro encontrado',
             'data' => $it
         ]);
     }
-
+    
     public function store(Request $request)
     {
+        // Verificar si el usuario está autenticado
         if (!auth()->check()) {
             return response()->json([
                 'estado' => 'Error',
@@ -43,6 +57,7 @@ class ItsController extends Controller
             ], 401); 
         }
     
+        // Validar los datos de entrada
         $validatedData = $request->validate([
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'cod_vdrl' => 'required|integer|exists:prueba_no_treponemica__v_d_r_l,cod_vdrl',
@@ -53,10 +68,26 @@ class ItsController extends Controller
             'fec_rpr' => 'required|date',
             'rec_tratamiento' => 'required|string',
             'rec_pareja' => 'required|string',
+            'num_proceso' => 'required|integer', // Asegúrate de incluir num_proceso
         ]);
     
-        $validatedData['id_operador'] = auth()->user()->userable_id;
+        $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])
+                                            ->where('num_proceso', $validatedData['num_proceso'])
+                                            ->where('estado', 1) // O el estado que definas para "activo"
+                                            ->first();
     
+        if (!$procesoGestativo) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
+            ], 404);
+        }
+    
+        // Asignar el id_operador y el id del proceso gestativo
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+        $validatedData['proceso_gestativo_id'] = $procesoGestativo->id;
+    
+        // Crear el registro de ITS
         $its = Its::create($validatedData);
     
         return response()->json([
@@ -65,6 +96,7 @@ class ItsController extends Controller
             'data' => $its
         ], 201);
     }
+    
 
     public function update(Request $request, $id)
     {

@@ -27,6 +27,7 @@ class TamizacionNeonatal extends Model
         'tamiza_aud',
         'tamiza_cardi',
         'tamiza_visual',
+        'proceso_gestativo_id'
     ];
 
     public function hemoclasificacion()
