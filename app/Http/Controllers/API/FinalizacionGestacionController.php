@@ -30,6 +30,7 @@ class FinalizacionGestacionController extends Controller
         $validatedData = $request->validate([
             'cod_terminacion' => 'required|exists:terminacion_gestacion,cod_terminacion',
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
+            'cod_terminacion' => 'required|integer',
             'fec_evento' => 'required|date',
             'num_proceso' => 'required|integer',
         ]);
@@ -112,6 +113,7 @@ class FinalizacionGestacionController extends Controller
             $validatedData = $request->validate([
                 'cod_terminacion' => 'required|exists:terminacion_gestacion,cod_terminacion',
                 'id_usuario' => 'required|integer|exists:usuario,id_usuario',
+                'cod_terminacion' => 'required|integer',
                 'fec_evento' => 'required|date',
             ]);
 

@@ -91,7 +91,56 @@ class SeguimientoGestantePostObstetricoController extends Controller
         }
     }
     
-    
+    public function update(Request $request, $id)
+    {
+        try {
+            if (!auth()->check()) {
+                return response()->json([
+                    'estado' => 'Error',
+                    'mensaje' => 'Debes estar autenticado para realizar esta acción'
+                ], 401); 
+            }
+
+            $validatedData = $request->validate([
+                'cod_metodo' => 'required|exists:metodos_anticonceptivos,cod_metodo',
+                'id_usuario' => 'required|integer|exists:usuario,id_usuario',
+                'con_egreso' => 'required|string',
+                'fec_fallecimiento' => 'nullable|date',
+                'fec_planificacion' => 'nullable|date',
+            ]);
+
+            if (!isset($validatedData['id_usuario'])) {
+                return response()->json([
+                    'estado' => 'Error',
+                    'mensaje' => 'El campo id_usuario es requerido'
+                ], 400);
+            }
+
+            $seguimiento = SeguimientoGestantePostObstetrico::where('cod_evento', $id)
+                ->where('id_usuario', $validatedData['id_usuario'])
+                ->firstOrFail();
+
+            $seguimiento->update($validatedData);
+
+            return response()->json([
+                'estado' => 'Ok',
+                'mensaje' => 'Registro actualizado correctamente',
+                'data' => $seguimiento
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Registro no encontrado'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Error al actualizar el registro',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function destroy($id)
     {
         $seguimiento = SeguimientoGestantePostObstetrico::findOrFail($id);

@@ -30,6 +30,7 @@ class MortalidadPrepartoController extends Controller
         $validatedData = $request->validate([
             'cod_mortalidad' => 'required|exists:mortalidad_perinatal,cod_mortalidad',
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
+            'cod_mortalidad' => 'required|integer',
             'fec_defuncion' => 'required|date',
             'num_proceso' => 'required|integer', // Agregar num_proceso a la validación
         ]);
@@ -90,6 +91,56 @@ class MortalidadPrepartoController extends Controller
         }
     }
     
+
+    public function update(Request $request, $id)
+    {
+        try {
+            if (!auth()->check()) {
+                return response()->json([
+                    'estado' => 'Error',
+                    'mensaje' => 'Debes estar autenticado para realizar esta acción'
+                ], 401); 
+            }
+
+            $validatedData = $request->validate([
+                'cod_mortalidad' => 'required|exists:mortalidad_perinatal,cod_mortalidad',
+                'id_usuario' => 'required|integer|exists:usuario,id_usuario',
+                'cod_mortalidad' => 'required|integer',
+                'fec_defuncion' => 'required|date',
+            ]);
+
+            if (!isset($validatedData['id_usuario'])) {
+                return response()->json([
+                    'estado' => 'Error',
+                    'mensaje' => 'El campo id_usuario es requerido'
+                ], 400); 
+            }
+
+            $mortalidadPreparto = MortalidadPreparto::where('cod_mortalpreparto', $id)
+                ->where('id_usuario', $validatedData['id_usuario'])
+                ->firstOrFail();
+
+            $mortalidadPreparto->update($validatedData);
+
+            return response()->json([
+                'estado' => 'Ok',
+                'mensaje' => 'Registro actualizado correctamente',
+                'data' => $mortalidadPreparto
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Registro de mortalidad no encontrado'
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Error al actualizar el registro',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 
     public function destroy($id)
     {
