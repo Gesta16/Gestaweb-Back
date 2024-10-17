@@ -70,6 +70,11 @@ class Usuario extends Model
         return $this->hasMany(LaboratorioIITrimestre::class, 'id_usuario', 'id_usuario');
     }
 
+    public function finalizacion_Gestacion()
+{
+    return $this->hasMany(FinalizacionGestacion::class, 'id_usuario', 'id_usuario');
+}
+
     public function its()
     {
         return $this->hasMany(Its::class, 'id_usuario', 'id_usuario');
@@ -97,6 +102,7 @@ class Usuario extends Model
     }
 
     public function mortalidad(){
-        return $this->hasOne(MortalidadPreparto::class, 'id_usuario', 'id_usuario');
+        return $this->hasMany(MortalidadPreparto::class, 'id_usuario', 'id_usuario');
     }
+
 }

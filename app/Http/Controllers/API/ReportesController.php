@@ -141,7 +141,7 @@ class ReportesController extends Controller
             'municipio',
             'controlesPrenatales.metodoFracaso',
             'controlesPrenatales.riesgo',
-            'mortalidadPerinatal',
+            'mortalidad',
         ])->get();
 
         return response()->json($usuarios);
