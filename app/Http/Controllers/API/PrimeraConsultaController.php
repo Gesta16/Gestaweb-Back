@@ -44,45 +44,32 @@ class PrimeraConsultaController extends Controller
     
         \Log::info('Datos de entrada:', $request->all());
     
-        // Crear el validador para los datos de entrada
+
         $validator = Validator::make($request->all(), [
-            'id_usuario' => 'required|exists:usuario,id_usuario',
-            'cod_hemoclasifi' => 'required|exists:hemoclasificacion,cod_hemoclasifi',
-            'cod_antibiograma' => 'required|exists:antibiograma,cod_antibiograma',
-            'fec_hemoclasificacion' => 'required|date',
-            'hem_laboratorio' => 'required|string|max:255',
-            'fec_hemograma' => 'required|date',
-            'gli_laboratorio' => 'required|integer|min:0',
-            'fec_glicemia' => 'required|date',
-            'ant_laboratorio' => 'required|string|max:255',
-            'fec_antigeno' => 'required|date',
-            'pru_vih' => 'required|string|max:255',
-            'fec_vih' => 'required|date',
-            'pru_sifilis' => 'required|string|max:255',
-            'fec_sifilis' => 'required|date',
-            'uro_laboratorio' => 'required|string|max:255',
-            'fec_urocultivo' => 'required|date',
-            'fec_antibiograma' => 'required|date',
-            'ig_rubeola' => 'required|string|max:255',
-            'fec_rubeola' => 'required|date',
-            'ig_toxoplasma' => 'required|string|max:255',
-            'fec_toxoplasma' => 'required|date',
-            'hem_gruesa' => 'required|string|max:255',
-            'fec_hemoparasito' => 'required|date',
-            'pru_antigenos' => 'required|string|max:255',
-            'fec_antigenos' => 'required|date',
-            'eli_recombinante' => 'required|string|max:255',
-            'fec_recombinante' => 'required|date',
-            'coo_cuantitativo' => 'required|string|max:255',
-            'fec_coombs' => 'required|date',
-            'fec_ecografia' => 'required|date',
-            'eda_gestacional' => 'required|numeric|min:0|max:999.99', // Ajuste de rango
-            'rie_biopsicosocial' => 'required|string|max:255',
-            'num_proceso'=> 'required|integer'
+            'id_operador' => 'sometimes|required|exists:operador,id_operador',
+            'id_usuario' => 'sometimes|required|exists:usuario,id_usuario',
+            'cod_riesgo' => 'sometimes|required|exists:riesgo,cod_riesgo',
+            'cod_dm' => 'sometimes|required|exists:tipo_dm,cod_dm',
+            'peso_previo' => 'sometimes|required|integer|min:0',
+            'tal_consulta' => 'sometimes|required|numeric|min:0|max:999.99',
+            'imc_consulta' => 'sometimes|required|integer|min:0',
+            'diag_nutricional' => 'sometimes|required|string|max:255',
+            'hta' => 'sometimes|required|integer|in:0,1',
+            'dm' => 'sometimes|required|integer|in:0,1',
+            'fact_riesgo' => 'sometimes|required|string|max:255',
+            'expo_violencia' => 'sometimes|required|string|max:255',
+            'ries_depresion' => 'sometimes|required|string|max:255',
+            'for_gestacion' => 'sometimes|required|integer|min:0',
+            'for_parto' => 'sometimes|required|integer|min:0',
+            'for_cesarea' => 'sometimes|required|integer|min:0',
+            'for_aborto' => 'sometimes|required|integer|min:0',
+            'fec_lactancia' => 'sometimes|required|date',
+            'fec_consejeria' => 'sometimes|required|date',
+            'num_proceso'=>'integer|required'
         ]);
     
         if ($validator->fails()) {
-            \Log::error('Error al crear el registro de laboratorio:', [
+            \Log::error('Error al crear el registro:', [
                 'errores' => $validator->errors(),
                 'input' => $request->all(),
             ]);
@@ -114,7 +101,7 @@ class PrimeraConsultaController extends Controller
         $validatedData['proceso_gestativo_id'] = $procesoGestativo->id;
     
         // Crear el registro de LaboratorioITrimestre
-        $laboratorio = LaboratorioITrimestre::create($validatedData);
+        $primeraConsulta = PrimeraConsulta::create($validatedData);
     
         // Crear el registro de ConsultasUsuario
         ConsultasUsuario::create([

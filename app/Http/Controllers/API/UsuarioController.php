@@ -95,7 +95,7 @@ class UsuarioController extends Controller
                 // Crear el User asociado
                 $user = new User();
                 $user->name = $usuario->nom_usuario . ' ' . $usuario->ape_usuario;
-                $user->documento = $usuario->cel_usuario;
+                $user->documento = $usuario->documento_usuario;
                 $user->password = bcrypt($contrasenaGenerada); // Usa la contraseña generada
                 $user->rol_id = 4; // Asignar el rol de Usuario
     
