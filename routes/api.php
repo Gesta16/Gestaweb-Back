@@ -357,3 +357,4 @@ Route::delete('/tamizaciones-neonatales/{id}', [TamizacionNeonatalController::cl
 
 /* RUTAS DE REPORTES */
 Route::get('/usuarios-filtrados', [ReportesController::class, 'getUsuariosFiltrados']);
+Route::post('/export-usuarios', [ReportesController::class, 'exportUsuariosFiltrados']);
