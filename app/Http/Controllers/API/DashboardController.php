@@ -9,6 +9,8 @@ use App\Models\Ips;
 use App\Models\Admin;
 use App\Models\Operador;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -44,7 +46,7 @@ class DashboardController extends Controller
             ], 200);
 
         } catch (\Exception $e) {
-            \Log::error('Error al recuperar las consultas del usuario:', [
+            Log::error('Error al recuperar las consultas del usuario:', [
                 'mensaje' => $e->getMessage(),
                 'id_usuario' => $idUsuario, 
             ]);
@@ -102,7 +104,7 @@ class DashboardController extends Controller
             ], 401);
         }
 
-        $conteoPorIps = Usuario::select('usuario.cod_ips', 'ips.nom_ips', \DB::raw('count(*) as total'))
+        $conteoPorIps = Usuario::select('usuario.cod_ips', 'ips.nom_ips', DB::raw('count(*) as total'))
             ->join('ips', 'usuario.cod_ips', '=', 'ips.cod_ips') 
             ->groupBy('usuario.cod_ips', 'ips.nom_ips')
             ->get();

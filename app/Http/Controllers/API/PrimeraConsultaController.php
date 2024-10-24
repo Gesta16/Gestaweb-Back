@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PrimeraConsulta;
 use App\Models\ConsultasUsuario;
 use App\Models\ProcesoGestativo;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class PrimeraConsultaController extends Controller
@@ -42,7 +43,7 @@ class PrimeraConsultaController extends Controller
             ], 401); 
         }
     
-        \Log::info('Datos de entrada:', $request->all());
+        Log::info('Datos de entrada:', $request->all());
     
 
         $validator = Validator::make($request->all(), [
@@ -69,7 +70,7 @@ class PrimeraConsultaController extends Controller
         ]);
     
         if ($validator->fails()) {
-            \Log::error('Error al crear el registro:', [
+            Log::error('Error al crear el registro:', [
                 'errores' => $validator->errors(),
                 'input' => $request->all(),
             ]);
@@ -112,7 +113,7 @@ class PrimeraConsultaController extends Controller
     
         return response()->json([
             'estado' => 'Ok',
-            'data' => $laboratorio
+            'data' => $primeraConsulta
         ], 201);
     }
     
