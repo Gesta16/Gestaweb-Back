@@ -14,7 +14,16 @@ class CreateRutaPYMSTable extends Migration
     public function up()
 {
     Schema::create('_ruta__p_y_m_s', function (Blueprint $table) {
-        $table->integer('cod_ruta')->primary(); // Clave primaria
+        $table->id('cod_ruta'); // Clave primaria
+
+        $table->unsignedBigInteger('id_operador');
+        $table->foreign('id_operador')->references('id_operador')->on('operador');
+
+        $table->unsignedBigInteger('id_usuario');
+        $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
+
+        $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
+
 
         // Campos adicionales
         $table->date('fec_bcg');               // Fecha de vacunación BCG

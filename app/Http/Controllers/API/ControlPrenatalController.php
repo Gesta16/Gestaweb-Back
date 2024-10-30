@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ControlPrenatal;
+use App\Models\ConsultasUsuario;
+use App\Models\ProcesoGestativo;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ControlPrenatalController extends Controller
@@ -14,53 +16,106 @@ class ControlPrenatalController extends Controller
         $controles = ControlPrenatal::all();
         return response()->json([
             'estado' => 'Ok',
-            'Controles' => $controles
+            'controles' => $controles
         ], 200); 
     }
 
     public function store(Request $request)
-    {
-        try {
-            $validatedData = $request->validate([
-                'cod_control' => 'required|integer|unique:control_prenatal,cod_control',
-                'id_operador' => 'required|integer|exists:operador,id_operador',
-                'id_usuario' => 'required|integer|exists:usuario,id_usuario',
-                'cod_fracaso' => 'required|integer|exists:metodo_fracaso,cod_fracaso',
-                'edad_gestacional' => 'required|numeric',
-                'trim_ingreso' => 'required|string|max:255',
-                'fec_mestruacion' => 'required|date',
-                'fec_parto' => 'required|date',
-                'emb_planeado' => 'required|boolean',
-                'fec_anticonceptivo' => 'required|boolean',
-                'fec_consulta' => 'required|date',
-                'fec_control' => 'required|date',
-                'ries_reproductivo' => 'required|string|max:255',
-                'fac_asesoria' => 'required|date',
-                'usu_solicito' => 'required|boolean',
-                'fec_terminacion' => 'required|date',
-                'per_intergenesico' => 'required|boolean',
-            ]);
-
-            $control = ControlPrenatal::create($validatedData);
-
-            return response()->json([
-                'estado' => 'Ok',
-                'mensaje' => 'Control prenatal creado correctamente',
-                'data' => $control
-            ], 201); 
-        } catch (\Exception $e) {
+{
+    try {
+        if (!auth()->check()) {
             return response()->json([
                 'estado' => 'Error',
-                'mensaje' => 'Error al crear el control prenatal',
-                'error' => $e->getMessage()
-            ], 500); 
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401); 
         }
-    }
 
-    public function show($cod_control)
+        \Log::info('Datos de entrada:', $request->all());
+
+        $validatedData = $request->validate([
+            'id_usuario' => 'required|integer|exists:usuario,id_usuario',
+            'cod_fracaso' => 'required|integer|exists:metodo_fracaso,cod_fracaso',
+            'edad_gestacional' => 'required|numeric',
+            'trim_ingreso' => 'required|string|max:255',
+            'fec_mestruacion' => 'required|date',
+            'fec_parto' => 'required|date',
+            'emb_planeado' => 'required|boolean',
+            'fec_anticonceptivo' => 'required|boolean',
+            'fec_consulta' => 'required|date',
+            'fec_control' => 'required|date',
+            'ries_reproductivo' => 'required|string|max:255',
+            'fac_asesoria' => 'required|date',
+            'usu_solicito' => 'required|boolean',
+            'fec_terminacion' => 'required|date',
+            'per_intergenesico' => 'required|boolean',
+            'num_proceso'=>'required|integer|'
+        ]);
+
+        $validatedData['id_operador'] = auth()->user()->userable_id;
+
+         $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])
+                                ->where('num_proceso', $validatedData['num_proceso'])
+                                ->where('estado', 1)
+                                ->first();
+    
+        if (!$procesoGestativo) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'No se encontró el proceso gestativo para el usuario proporcionado.'
+            ], 404);
+        }
+    
+        $validatedData['proceso_gestativo_id'] = $procesoGestativo->id; 
+        
+        $control = ControlPrenatal::create($validatedData);
+
+        ConsultasUsuario::create([
+            'id_usuario' => $validatedData['id_usuario'],
+            'fecha' => now(), 
+            'nombre_consulta' => 'Control Prenatal', 
+        ]);
+
+
+        return response()->json([
+            'estado' => 'Ok',
+            'mensaje' => 'Control prenatal creado correctamente',
+            'data' => $control
+        ], 201);
+    } catch (\Exception $e) {
+        \Log::error('Error al crear control prenatal:', [
+            'mensaje' => $e->getMessage(),
+            'input' => $request->all(), // Captura los datos que causaron el error
+        ]);
+
+        return response()->json([
+            'estado' => 'Error',
+            'mensaje' => 'Error al crear el control prenatal',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+    
+
+    public function show($id_usuario,$num_proceso)
     {
         try {
-            $control = ControlPrenatal::findOrFail($cod_control);
+
+            $procesoGestativo = ProcesoGestativo::where('id_usuario', $id_usuario)
+                                ->where('num_proceso', $num_proceso)
+                                ->first();
+    
+            if (!$procesoGestativo) {
+                return response()->json([
+                    'estado' => 'Error',
+                    'mensaje' => 'No se encontró el proceso gestativo para el usuario proporcionado.'
+                ], 404);
+            }      
+
+            $control = ControlPrenatal::where('id_usuario', $id_usuario)
+                                        ->where('proceso_gestativo_id',$procesoGestativo->id)
+                                        ->firstOrFail();
+
             return response()->json([
                 'estado' => 'Ok',
                 'Control' => $control
@@ -76,6 +131,14 @@ class ControlPrenatalController extends Controller
     public function update(Request $request, $cod_control)
     {
         try {
+
+            if (!auth()->check()) {
+                return response()->json([
+                    'estado' => 'Error',
+                    'mensaje' => 'Debes estar autenticado para realizar esta acción'
+                ], 401); // 401 Unauthorized
+            }
+
             $validatedData = $request->validate([
                 'id_operador' => 'integer|exists:operador,id_operador',
                 'id_usuario' => 'integer|exists:usuario,id_usuario',
@@ -94,10 +157,21 @@ class ControlPrenatalController extends Controller
                 'fec_terminacion' => 'date',
                 'per_intergenesico' => 'boolean',
             ]);
-
-            $control = ControlPrenatal::findOrFail($cod_control);
+    
+            if (!isset($validatedData['id_usuario'])) {
+                return response()->json([
+                    'estado' => 'Error',
+                    'mensaje' => 'El campo id_usuario es requerido'
+                ], 400); // Bad request
+            }
+    
+            $control = ControlPrenatal::where('cod_control', $cod_control)
+                ->where('id_usuario', $validatedData['id_usuario'])
+                ->firstOrFail();
+    
+            // Actualizar el registro
             $control->update($validatedData);
-
+    
             return response()->json([
                 'estado' => 'Ok',
                 'mensaje' => 'Control prenatal actualizado correctamente',
@@ -116,6 +190,7 @@ class ControlPrenatalController extends Controller
             ], 500); 
         }
     }
+    
 
     public function destroy($cod_control)
     {

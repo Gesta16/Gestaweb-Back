@@ -25,6 +25,8 @@ class CreateControlPrenatalTable extends Migration
             $table->unsignedBigInteger('cod_fracaso');
             $table->foreign('cod_fracaso')->references('cod_fracaso')->on('metodo_fracaso');
 
+            $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
+
             $table->decimal('edad_gestacional', 4, 1);
             $table->string('trim_ingreso');
             $table->date('fec_mestruacion');
@@ -39,7 +41,7 @@ class CreateControlPrenatalTable extends Migration
             $table->date('fec_terminacion');
             $table->boolean('per_intergenesico');
 
-            //$table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

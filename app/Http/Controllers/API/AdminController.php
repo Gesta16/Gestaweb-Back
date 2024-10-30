@@ -103,7 +103,7 @@ class AdminController extends Controller
                 $Admin->user()->save($user);
     
                 // Enviar el correo solo si todo lo anterior fue exitoso
-                Mail::to($Admin->email_admin)->send(new WelcomeSuperAdminMail($Admin, $contrasenaGenerada));
+                //Mail::to($Admin->email_admin)->send(new WelcomeSuperAdminMail($Admin, $contrasenaGenerada));
             }
     
             // Si todo fue bien, confirmamos la transacción

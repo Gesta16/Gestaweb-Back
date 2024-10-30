@@ -18,4 +18,9 @@ class Antibiograma extends Model
     public $timestamps = false;
 
     protected $fillable = ['nom_antibiograma'];
+
+    public function laboratorios()
+    {
+        return $this->hasMany(LaboratorioITrimestre::class, 'cod_antibiograma', 'cod_antibiograma');
+    }
 }

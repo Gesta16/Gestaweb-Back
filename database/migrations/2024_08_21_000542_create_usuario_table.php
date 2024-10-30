@@ -27,6 +27,7 @@ class CreateUsuarioTable extends Migration
 
             $table->unsignedBigInteger('cod_documento');
             $table->foreign('cod_documento')->references('cod_documento')->on('tipo_de_documento');
+            $table->string('documento_usuario')->unique();
 
             $table->unsignedBigInteger('cod_poblacion');
             $table->foreign('cod_poblacion')->references('cod_poblacion')->on('poblacion_diferencial');
@@ -37,10 +38,11 @@ class CreateUsuarioTable extends Migration
             $table->string('ape_usuario');
             $table->date('fec_nacimiento');
             $table->integer('edad_usuario');
-            $table->integer('tel_usuario')->unique();
-            $table->integer('cel_usuario')->unique();
+            $table->string('tel_usuario')->unique();
+            $table->string('cel_usuario')->unique();
             $table->string('dir_usuario');
             $table->string('email_usuario')->unique();
+            $table->integer('num_proceso')->default(1);
 
 
             //$table->timestamps();

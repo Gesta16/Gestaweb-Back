@@ -19,7 +19,7 @@ class TipoDmController extends Controller
 
         return [
             'estado'=>'Ok',
-            'Tipo DM'=>$TipoDm
+            'tipos'=>$TipoDm
         ];     
     }
 
@@ -47,7 +47,7 @@ class TipoDmController extends Controller
         if ($TipoDm) {
             return response()->json([
                 'estado' => 'Ok',
-                'Tipo Dm' => $TipoDm
+                'tipo' => $TipoDm
             ], 200);
         } else {
             return response()->json([

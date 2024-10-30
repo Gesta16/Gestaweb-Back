@@ -17,5 +17,8 @@ class MortalidadPerinatal extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['cla_muerte'];
+    protected $fillable = [
+        'cla_muerte',
+
+    ];
 }

@@ -19,7 +19,7 @@ class DiagnosticoNutricionalMesController extends Controller
 
         return [
             'estado'=>'Ok',
-            'diagnostico nutricional mes'=>$DiagnosticoNutricionalMes
+            'diagnostico'=>$DiagnosticoNutricionalMes
         ];  
     }
 

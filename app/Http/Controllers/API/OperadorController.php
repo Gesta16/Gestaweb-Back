@@ -94,18 +94,20 @@ class OperadorController extends Controller
             $operador->documento_operador = $request->documento_operador;
     
             if ($operador->save()) {
-                // Crear el User asociado
+
+                $contrasenaGenerada = $this->generarContrasena($operador->nom_operador, $operador->ape_operador);
+
                 $user = new User();
                 $user->name = $operador->nom_operador . ' ' . $operador->ape_operador;
                 $user->documento = $operador->documento_operador;
-                $user->password = bcrypt('password'); // Genera una contraseña temporal o personalizada
+                $user->password = bcrypt($contrasenaGenerada); 
                 $user->rol_id = 3; // Asignar el rol de operador
     
                 // Asociar el operador al User
                 $operador->user()->save($user);
     
                 // Enviar un correo de bienvenida (opcional)
-                // Mail::to($operador->email_operador)->send(new WelcomeOperadorMail($operador, $user->password));
+                 //Mail::to($operador->email_operador)->send(new WelcomeSuperAdminMail($operador->documento_operador,  $contrasenaGenerada));
             }
     
             // Si todo salió bien, confirmar la transacción
@@ -124,6 +126,21 @@ class OperadorController extends Controller
                 'exception_file' => $e->getFile(),
             ], 500);
         }
+
+    }
+
+    function generarContrasena($nombre, $apellido)
+    {
+        // Obtener las iniciales del nombre y apellido
+        $inicialNombre = strtoupper(substr($nombre, 0, 4)); // Primera letra del nombre en mayúscula
+
+        // Generar un número aleatorio de 4 dígitos
+        $numeroAleatorio = rand(1000, 9999);
+
+        // Combinar las iniciales y el número aleatorio
+        $contrasena = $inicialNombre  . $numeroAleatorio;
+
+        return $contrasena;
     }
 
     /**

@@ -14,7 +14,7 @@ class CreatePrimeraConsultaTable extends Migration
     public function up()
     {
         Schema::create('primera_consulta', function (Blueprint $table) {
-            $table->integer('cod_consulta')->primary();
+            $table->id('cod_consulta');
 
             $table->unsignedBigInteger('id_operador');
             $table->foreign('id_operador')->references('id_operador')->on('operador');
@@ -27,6 +27,8 @@ class CreatePrimeraConsultaTable extends Migration
 
             $table->unsignedBigInteger('cod_dm');
             $table->foreign('cod_dm')->references('cod_dm')->on('tipo_dm');
+
+            $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
 
             $table->integer('peso_previo');
             $table->decimal('tal_consulta', 8, 2);
@@ -43,8 +45,9 @@ class CreatePrimeraConsultaTable extends Migration
             $table->integer('for_aborto');
             $table->date('fec_lactancia');
             $table->date('fec_consejeria');
+            $table->timestamp('created_at')->useCurrent();
 
-            //$table->timestamps();
+
         });
     }
 

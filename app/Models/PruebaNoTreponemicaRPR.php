@@ -17,4 +17,9 @@ class PruebaNoTreponemicaRPR extends Model
     public $timestamps = false;
 
     protected $fillable = ['num_rpr'];
+
+    public function its()
+    {
+        return $this->hasMany(Its::class, 'cod_rpr', 'cod_rpr');
+    }
 }

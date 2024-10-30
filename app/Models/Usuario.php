@@ -22,6 +22,7 @@ class Usuario extends Model
         'cod_municipio',
         'cod_ips',
         'cod_documento',
+        'documento_usuario',
         'cod_poblacion',
         'fec_diag_usuario',
         'fec_ingreso',
@@ -46,5 +47,40 @@ class Usuario extends Model
     public function controlesPrenatales()
     {
         return $this->hasMany(ControlPrenatal::class, 'id_usuario', 'id_usuario');
+    }
+
+    public function primeraConsultas()
+    {
+        return $this->hasMany(PrimeraConsulta::class, 'id_usuario');
+    }
+
+    public function vacunaciones()
+    {
+        return $this->hasMany(Vacunacion::class, 'id_usuario');
+    }
+
+    public function laboratorios()
+    {
+        return $this->hasMany(LaboratorioITrimestre::class, 'id_usuario', 'id_usuario');
+    }
+
+    public function laboratorios2()
+    {
+        return $this->hasMany(LaboratorioIITrimestre::class, 'id_usuario', 'id_usuario');
+    }
+
+    public function its()
+    {
+        return $this->hasMany(Its::class, 'id_usuario', 'id_usuario');
+    }
+
+    public function seguimientos()
+    {
+        return $this->hasMany(SeguimientoConsultaMensual::class, 'id_usuario');
+    }
+
+    public function procesosGestativos()
+    {
+        return $this->hasMany(ProcesoGestativo::class, 'id_usuario');
     }
 }

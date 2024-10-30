@@ -18,4 +18,14 @@ class Riesgo extends Model
     public $timestamps = false;
 
     protected $fillable = ['nom_riesgo'];
+
+    public function primeraConsultas()
+    {
+        return $this->hasMany(PrimeraConsulta::class, 'cod_riesgo');
+    }
+
+    public function seguimientos()
+    {
+        return $this->hasMany(SeguimientoConsultaMensual::class, 'cod_riesgo');
+    }
 }

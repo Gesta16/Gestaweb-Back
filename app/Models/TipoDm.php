@@ -18,4 +18,9 @@ class TipoDm extends Model
     public $timestamps = false;
 
     protected $fillable = ['tip_dm'];
+
+    public function primeraConsultas()
+    {
+        return $this->hasMany(PrimeraConsulta::class, 'cod_dm');
+    }
 }

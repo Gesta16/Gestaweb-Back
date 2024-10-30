@@ -18,4 +18,9 @@ class FormaMedicionEdadGestacional extends Model
     public $timestamps = false;
 
     protected $fillable = ['nom_forma'];
+
+    public function seguimientos()
+    {
+        return $this->hasMany(SeguimientoConsultaMensual::class, 'cod_medicion');
+    }
 }

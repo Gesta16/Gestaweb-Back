@@ -33,7 +33,8 @@ class ControlPrenatal extends Model
         'fac_asesoria',
         'usu_solicito',
         'fec_terminacion',
-        'per_intergenesico'
+        'per_intergenesico',
+        'proceso_gestativo_id'
     ];
 
     // Relaciones con otras tablas

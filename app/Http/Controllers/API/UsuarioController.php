@@ -5,9 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Mail\WelcomeSuperAdminMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
+use App\Models\ProcesoGestativo;
 use App\Models\User;
 
 class UsuarioController extends Controller
@@ -26,7 +28,6 @@ class UsuarioController extends Controller
             'usuarios' => $usuarios
         ], 200);
     }
-
 
 
     /**
@@ -66,14 +67,7 @@ class UsuarioController extends Controller
                     'error' => 'No autorizado. Debes estar autenticado para crear un usuario.'  
                 ], 401);
             }
-    
-            // Verificar si el usuario autenticado es un Operador
-            if ($authUser->rol_id !== 3) {
-                return response()->json([
-                    'error' => 'No autorizado. Solo un Operador puede crear un usuario.'
-                ], 403);
-            }
-    
+            
             // Crear el Usuario
             $usuario = new Usuario();
             $usuario->id_usuario = $request->id_usuario;
@@ -86,9 +80,9 @@ class UsuarioController extends Controller
             $usuario->fec_nacimiento = $request->fec_nacimiento;
             $usuario->edad_usuario = $request->edad_usuario;
             $usuario->cod_documento = $request->cod_documento;
+            $usuario->documento_usuario = $request->documento_usuario;
             $usuario->fec_diag_usuario = $request->fec_diag_usuario;
             $usuario->fec_ingreso = $request->fec_ingreso;
-            $usuario->cod_depxips = $request->cod_depxips;
             $usuario->cod_departamento = $request->cod_departamento;
             $usuario->cod_municipio = $request->cod_municipio;
             $usuario->cod_ips = $request->cod_ips;
@@ -101,7 +95,7 @@ class UsuarioController extends Controller
                 // Crear el User asociado
                 $user = new User();
                 $user->name = $usuario->nom_usuario . ' ' . $usuario->ape_usuario;
-                $user->documento = $usuario->cel_usuario;
+                $user->documento = $usuario->documento_usuario;
                 $user->password = bcrypt($contrasenaGenerada); // Usa la contraseña generada
                 $user->rol_id = 4; // Asignar el rol de Usuario
     
@@ -128,6 +122,68 @@ class UsuarioController extends Controller
         }
     }
     
+    public function crearProcesoGestativo(Request $request, $usuarioId)
+    {
+        $authUser = Auth::user();
+    
+        if (!$authUser) {
+            return response()->json([
+                'error' => 'No autorizado. Debes estar autenticado.'  
+            ], 401);
+        }
+    
+        $usuario = Usuario::findOrFail($usuarioId);
+    
+        $procesoExistente = $usuario->procesosGestativos()
+            ->where('estado', '!=', 0)
+            ->exists(); 
+    
+        if ($procesoExistente) {
+            return response()->json([
+                'error' => 'No se puede crear otro registro. Existen procesos gestativos anteriores que no están en estado 0.'
+            ], 400); 
+        }
+    
+        $numProceso = $usuario->procesosGestativos()->count();
+    
+        if ($numProceso == 0) {
+            $numProceso = 1; 
+        } else {
+            $numProceso = $usuario->procesosGestativos()->max('num_proceso') + 1;
+        }
+    
+        $procesoGestativo = new ProcesoGestativo();
+        $procesoGestativo->id_usuario = $usuarioId;
+        $procesoGestativo->estado = true;
+        $procesoGestativo->num_proceso = $numProceso;
+        $procesoGestativo->save();
+    
+        return response()->json([
+            'message' => 'Proceso gestativo creado con éxito.',
+            'proceso_gestativo' => $procesoGestativo,
+        ], 201);
+    }
+    
+
+    public function contarProcesosGestativos($usuarioId)
+    {
+        $authUser = Auth::user();
+
+        if (!$authUser) {
+            return response()->json([
+                'error' => 'No autorizado. Debes estar autenticado.'  
+            ], 401);
+        }
+
+        $usuario = Usuario::findOrFail($usuarioId);
+
+        $numeroDeProcesos = $usuario->procesosGestativos()->count();
+
+        return response()->json([
+            'usuario_id' => $usuario->id,
+            'numero_de_procesos_gestativos' => $numeroDeProcesos,
+        ], 200);
+    }
 
     function generarContrasena($nombre, $apellido)
     {
@@ -165,16 +221,7 @@ class UsuarioController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    
 
     /**
      * Update the specified resource in storage.
@@ -185,10 +232,28 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         try {
+
+            $authUser = Auth::user();
+    
+            if (!$authUser) {
+                return response()->json([
+                    'error' => 'No autorizado. Debes estar autenticado para crear un usuario.'  
+                ], 401);
+            }
+    
+            // Verificar si el usuario autenticado es un Operador
+            if ($authUser->rol_id !== 1 && $authUser->rol_id !== 3) {
+                return response()->json([
+                    'error' => 'No autorizado. Solo un Operador (rol 3) o Administrador (rol 1) puede crear un usuario.'
+                ], 403);
+            }
+            
             $usuario = Usuario::find($id);
 
             if ($usuario) {
+                $usuario->id_usuario = $request->id_usuario;
                 $usuario->nom_usuario = $request->nom_usuario;
                 $usuario->ape_usuario = $request->ape_usuario;
                 $usuario->email_usuario = $request->email_usuario;
@@ -198,9 +263,9 @@ class UsuarioController extends Controller
                 $usuario->fec_nacimiento = $request->fec_nacimiento;
                 $usuario->edad_usuario = $request->edad_usuario;
                 $usuario->cod_documento = $request->cod_documento;
+                $usuario->documento_usuario = $request->documento_usuario;
                 $usuario->fec_diag_usuario = $request->fec_diag_usuario;
                 $usuario->fec_ingreso = $request->fec_ingreso;
-                $usuario->cod_depxips = $request->cod_depxips;
                 $usuario->cod_departamento = $request->cod_departamento;
                 $usuario->cod_municipio = $request->cod_municipio;
                 $usuario->cod_ips = $request->cod_ips;

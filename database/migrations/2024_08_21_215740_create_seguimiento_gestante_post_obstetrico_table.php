@@ -14,11 +14,18 @@ class CreateSeguimientoGestantePostObstetricoTable extends Migration
     public function up()
 {
     Schema::create('seguimiento_gestante_post_obstetrico', function (Blueprint $table) {
-        $table->integer('cod_evento')->primary(); // Clave primaria
+        $table->id('cod_evento');// Clave primaria
         
         // Clave foránea
+        $table->unsignedBigInteger('id_operador');
+        $table->foreign('id_operador')->references('id_operador')->on('operador');
+
+        $table->unsignedBigInteger('id_usuario');
+        $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
         $table->unsignedBigInteger('cod_metodo'); // FK a la tabla de métodos anticonceptivos
         
+        $table->foreignId('proceso_gest_id')->constrained('procesos_gestativos');
+
         // Campos adicionales
         $table->string('con_egreso');           // Condición al egreso tras el parto o aborto (Vivo, Muerto)
         $table->date('fec_fallecimiento')->nullable(); // Fecha del fallecimiento

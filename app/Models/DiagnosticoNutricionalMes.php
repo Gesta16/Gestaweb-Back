@@ -18,4 +18,9 @@ class DiagnosticoNutricionalMes extends Model
     public $timestamps = false;
 
     protected $fillable = ['nom_diagnostico'];
+
+    public function seguimientos()
+    {
+        return $this->hasMany(SeguimientoConsultaMensual::class, 'cod_diagnostico');
+    }
 }

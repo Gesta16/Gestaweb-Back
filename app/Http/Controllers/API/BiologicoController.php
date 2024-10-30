@@ -19,7 +19,7 @@ class BiologicoController extends Controller
 
         return [
             'estado'=>'Ok',
-            'Biologico'=>$Biologico
+            'biologico'=>$Biologico
         ];
     }
 

@@ -16,6 +16,15 @@ class CreateLaboratorioIiiTrimestreTable extends Migration
         Schema::create('laboratorio_iii_trimestre', function (Blueprint $table) {
             $table->id('cod_treslaboratorio'); // Primary Key
             
+            $table->unsignedBigInteger('id_operador');
+            $table->foreign('id_operador')->references('id_operador')->on('operador');
+
+            $table->unsignedBigInteger('id_usuario');
+            $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
+            
+            $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
+
+
             // Hemograma
             $table->string('hemograma');
             $table->date('fec_hemograma');
@@ -44,6 +53,9 @@ class CreateLaboratorioIiiTrimestreTable extends Migration
             
             // Riesgo biopsicosocial escala de Herrera y Hurtado
             $table->string('rie_biopsicosocial');
+
+            $table->timestamp('created_at')->useCurrent();
+
         });
     }
 

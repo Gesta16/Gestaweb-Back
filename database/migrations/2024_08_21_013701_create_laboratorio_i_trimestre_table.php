@@ -14,7 +14,7 @@ class CreateLaboratorioITrimestreTable extends Migration
     public function up()
     {
         Schema::create('laboratorio_i_trimestre', function (Blueprint $table) {
-            $table->integer('cod_laboratorio')->primary();
+            $table->id('cod_laboratorio');
 
             $table->unsignedBigInteger('id_operador');
             $table->foreign('id_operador')->references('id_operador')->on('operador');
@@ -27,6 +27,8 @@ class CreateLaboratorioITrimestreTable extends Migration
 
             $table->unsignedBigInteger('cod_antibiograma');
             $table->foreign('cod_antibiograma')->references('cod_antibiograma')->on('antibiograma');
+
+            $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
 
             $table->date('fec_hemoclasificacion');
             $table->string('hem_laboratorio');
@@ -57,6 +59,9 @@ class CreateLaboratorioITrimestreTable extends Migration
             $table->date('fec_ecografia');
             $table->decimal('eda_gestacional', 8, 2);
             $table->string('rie_biopsicosocial');
+
+            $table->timestamp('created_at')->useCurrent();
+
 
             //$table->timestamps();
         });
