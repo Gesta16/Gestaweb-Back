@@ -106,7 +106,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DEL TIPO DOCUMENTO */
-Route::middleware(["api:auth", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
     Route::apiResource("documento", TipoDocumentoController::class);
 });
 
