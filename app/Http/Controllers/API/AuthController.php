@@ -13,57 +13,9 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // public function login(Request $request)
-    // {
-    //     $request->validate([
-    //         'documento' => 'required',
-    //     ]);
-
-    //     $documento = $request->input('documento');
-
-    //     // Buscar al SuperAdmin por el documento
-    //     $superAdmin = SuperAdmin::where('documento_superadmin', $documento)->first();
-
-    //     // Si no se encuentra un SuperAdmin, buscar un Admin
-    //     if (!$superAdmin) {
-    //         $admin = Admin::where('documento_admin', $documento)->first();
-
-    //         if (!$admin) {
-    //             return response()->json([
-    //                 'message' => 'Unauthorized'
-    //             ], 401);
-    //         }
-
-    //         // Obtener el usuario asociado al Admin
-    //         $user = $admin->user;
-    //         $relatedModel = $admin;
-    //     } else {
-    //         // Obtener el usuario asociado al SuperAdmin
-    //         $user = $superAdmin->user;
-    //         $relatedModel = $superAdmin;
-    //     }
-
-    //     if (!$user) {
-    //         return response()->json([
-    //             'message' => 'Unauthorized'
-    //         ], 401);
-    //     } 
-
-    //     // Crear un token para el usuario
-    //     $tokenResult = $user->createToken('Personal Access Token');
-    //     $token = $tokenResult->accessToken;
-
-    //     return response()->json([
-    //         'user' => $user,
-    //         'related_model' => $relatedModel,
-    //         'access_token' => $token,
-    //         'token_type' => 'Bearer',
-    //         'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString()
-    //     ]);
-    // }
-
-    public function login(Request $request)
+     public function login(Request $request)
     {
+        // Validar las credenciales proporcionadas
         $request->validate([
             'documento' => 'required',
             'password' => 'required',
@@ -75,32 +27,46 @@ class AuthController extends Controller
         // Buscar el usuario por documento
         $user = User::where('documento', $documento)->first();
 
-        if (!$user || !Hash::check($password, $user->password)) {
-             return response()->json([
-                'message' => 'Unauthorized'
-             ], 401);
-         }
-
-         //Obtener el modelo relacionado mediante la relación polimórfica
-        $relatedModel = $user->userable;
-
-        if (!$relatedModel) {
+        // Si no se encuentra el usuario
+        if (!$user) {
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'El documento proporcionado no coincide con ningún usuario registrado.',
+            ], 404);
+        }
+
+        // Verificar si la contraseña es incorrecta
+        if (!Hash::check($password, $user->password)) {
+            return response()->json([
+                'message' => 'La contraseña es incorrecta.',
             ], 401);
         }
 
-        // Crear un token para el usuario
-        $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->accessToken;
+        // Verificar si tiene un modelo relacionado (polimórfico)
+        $relatedModel = $user->userable;
+        if (!$relatedModel) {
+            return response()->json([
+                'message' => 'Usuario no tiene un modelo relacionado válido.',
+            ], 401);
+        }
 
-        return response()->json([
-            'user' => $user,
-            'role' => $user->rol->nombre_rol,
-            'related_model' => $relatedModel,
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString()
-        ]);
+        // Si todas las validaciones pasan, generar el token de acceso
+        try {
+            $tokenResult = $user->createToken('Personal Access Token');
+            $token = $tokenResult->accessToken;
+
+            return response()->json([
+                'user' => $user,
+                'role' => $user->rol->nombre_rol,
+                'related_model' => $relatedModel,
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString()
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Ocurrió un error al generar el token de acceso. Intente nuevamente más tarde.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
