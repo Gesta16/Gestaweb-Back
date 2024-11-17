@@ -33,6 +33,10 @@ class CreateSeguimientosComplementariosTable extends Migration
         $table->date('fec_odontologia');     
         $table->string('ina_seguimiento');   
         $table->string('cau_inasistencia');  
+        $table->boolean('asistio_nutricionista');
+        $table->boolean('asistio_ginecologia');
+        $table->boolean('asistio_psicologia');
+        $table->boolean('asistio_odontologia');
 
         // Definir la relación
         $table->foreign('cod_sesiones')->references('cod_sesiones')->on('num_sesiones_curso_paternidad_maternidad');

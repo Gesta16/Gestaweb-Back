@@ -59,7 +59,14 @@ class CreateLaboratorioITrimestreTable extends Migration
             $table->date('fec_ecografia');
             $table->decimal('eda_gestacional', 8, 2);
             $table->string('rie_biopsicosocial');
-
+            $table->boolean('real_prueb_rapi_vih');//Realizó la prueba rápida VIH
+            $table->boolean('reali_prueb_trepo_rapid_sifilis');//Realizó la prueba treponémica rápida sífilis
+            $table->boolean('realizo_urocultivo');
+            $table->boolean('realizo_antibiograma');
+            $table->boolean('real_prueb_eliza_anti_total');//Realizó la prueba de elisa antígenos totales
+            $table->boolean('real_prueb_eliza_anti_recomb');//Realizó la prueba de elisa antígenos recombinante
+            $table->boolean('real_prueb_coombis_indi_cuanti');//Realizó la prueba de Coombis indirecto cuantitativo
+            $table->boolean('real_eco_obste_tamizaje');//Realizó la ecografía obstétrica tamizaje
             $table->timestamp('created_at')->useCurrent();
 
 

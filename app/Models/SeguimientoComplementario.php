@@ -27,7 +27,11 @@ class SeguimientoComplementario extends Model
         'fec_odontologia',
         'ina_seguimiento',
         'cau_inasistencia',
-        'proceso_gestativo_id'
+        'proceso_gestativo_id',
+        'asis_nutricionista',
+        'asis_ginecologia',
+        'asis_psicologia',
+        'aisis_odontologia'
     ];
 
     

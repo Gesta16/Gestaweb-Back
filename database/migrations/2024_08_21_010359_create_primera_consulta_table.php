@@ -46,8 +46,8 @@ class CreatePrimeraConsultaTable extends Migration
             $table->date('fec_lactancia');
             $table->date('fec_consejeria');
             $table->timestamp('created_at')->useCurrent();
-
-
+            $table->boolean('asis_conse_lactancia');//Asistió a la consejería lactancia materna
+            $table->boolean('asis_conse_pre_vih');//Asistió a la consejería pretest VIH
         });
     }
 

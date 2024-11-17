@@ -177,7 +177,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 
 /** RUTAS DE SESIONES CURSO PATERNIDAD Y MATERNIDAD */
 Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
-    Route::apiResource("sesiones-curso-paternidad-maternidad", NumSesionesCursoPaternidadMaternidadController::class);
+    Route::apiResource("sesiones-cpm", NumSesionesCursoPaternidadMaternidadController::class);
 });
 
 /** RUTAS DE TERMINACION GESTACION */
@@ -195,9 +195,9 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
     Route::apiResource("mortalidad-perinatal", MortalidadPerinatalController::class);
 });
 
-/** RUTAS DE MORTALIDAD PERINATAL */
+/** RUTAS DE MORTALIDAD PERINATAL */ //PENDIENTE DE REVISAR SI SE ESTA UTILIZANDO
 Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
-    Route::apiResource("prueba-no-treponemica-recien-nacido", PruebaNoTreponemicaRecienNacidoController::class);
+    Route::apiResource("prueba-ptrn", PruebaNoTreponemicaRecienNacidoController::class);
 });
 
 /** RUTAS DE MUNICIPIO */

@@ -41,7 +41,16 @@ class LaboratorioIITrimestre extends Model
         'fec_ecografia',
         'eda_gestacional',
         'rie_biopsicosocial',
-        'proceso_gestativo_id'
+        'proceso_gestativo_id',
+        'reali_prueb_rapi_vih',
+        'reali_prueb_trepo_rap_sifilis',
+        'reali_citologia',
+        'reali_prueb_avidez_igg',
+        'reali_prueb_toxopla_iga',
+        'reali_prueb_hemoparasito',
+        'reali_prueb_coombis_indi_cuanti',
+        'reali_eco_obste_deta_anatomico'
+        
     ];
 
     public function operador()

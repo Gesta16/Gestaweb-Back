@@ -35,6 +35,10 @@ class CreateTamizacionNeonatalTable extends Migration
             $table->string('tamiza_aud');
             $table->string('tamiza_cardi');
             $table->string('tamiza_visual');
+            $table->boolean('reali_prueb_trepo_recien_nacido');//Se realizó la Prueba no treponémica recién nacido
+            $table->boolean('reali_tami_auditivo');///Se realizó el Tamizaje auditivo
+            $table->boolean('reali_tami_cardiopatia_congenita');//Se realizó el Tamizaje cardiopatías congénitas
+            $table->boolean('reali_tami_visual');//Se realizó el Tamizaje visual
         });
     }
 

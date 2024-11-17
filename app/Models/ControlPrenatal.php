@@ -34,7 +34,11 @@ class ControlPrenatal extends Model
         'usu_solicito',
         'fec_terminacion',
         'per_intergenesico',
-        'proceso_gestativo_id'
+        'proceso_gestativo_id',
+        'reci_aten_preconcepcional',
+        'asis_consul_control_aten_precon',
+        'asis_aseso_ive',
+        'tuvo_embarazos_antes'
     ];
 
     // Relaciones con otras tablas

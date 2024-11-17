@@ -10,7 +10,7 @@ class LaboratorioIIITrimestre extends Model
     use HasFactory;
 
     protected $table = 'laboratorio_iii_trimestre';
-    protected $primaryKey = 'cod_treslaboratorio'; 
+    protected $primaryKey = 'cod_treslaboratorio';
 
     public $timestamps = false;
 
@@ -30,7 +30,12 @@ class LaboratorioIIITrimestre extends Model
         'fec_biofisico',
         'edad_gestacional',
         'rie_biopsicosocial',
-        'proceso_gestativo_id'
+        'proceso_gestativo_id',
+        'reali_prueb_rapi_vih',
+        'reali_prueb_trepo_rap_sifilis',
+        'reali_prueb_igm_toxoplasma',
+        'reali_prueba_cul_rect_vagi',
+        'reali_prueb_perfil_biofisico',
     ];
 
     public function operador()

@@ -27,7 +27,10 @@ class LaboratorioInTraparto extends Model
         'fec_tratamiento',
         'pru_vih',
         'fec_vih',
-        'proceso_gestativo_id'
+        'proceso_gestativo_id',
+        'reali_prueb_trepo_rap_sifili',
+        'reali_prueb_no_trepo_vdrl_sifilis',
+        'reali_prueb_rapida_vih'
     ];
 
     

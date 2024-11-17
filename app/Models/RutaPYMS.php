@@ -23,6 +23,9 @@ class RutaPYMS extends Model
         'fec_hepatitis',
         'fec_seguimiento',
         'fec_entrega',
-        'proceso_gestativo_id'
+        'proceso_gestativo_id',
+        'aplico_vacuna_bcg',
+        'aplico_vacuna_hepatitis',
+        'reali_entrega_carnet',
     ];
 }

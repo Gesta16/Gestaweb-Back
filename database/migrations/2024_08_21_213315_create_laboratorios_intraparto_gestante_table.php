@@ -34,6 +34,9 @@ class CreateLaboratoriosIntrapartoGestanteTable extends Migration
         $table->date('fec_tratamiento');      // Fecha de inicio de tratamiento para sífilis intraparto
         $table->string('pru_vih');            // Prueba rápida VIH intraparto (positivo, negativo)
         $table->date('fec_vih');              // Fecha prueba rápida VIH intraparto
+        $table->boolean('reali_prueb_trepo_rapi_sifilis_intra');//Realizó la prueba treponémica rápida para sífilis intraparto
+        $table->boolean('reali_prueb_no_trepo_vdrl_sifilis_intra');//Realizó la prueba no treponémica (VDRL) para sífilis intraparto
+        $table->boolean('reali_prueb_rapi_vih');//Realizó la Prueba rápida VIH
 
         $table->foreign('cod_vdrl')->references('cod_vdrl')->on('prueba_no_treponemica__v_d_r_l');
     });

@@ -27,8 +27,10 @@ class Its extends Model
           'fec_rpr',
           'rec_tratamiento',
           'rec_pareja',
-          'proceso_gestativo_id'
-
+          'proceso_gestativo_id',
+          'reali_prueb_elisa_vih',
+          'reali_prueb_no_trepo_vdrl_sifilis',
+          'reali_prueb_no_trepo_rpr_sifilis',
       ];
   
   

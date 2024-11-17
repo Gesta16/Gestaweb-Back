@@ -31,7 +31,12 @@ class CreateVacunacionTable extends Migration
             $table->date('fec_influenza')->nullable();
             $table->date('fec_tetanico')->nullable();
             $table->date('fec_dpt')->nullable();
-            
+            $table->boolean('recib_prim_dosis_covid19');//Recibió la primera dosis covid 19
+            $table->boolean('recib_segu_dosis_covid19');//Recibió la segunda dosis covid 19
+            $table->boolean('recib_refu_covid19');//Recibió el refuerzo covid 19
+            $table->boolean('recib_dosis_influenza');//Recibió la dosis influenza
+            $table->boolean('recib_dosis_tox_tetanico');//Recibió la dosis toxoide tetánico
+            $table->boolean('recib_dosis_dpt_a_celular');//Recibió la dosis DPT a-celular
             //$table->timestamps();
         });
     }
