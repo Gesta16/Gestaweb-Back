@@ -21,12 +21,17 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $Admin = Admin::orderBy('id_admin','desc')->get();
+        $user = Auth::user();
 
-        return [
-            'estado'=>'Ok',
-            'admin'=>$Admin
-        ];
+        if($user->rol->nombre_rol == 'superadmin' ){
+            $admin = Admin::orderBy('id_admin','desc')->get();
+        }else if($user->rol->nombre_rol == 'admin'){
+            $admin = Admin::where('cod_ips', $user->userable->cod_ips)->get();
+        }else{
+            return response()->json(['error' => 'No autorizado'], 403);
+        }
+
+        return response()->json(['admin' => $admin], 200);
     }
 
     /**
@@ -244,4 +249,6 @@ class AdminController extends Controller
             ], 500);
         }
     }
+
+    
 }

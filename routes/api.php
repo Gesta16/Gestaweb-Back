@@ -89,10 +89,10 @@ Route::middleware(['auth:api', 'role:superadmin,admin'])->group(function () {
 });
 
 /** RUTAS DEL USUARIO*/
-Route::middleware(['auth:api', "role:superadmin,admin,operador"])->group(function () {
-    Route::apiResource("usuario", UsuarioController::class);
+Route::middleware(['auth:api', 'role:superadmin,admin,operador'])->group(function () {
     Route::post("usuario/nuevo-proceso/{usuarioId}", [UsuarioController::class, 'crearProcesoGestativo']);
     Route::get("usuario/contar-procesos/{usuarioId}", [UsuarioController::class, 'contarProcesosGestativos']);
+    Route::apiResource("usuario", UsuarioController::class);
 });
 
 //});/** RUTAS DEL OPERADOR */
