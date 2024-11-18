@@ -22,11 +22,26 @@ class OperadorController extends Controller
      */
     public function index()
     {
-        $Operador = Operador::orderBy('id_operador','desc')->get();
+        $user = Auth::user();
+
+        if($user->rol->nombre_rol == 'superadmin'){
+            $operador = Operador::orderBy('id_operador','desc')->get();
+        }else if($user->rol->nombre_rol == 'admin'){
+            $operador = Operador::where('cod_ips', $user->userable->cod_ips)->get();
+        }else{
+            return response()->json(['error' => 'No autorizado']);
+        }
+
+        if($operador->isEmpty()){
+            return response()->json([
+                'estado'=>'Sin datos',
+                'mensaje'=>'No se encontraron operadores.'
+            ]);
+        }
 
         return [
             'estado'=>'Ok',
-            'operador'=>$Operador
+            'operador'=>$operador
         ];
     }
 

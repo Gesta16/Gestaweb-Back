@@ -31,6 +31,13 @@ class AdminController extends Controller
             return response()->json(['error' => 'No autorizado'], 403);
         }
 
+        if($admin->isEmpty()){
+            return response()->json([
+                'estado' => 'Sin datos',
+                'mensaje'=>'No se encontraron administradores.'
+            ]);
+        }
+
         return response()->json(['admin' => $admin], 200);
     }
 

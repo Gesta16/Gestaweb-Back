@@ -26,6 +26,15 @@ class UsuarioController extends Controller
             $usuarios = Usuario::orderBy('id_usuario', 'desc')->get();
         }else if($user->rol->nombre_rol == 'admin'){
             $usuarios = Usuario::where('cod_ips', $user->userable->cod_ips)->get();
+        }else{
+            return response()->json(['error' => 'No autorizado']);
+        }
+
+        if ($usuarios->isEmpty()) {
+            return response()->json([
+                'estado' => 'Sin datos',
+                'mensaje' => 'No se encontraron usuarios.'
+            ], 404); // Código HTTP 404 indica que no se encontraron datos
         }
 
         return response()->json([
