@@ -31,7 +31,7 @@ class SeguimientoComplementario extends Model
         'asis_nutricionista',
         'asis_ginecologia',
         'asis_psicologia',
-        'aisis_odontologia'
+        'asis_odontologia'
     ];
 
     

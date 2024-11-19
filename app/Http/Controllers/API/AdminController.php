@@ -24,22 +24,25 @@ class AdminController extends Controller
     {
         $user = Auth::user();
 
-        if($user->rol->nombre_rol == 'superadmin' ){
-            $admin = Admin::orderBy('id_admin','desc')->get();
-        }else if($user->rol->nombre_rol == 'admin'){
+        if ($user->rol->nombre_rol == 'superadmin') {
+            $admin = Admin::orderBy('id_admin', 'desc')->get();
+        } else if ($user->rol->nombre_rol == 'admin') {
             $admin = Admin::where('cod_ips', $user->userable->cod_ips)->get();
-        }else{
+        } else {
             return response()->json(['error' => 'No autorizado'], 403);
         }
 
-        if($admin->isEmpty()){
+        if ($admin->isEmpty()) {
             return response()->json([
                 'estado' => 'Sin datos',
-                'mensaje'=>'No se encontraron administradores.'
+                'mensaje' => 'No se encontraron administradores.'
             ]);
         }
 
-        return response()->json(['admin' => $admin], 200);
+        return response()->json([
+            'estado' => 'Ok',
+            'admin' => $admin
+        ], 200);
     }
 
     /**
@@ -52,13 +55,13 @@ class AdminController extends Controller
     {
         try {
             $authUser = Auth::user();
-    
+
             if (!$authUser) {
                 return response()->json([
                     'error' => 'No autorizado. Debes estar autenticado para crear un Admin.'
                 ], 401);
             }
-    
+
             // Verificar si la IPS existe
             $newAdminIps = Ips::find($request->cod_ips);
             if (!$newAdminIps) {
@@ -66,7 +69,7 @@ class AdminController extends Controller
                     'error' => 'IPS no encontrada.'
                 ], 404);
             }
-    
+
             // Verificar si el usuario autenticado es un SuperAdmin
             if ($authUser->rol_id !== 1) {
                 $authAdmin = $authUser->userable; // Obtén el admin asociado al usuario autenticado
@@ -75,9 +78,9 @@ class AdminController extends Controller
                         'error' => 'No se pudo encontrar el admin asociado al usuario autenticado.'
                     ], 404);
                 }
-    
+
                 $authIps = $authAdmin->ips; // Obtén la IPS del admin autenticado
-    
+
                 // Verificar si la IPS del nuevo admin coincide con la IPS del admin autenticado
                 if ($authIps->cod_ips !== $newAdminIps->cod_ips) {
                     return response()->json([
@@ -85,10 +88,10 @@ class AdminController extends Controller
                     ], 403);
                 }
             }
-    
+
             // Ahora que todas las validaciones han pasado, usamos una transacción
             DB::beginTransaction();
-    
+
             // Crear el admin
             $Admin = new Admin();
             $Admin->cod_ips = $request->cod_ips;
@@ -100,35 +103,34 @@ class AdminController extends Controller
             $Admin->tel_admin = $request->tel_admin;
             $Admin->cod_documento = $request->cod_documento;
             $Admin->documento_admin = $request->documento_admin;
-    
+
             if ($Admin->save()) {
                 // Generar una contraseña aleatoria
                 $contrasenaGenerada = $this->generarContrasena($Admin->nom_admin, $Admin->ape_admin);
-    
+
                 // Crear el User asociado
                 $user = new User();
                 $user->name = $Admin->nom_admin . ' ' . $Admin->ape_admin;
                 $user->documento = $Admin->documento_admin;
                 $user->password = bcrypt($contrasenaGenerada);
                 $user->rol_id = 2; // Asignar el rol de admin
-    
+
                 // Asocia el admin al User
                 $Admin->user()->save($user);
-    
+
                 // Enviar el correo solo si todo lo anterior fue exitoso
                 Mail::to($Admin->email_admin)->send(new WelcomeSuperAdminMail($Admin, $contrasenaGenerada));
                 Log::info('Correo de bienvenida enviado.', ['email' => $Admin->email_admin]);
             }
-    
+
             // Si todo fue bien, confirmamos la transacción
             DB::commit();
-    
+
             return response()->json(['message' => 'Admin creado correctamente'], 201);
-    
         } catch (\Exception $e) {
             // Si algo falla, revertimos la transacción
             DB::rollBack();
-    
+
             return response()->json([
                 'error' => 'Ocurrió un error interno',
                 'exception_message' => $e->getMessage(),
@@ -137,7 +139,7 @@ class AdminController extends Controller
             ], 500);
         }
     }
-    
+
 
 
     function generarContrasena($nombre, $apellido)
@@ -165,7 +167,7 @@ class AdminController extends Controller
     {
         try {
             $admin = Admin::find($id);
-    
+
             if ($admin) {
                 return response()->json([
                     'estado' => 'Ok',
@@ -197,11 +199,11 @@ class AdminController extends Controller
     {
         try {
             $admin = Admin::find($id);
-    
+
             if ($admin) {
                 // Actualizar todos los campos de una vez
                 $admin->update($request->all());
-    
+
                 return response()->json([
                     'message' => 'Admin actualizado correctamente',
                     'admin' => $admin
@@ -220,7 +222,7 @@ class AdminController extends Controller
             ], 500);
         }
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -232,7 +234,7 @@ class AdminController extends Controller
     {
         try {
             $admin = Admin::find($id);
-    
+
             if ($admin) {
                 // Eliminar el admin
                 if ($admin->delete() && $admin->user()->delete()) {
@@ -258,6 +260,4 @@ class AdminController extends Controller
             ], 500);
         }
     }
-
-    
 }
