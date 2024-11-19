@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeAdminMail;
 use Illuminate\Http\Request;
 use App\Models\Ips;
 use App\Models\User;
@@ -105,7 +106,7 @@ class IpsController extends Controller
             }
     
             // Enviar email de bienvenida
-            //Mail::to($admin->email_admin)->send(new WelcomeSuperAdminMail($admin, $contrasenaGenerada));
+            Mail::to($admin->email_admin)->send(new WelcomeAdminMail($admin, $contrasenaGenerada));
     
             // Si todas las operaciones fueron exitosas, confirmar la transacción
             DB::commit();

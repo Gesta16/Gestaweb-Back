@@ -60,7 +60,8 @@ class AuthController extends Controller
                 'related_model' => $relatedModel,
                 'access_token' => $token,
                 'token_type' => 'Bearer',
-                'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString()
+                'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString(),
+                'message'=> 'Ingreso exitoso'
             ]);
         } catch (\Exception $e) {
             return response()->json([

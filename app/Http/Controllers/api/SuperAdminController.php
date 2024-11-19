@@ -21,11 +21,11 @@ class SuperAdminController extends Controller
      */
     public function index()
     {
-        $superAdmin = SuperAdmin::orderBy('id_superadmin','desc')->get();
+        $superAdmin = SuperAdmin::orderBy('id_superadmin', 'desc')->get();
 
         return [
-            'estado'=>'Ok',
-            'superAdmin'=>$superAdmin
+            'estado' => 'Ok',
+            'superAdmin' => $superAdmin
         ];
     }
 
@@ -38,7 +38,7 @@ class SuperAdminController extends Controller
     public function store(Request $request)
     {
         DB::beginTransaction();  // Inicia una transacción para garantizar que todo se complete o se deshaga
-    
+
         try {
             /*$request->validate([
                 'nom_superadmin' => 'required|string|max:255',
@@ -47,22 +47,22 @@ class SuperAdminController extends Controller
                 'tel_superadmin' => 'required|string|max:20',
                 'documento_superadmin' => 'required|string|max:20|unique:superadmin,documento_superadmin',
             ]);*/
-    
+
             $authUser = Auth::user();
-    
+
             if (!$authUser) {
                 return response()->json([
                     'error' => 'No autorizado. Debes estar autenticado para crear un SuperAdmin.'
                 ], 401);
             }
-    
+
             // Verificar si el usuario autenticado es un SuperAdmin
             if ($authUser->rol_id !== 1) {
                 return response()->json([
                     'error' => 'No autorizado. Solo un SuperAdmin puede crear otros SuperAdmins.'
                 ], 403);
             }
-    
+
             // Crear el SuperAdmin
             $superAdmin = new SuperAdmin();
             $superAdmin->nom_superadmin = $request->nom_superadmin;
@@ -71,34 +71,33 @@ class SuperAdminController extends Controller
             $superAdmin->tel_superadmin = $request->tel_superadmin;
             $superAdmin->cod_documento = $request->cod_documento;
             $superAdmin->documento_superadmin = $request->documento_superadmin;
-    
+
             if ($superAdmin->save()) {
                 // Generar una contraseña aleatoria
                 $contrasenaGenerada = $this->generarContrasena($superAdmin->nom_superadmin, $superAdmin->ape_superadmin);
-    
+
                 // Crear el User asociado
                 $user = new User();
                 $user->name = $superAdmin->nom_superadmin . ' ' . $superAdmin->ape_superadmin;
-                $user->documento = $superAdmin->documento_superadmin; 
+                $user->documento = $superAdmin->documento_superadmin;
                 $user->password = bcrypt($contrasenaGenerada);
                 $user->rol_id = 1; // Asignar el rol de SuperAdmin
-    
+
                 // Asociar el SuperAdmin al User
                 $superAdmin->user()->save($user);
-    
+
                 // Enviar un correo de bienvenida con la contraseña generada (opcional)
                 Mail::to($superAdmin->email_superadmin)->send(new WelcomeSuperAdminMail($superAdmin, $contrasenaGenerada));
             }
-    
+
             // Confirmar la transacción si todo salió bien
             DB::commit();
-    
+
             return response()->json(['message' => 'SuperAdmin creado correctamente'], 201);
-    
         } catch (\Exception $e) {
             // Deshacer la transacción si ocurre un error
             DB::rollBack();
-    
+
             return response()->json([
                 'error' => 'Ocurrió un error interno',
                 'exception_message' => $e->getMessage(),
@@ -107,7 +106,7 @@ class SuperAdminController extends Controller
             ], 500);
         }
     }
-    
+
 
 
     function generarContrasena($nombre, $apellido)
@@ -140,7 +139,6 @@ class SuperAdminController extends Controller
                 'estado' => 'Ok',
                 'superAdmin' => $superAdmin
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'SuperAdmin no encontrado',
@@ -171,7 +169,6 @@ class SuperAdminController extends Controller
             if ($superAdmin->save()) {
                 return response()->json(['message' => 'SuperAdmin actualizado correctamente'], 200);
             }
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Ocurrió un error al actualizar el SuperAdmin',
@@ -191,14 +188,19 @@ class SuperAdminController extends Controller
         try {
             $superAdmin = SuperAdmin::findOrFail($id_superadmin);
 
-            // Eliminar el SuperAdmin y el User asociado
-            if ($superAdmin->user()->delete() && $superAdmin->delete()) {
-                return response()->json(['message' => 'SuperAdmin eliminado correctamente'], 200);
-            }
+            // Actualizar el estado del User asociado
+            $user = $superAdmin->user;
+            if ($user) {
+                $user->estado = 0; // Desactivar el usuario
+                $user->save();
 
+                return response()->json(['message' => 'SuperAdmin desactivado correctamente'], 200);
+            } else {
+                return response()->json(['error' => 'Usuario asociado no encontrado'], 404);
+            }
         } catch (\Exception $e) {
             return response()->json([
-                'error' => 'Ocurrió un error al eliminar el SuperAdmin',
+                'error' => 'Ocurrió un error al desactivar el SuperAdmin',
                 'exception_message' => $e->getMessage(),
             ], 500);
         }
