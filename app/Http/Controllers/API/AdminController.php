@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\Ips;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -115,7 +116,8 @@ class AdminController extends Controller
                 $Admin->user()->save($user);
     
                 // Enviar el correo solo si todo lo anterior fue exitoso
-                //Mail::to($Admin->email_admin)->send(new WelcomeSuperAdminMail($Admin, $contrasenaGenerada));
+                Mail::to($Admin->email_admin)->send(new WelcomeSuperAdminMail($Admin, $contrasenaGenerada));
+                Log::info('Correo de bienvenida enviado.', ['email' => $Admin->email_admin]);
             }
     
             // Si todo fue bien, confirmamos la transacción

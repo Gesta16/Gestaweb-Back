@@ -87,7 +87,7 @@ class SuperAdminController extends Controller
                 $superAdmin->user()->save($user);
     
                 // Enviar un correo de bienvenida con la contraseña generada (opcional)
-                // Mail::to($superAdmin->email_superadmin)->send(new WelcomeSuperAdminMail($superAdmin, $contrasenaGenerada));
+                Mail::to($superAdmin->email_superadmin)->send(new WelcomeSuperAdminMail($superAdmin, $contrasenaGenerada));
             }
     
             // Confirmar la transacción si todo salió bien
