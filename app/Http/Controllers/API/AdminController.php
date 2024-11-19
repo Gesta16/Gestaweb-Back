@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Mail\WelcomeSuperAdminMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeAdminMail;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\Ips;
@@ -117,9 +117,10 @@ class AdminController extends Controller
 
                 // Asocia el admin al User
                 $Admin->user()->save($user);
+                Log::info('nombre admin',['nombre'=>$Admin->nom_admin]);
 
                 // Enviar el correo solo si todo lo anterior fue exitoso
-                Mail::to($Admin->email_admin)->send(new WelcomeSuperAdminMail($Admin, $contrasenaGenerada));
+                Mail::to($Admin->email_admin)->send(new WelcomeAdminMail($Admin, $contrasenaGenerada));
                 Log::info('Correo de bienvenida enviado.', ['email' => $Admin->email_admin]);
             }
 
