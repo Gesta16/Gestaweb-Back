@@ -66,7 +66,9 @@ class PrimeraConsultaController extends Controller
             'for_aborto' => 'sometimes|required|integer|min:0',
             'fec_lactancia' => 'sometimes|required|date',
             'fec_consejeria' => 'sometimes|required|date',
-            'num_proceso'=>'integer|required'
+            'num_proceso'=>'integer|required',
+            'asis_conse_lactancia' => 'required|boolean',
+            'asis_conse_pre_vih' => 'required|boolean'
         ]);
     
         if ($validator->fails()) {

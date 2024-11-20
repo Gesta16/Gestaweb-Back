@@ -34,6 +34,9 @@ class RutaPYMSController extends Controller
             'fec_seguimiento' => 'required|date',
             'fec_entrega' => 'required|date',
             'num_proceso' => 'required|integer', // Agregar validación para num_proceso
+            'aplico_vacuna_bcg' => 'required|boolean',
+            'aplico_vacuna_hepatitis' => 'required|boolean',
+            'reali_entrega_carnet' => 'required|boolean',
         ]);
     
         $validatedData['id_operador'] = auth()->user()->userable_id;

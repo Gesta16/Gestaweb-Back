@@ -72,6 +72,14 @@ $validatedData = $request->validate([
     'fec_ecografia' => 'required|date',
     'eda_gestacional' => 'required|numeric|min:0', // Cambia a numeric
     'rie_biopsicosocial' => 'required|string',
+    'reali_prueb_rapi_vih' => 'required|boolean',
+    'reali_prueb_trepo_sifilis' => 'required|boolean',
+    'reali_urocultivo' => 'required|boolean',
+    'reali_antibiograma' => 'required|boolean',
+    'reali_prueb_eliza_anti_tot' => 'required|boolean', 
+    'reali_prueb_elisa_anti_recom' => 'required|boolean',
+    'reali_prueb_coombi_indi' => 'required|boolean',
+    'reali_eco_obste_tami' => 'required|boolean',
     'num_proceso'=> 'required|integer'
 
 ]);

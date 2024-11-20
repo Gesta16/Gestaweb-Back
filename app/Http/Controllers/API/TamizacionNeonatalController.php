@@ -38,6 +38,10 @@ class TamizacionNeonatalController extends Controller
             'tamiza_cardi' => 'required|string',
             'tamiza_visual' => 'required|string',
             'num_proceso' => 'required|integer', // Agregar num_proceso a la validación
+            'reali_prueb_no_trepo_recien_nacido' => 'required|boolean',
+            'reali_tamiza_auditivo' => 'required|boolean',
+            'reali_tamiza_cardiopatia_conge' => 'required|boolean',
+            'reali_tamiza_visual' => 'required|boolean',
         ]);
     
         $validatedData['id_operador'] = auth()->user()->userable_id;

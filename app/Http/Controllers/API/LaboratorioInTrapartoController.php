@@ -39,6 +39,9 @@ class LaboratorioInTrapartoController extends Controller
             'pru_vih' => 'required|string',
             'fec_vih' => 'required|date',
             'num_proceso' => 'required|integer', // Asegúrate de incluir num_proceso
+            'reali_prueb_trepo_rap_sifilis' => 'required|boolean',
+            'reali_prueb_no_trepo_vdrl_sifilis' => 'required|boolean',
+            'reali_prueb_rapida_vih' => 'required|boolean'
         ]);
     
         $validatedData['id_operador'] = auth()->user()->userable_id;

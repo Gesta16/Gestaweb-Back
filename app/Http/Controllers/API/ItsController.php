@@ -69,6 +69,9 @@ class ItsController extends Controller
             'rec_tratamiento' => 'required|string',
             'rec_pareja' => 'required|string',
             'num_proceso' => 'required|integer', // Asegúrate de incluir num_proceso
+            'reali_prueb_elisa_vih' => 'required|boolean',
+            'reali_prueb_no_trepo_vdrl_sifilis' => 'required|boolean',
+            'reali_prueb_no_trepo_rpr_sifilis' => 'required|boolean',
         ]);
     
         $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])

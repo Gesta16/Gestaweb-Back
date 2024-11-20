@@ -48,7 +48,12 @@ class ControlPrenatalController extends Controller
             'usu_solicito' => 'required|boolean',
             'fec_terminacion' => 'required|date',
             'per_intergenesico' => 'required|boolean',
-            'num_proceso'=>'required|integer|'
+            'num_proceso'=>'required|integer|',
+            'recibio_atencion_preconcep' => 'required|boolean',
+            'asis_consul_control_precon'=> 'required|boolean',
+            'asis_asesoria_ive' => 'required|boolean',
+            'tuvo_embarazos_antes' => 'required|boolean'
+
         ]);
 
         $validatedData['id_operador'] = auth()->user()->userable_id;

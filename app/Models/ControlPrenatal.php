@@ -35,9 +35,9 @@ class ControlPrenatal extends Model
         'fec_terminacion',
         'per_intergenesico',
         'proceso_gestativo_id',
-        'reci_aten_preconcepcional',
-        'asis_consul_control_aten_precon',
-        'asis_aseso_ive',
+        'recibio_atencion_preconcep',
+        'asis_consul_control_precon',
+        'asis_asesoria_ive',
         'tuvo_embarazos_antes'
     ];
 
