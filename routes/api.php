@@ -370,4 +370,5 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
     Route::get('/calendario-usuario', [DashboardController::class, 'CalendarioUsuario']);
     Route::get('/conteo', [DashboardController::class, 'contarRegistros']);
     Route::get('/usuario-ips', [DashboardController::class, 'conteoUsuariosPorIps']);
+    Route::get('/tamizaje-sifilis',[DashboardController::class, 'getProporcionTamizajeSifilis']);
 });

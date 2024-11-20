@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
-   
+
     public function CalendarioUsuario()
     {
         if (!auth()->check()) {
@@ -23,14 +23,14 @@ class DashboardController extends Controller
                 'mensaje' => 'Debes estar autenticado para ver el calendario'
             ], 401);
         }
-    
-        $idUsuario = auth()->user()->userable_id; 
-    
+
+        $idUsuario = auth()->user()->userable_id;
+
         try {
             $consultas = ConsultasUsuario::where('id_usuario', $idUsuario)
                 ->select('fecha', 'nombre_consulta')
                 ->get();
-    
+
             if ($consultas->isEmpty()) {
                 return response()->json([
                     'estado' => 'Ok',
@@ -38,19 +38,18 @@ class DashboardController extends Controller
                     'data' => []
                 ], 200);
             }
-    
+
             return response()->json([
                 'estado' => 'Ok',
                 'mensaje' => 'Consultas recuperadas correctamente',
                 'data' => $consultas
             ], 200);
-
         } catch (\Exception $e) {
             Log::error('Error al recuperar las consultas del usuario:', [
                 'mensaje' => $e->getMessage(),
-                'id_usuario' => $idUsuario, 
+                'id_usuario' => $idUsuario,
             ]);
-    
+
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'Error al recuperar las consultas',
@@ -69,7 +68,7 @@ class DashboardController extends Controller
         }
 
         $usuario = auth()->user();
-        $totalIps = 0; 
+        $totalIps = 0;
 
         if ($usuario && $usuario->userable) {
             $codIps = $usuario->userable->cod_ips;
@@ -105,7 +104,7 @@ class DashboardController extends Controller
         }
 
         $conteoPorIps = Usuario::select('usuario.cod_ips', 'ips.nom_ips', DB::raw('count(*) as total'))
-            ->join('ips', 'usuario.cod_ips', '=', 'ips.cod_ips') 
+            ->join('ips', 'usuario.cod_ips', '=', 'ips.cod_ips')
             ->groupBy('usuario.cod_ips', 'ips.nom_ips')
             ->get();
 
@@ -114,5 +113,36 @@ class DashboardController extends Controller
     }
 
 
+    public function getProporcionTamizajeSifilis()
+    {
+        // Proporción del I Trimestre
+        $proporcionI = DB::table('laboratorio_i_trimestre')
+            ->selectRaw('COUNT(*) as total_gestantes')
+            ->selectRaw('SUM(CASE WHEN reali_prueb_trepo_rapid_sifilis = 1 THEN 1 ELSE 0 END) as tamizaje_realizado')
+            ->selectRaw('ROUND((SUM(CASE WHEN reali_prueb_trepo_rapid_sifilis = 1 THEN 1 ELSE 0 END) / COUNT(*)) * 100, 2) as proporcion_tamizaje')
+            ->first();
 
+        // Proporción del II Trimestre
+        $proporcionII = DB::table('laboratorio_ii_trimestre')
+            ->selectRaw('COUNT(*) as total_gestantes')
+            ->selectRaw('SUM(CASE WHEN reali_prueb_trepo_rapid_sifilis = 1 THEN 1 ELSE 0 END) as tamizaje_realizado')
+            ->selectRaw('ROUND((SUM(CASE WHEN reali_prueb_trepo_rapid_sifilis = 1 THEN 1 ELSE 0 END) / COUNT(*)) * 100, 2) as proporcion_tamizaje')
+            ->first();
+
+        // Proporción del III Trimestre
+        $proporcionIII = DB::table('laboratorio_iii_trimestre')
+            ->selectRaw('COUNT(*) as total_gestantes')
+            ->selectRaw('SUM(CASE WHEN reali_prueb_trepo_rapid_sifilis = 1 THEN 1 ELSE 0 END) as tamizaje_realizado')
+            ->selectRaw('ROUND((SUM(CASE WHEN reali_prueb_trepo_rapid_sifilis = 1 THEN 1 ELSE 0 END) / COUNT(*)) * 100, 2) as proporcion_tamizaje')
+            ->first();
+
+        // Compilando los resultados
+        $proporciones = [
+            'I Trimestre' => $proporcionI,
+            'II Trimestre' => $proporcionII,
+            'III Trimestre' => $proporcionIII,
+        ];
+
+        return response()->json($proporciones);
+    }
 }
