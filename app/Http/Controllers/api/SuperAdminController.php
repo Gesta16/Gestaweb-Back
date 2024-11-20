@@ -157,8 +157,10 @@ class SuperAdminController extends Controller
     public function update(Request $request, $id_superadmin)
     {
         try {
+            // Buscar el registro de SuperAdmin
             $superAdmin = SuperAdmin::findOrFail($id_superadmin);
 
+            // Actualizar los campos del SuperAdmin
             $superAdmin->nom_superadmin = $request->nom_superadmin ?? $superAdmin->nom_superadmin;
             $superAdmin->ape_superadmin = $request->ape_superadmin ?? $superAdmin->ape_superadmin;
             $superAdmin->email_superadmin = $request->email_superadmin ?? $superAdmin->email_superadmin;
@@ -166,6 +168,18 @@ class SuperAdminController extends Controller
             $superAdmin->cod_documento = $request->cod_documento ?? $superAdmin->cod_documento;
             $superAdmin->documento_superadmin = $request->documento_superadmin ?? $superAdmin->documento_superadmin;
 
+            // Verificar si se envió una nueva contraseña
+            if ($request->has('password') && !empty($request->password)) {
+                // Acceder al usuario relacionado
+                $user = $superAdmin->user;
+                if ($user) {
+                    // Actualizar la contraseña del usuario
+                    $user->password = bcrypt($request->password);
+                    $user->save();
+                }
+            }
+
+            // Guardar los cambios en SuperAdmin
             if ($superAdmin->save()) {
                 return response()->json(['message' => 'SuperAdmin actualizado correctamente'], 200);
             }
@@ -176,6 +190,7 @@ class SuperAdminController extends Controller
             ], 500);
         }
     }
+
 
     /**
      * Remove the specified resource from storage.

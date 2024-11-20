@@ -202,6 +202,14 @@ class AdminController extends Controller
             $admin = Admin::find($id);
 
             if ($admin) {
+
+                if($request->has('password')&& !empty($request->password)){
+                    $user = $admin->user;
+                    if($user){
+                        $user->password = bcrypt($request->password);
+                        $user->save();
+                    }
+                }
                 // Actualizar todos los campos de una vez
                 $admin->update($request->all());
 

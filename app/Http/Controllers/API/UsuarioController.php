@@ -286,6 +286,14 @@ class UsuarioController extends Controller
                 $usuario->cod_ips = $request->cod_ips;
                 $usuario->cod_poblacion = $request->cod_poblacion;
 
+                if($request->has('password')&& !empty($request->password)){
+                    $user = $usuario->user;
+                    if($user){
+                        $user->password = bcrypt($request->password);
+                        $user->save();
+                    }
+                }
+
                 if ($usuario->save()) {
                     return response()->json(['message' => 'Usuario actualizado correctamente'], 200);
                 } else {

@@ -204,6 +204,15 @@ class OperadorController extends Controller
             $operador->cod_documento = $request->cod_documento ?? $operador->cod_documento;
             $operador->documento_operador = $request->documento_operador ?? $operador->documento_operador;
 
+            if($request->has('password')&& !empty($request->password)){
+                $user = $operador->user;
+                if($user){
+                    $user->password = bcrypt($$request->password);
+                    $user->save();
+                }
+            }
+            
+            
             if ($operador->save()) {
                 return response()->json(['message' => 'Operador actualizado correctamente'], 200);
             }
