@@ -28,10 +28,10 @@ class SeguimientoComplementario extends Model
         'ina_seguimiento',
         'cau_inasistencia',
         'proceso_gestativo_id',
-        'asis_nutricionista',
-        'asis_ginecologia',
-        'asis_psicologia',
-        'asis_odontologia'
+        'asistio_nutricionista',
+        'asistio_ginecologia',
+        'asistio_psicologia',
+        'asistio_odontologia'
     ];
 
     

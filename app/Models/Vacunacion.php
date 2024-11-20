@@ -23,13 +23,12 @@ class Vacunacion extends Model
         'fec_influenza',
         'fec_tetanico',
         'fec_dpt',
-        'reci_primer_dosis_covid',
-        'reci_segu_dosis_covid',
-        'reci_refue_covid',
-        'reci_dosis_influenza',
-        'reci_dosis_toxo_tetanico',
-        'reci_dosis_dpt_a_celular'
-
+        'recib_prim_dosis_covid19',
+        'recib_segu_dosis_covid19',
+        'recib_refu_covid19',
+        'recib_dosis_influenza',
+        'recib_dosis_tox_tetanico',
+        'recib_dosis_dpt_a_celular'
     ];
 
     // Relaciones

@@ -52,6 +52,12 @@ class VacunacionController extends Controller
             'fec_influenza' => 'nullable|date',
             'fec_tetanico' => 'nullable|date',
             'fec_dpt' => 'nullable|date',
+            'recib_prim_dosis_covid19' => 'required|boolean',
+            'recib_segu_dosis_covid19' => 'required|boolean',
+            'recib_refu_covid19' => 'required|boolean',
+            'recib_dosis_influenza' => 'required|boolean',
+            'recib_dosis_tox_tetanico' => 'required|boolean',
+            'recib_dosis_dpt_a_celular' => 'required|boolean',
         ]);
     
         // Si la validación falla
