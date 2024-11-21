@@ -50,14 +50,14 @@ class LaboratorioITrimestre extends Model
         'eda_gestacional',
         'rie_biopsicosocial',
         'proceso_gestativo_id',
-        'reali_prueb_rapi_vih',
-        'reali_prueb_trepo_sifilis',
-        'reali_urocultivo',
-        'reali_antibiograma',
-        'reali_prueb_eliza_anti_tot',
-        'reali_prueb_elisa_anti_recom',
-        'reali_prueb_coombi_indi',
-        'reali_eco_obste_tami'
+        'real_prueb_rapi_vih',
+        'reali_prueb_trepo_rapid_sifilis',
+        'realizo_urocultivo',
+        'realizo_antibiograma',
+        'real_prueb_eliza_anti_total',
+        'real_prueb_eliza_anti_recomb',
+        'real_prueb_coombis_indi_cuanti',
+        'real_eco_obste_tamizaje'
     ];
 
     public function operador()

@@ -43,13 +43,13 @@ class LaboratorioIITrimestre extends Model
         'rie_biopsicosocial',
         'proceso_gestativo_id',
         'reali_prueb_rapi_vih',
-        'reali_prueb_trepo_rap_sifilis',
+        'real_prueb_trep_rap_sifilis',
         'reali_citologia',
-        'reali_prueb_avidez_igg',
-        'reali_prueb_toxopla_iga',
+        'reali_prueb_avidez_ig_g',
+        'reali_prueb_toxoplasmosis_ig_a',
         'reali_prueb_hemoparasito',
         'reali_prueb_coombis_indi_cuanti',
-        'reali_eco_obste_deta_anatomico'
+        'reali_eco_obste_detalle_anato'
         
     ];
 

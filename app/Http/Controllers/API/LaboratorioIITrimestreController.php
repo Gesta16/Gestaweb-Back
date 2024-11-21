@@ -73,13 +73,13 @@ class LaboratorioIITrimestreController extends Controller
             'eda_gestacional' => 'required|numeric|min:0',
             'rie_biopsicosocial' => 'required|string',
             'reali_prueb_rapi_vih' => 'required|boolean',
-            'reali_prueb_trepo_rap_sifilis' => 'required|boolean',
+            'real_prueb_trep_rap_sifilis' => 'required|boolean',
             'reali_citologia' => 'required|boolean',
-            'reali_prueb_avidez_igg' => 'required|boolean',
-            'reali_prueb_toxopla_iga' => 'required|boolean',
+            'reali_prueb_avidez_ig_g' => 'required|boolean',
+            'reali_prueb_toxoplasmosis_ig_a' => 'required|boolean',
             'reali_prueb_hemoparasito' => 'required|boolean',
             'reali_prueb_coombis_indi_cuanti' => 'required|boolean',
-            'reali_eco_obste_deta_anatomico' => 'required|boolean',
+            'reali_eco_obste_detalle_anato' => 'required|boolean',
         ]);
     
         // Verificar que el ProcesoGestativo esté activo

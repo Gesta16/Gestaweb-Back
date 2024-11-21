@@ -30,89 +30,89 @@ class LaboratorioITrimestreController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
-    if (!auth()->check()) {
-        return response()->json([
-            'estado' => 'Error',
-            'mensaje' => 'Debes estar autenticado para realizar esta acción'
-        ], 401); 
-    }
+    {
+        if (!auth()->check()) {
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Debes estar autenticado para realizar esta acción'
+            ], 401);
+        }
 
-  // Validar los datos de entrada
-$validatedData = $request->validate([
-    'id_usuario' => 'required|integer|exists:usuario,id_usuario',
-    'cod_hemoclasifi' => 'required|integer|exists:hemoclasificacion,cod_hemoclasifi',
-    'cod_antibiograma' => 'required|integer|exists:antibiograma,cod_antibiograma',
-    'fec_hemoclasificacion' => 'required|date',
-    'hem_laboratorio' => 'required|string',
-    'fec_hemograma' => 'required|date',
-    'gli_laboratorio' => 'required|integer',
-    'fec_glicemia' => 'required|date',
-    'ant_laboratorio' => 'required|string',
-    'fec_antigeno' => 'required|date',
-    'pru_vih' => 'required|string',
-    'fec_vih' => 'required|date',
-    'pru_sifilis' => 'required|string',
-    'fec_sifilis' => 'required|date',
-    'uro_laboratorio' => 'required|string',
-    'fec_urocultivo' => 'required|date',
-    'fec_antibiograma' => 'required|date',
-    'ig_rubeola' => 'required|string',
-    'fec_rubeola' => 'required|date',
-    'ig_toxoplasma' => 'required|string',
-    'fec_toxoplasma' => 'required|date',
-    'hem_gruesa' => 'required|string',
-    'fec_hemoparasito' => 'required|date',
-    'pru_antigenos' => 'required|string',
-    'fec_antigenos' => 'required|date',
-    'eli_recombinante' => 'required|string',
-    'fec_recombinante' => 'required|date',
-    'coo_cuantitativo' => 'required|string',
-    'fec_coombs' => 'required|date',
-    'fec_ecografia' => 'required|date',
-    'eda_gestacional' => 'required|numeric|min:0', // Cambia a numeric
-    'rie_biopsicosocial' => 'required|string',
-    'reali_prueb_rapi_vih' => 'required|boolean',
-    'reali_prueb_trepo_sifilis' => 'required|boolean',
-    'reali_urocultivo' => 'required|boolean',
-    'reali_antibiograma' => 'required|boolean',
-    'reali_prueb_eliza_anti_tot' => 'required|boolean', 
-    'reali_prueb_elisa_anti_recom' => 'required|boolean',
-    'reali_prueb_coombi_indi' => 'required|boolean',
-    'reali_eco_obste_tami' => 'required|boolean',
-    'num_proceso'=> 'required|integer'
+        // Validar los datos de entrada
+        $validatedData = $request->validate([
+            'id_usuario' => 'required|integer|exists:usuario,id_usuario',
+            'cod_hemoclasifi' => 'required|integer|exists:hemoclasificacion,cod_hemoclasifi',
+            'cod_antibiograma' => 'required|integer|exists:antibiograma,cod_antibiograma',
+            'fec_hemoclasificacion' => 'required|date',
+            'hem_laboratorio' => 'required|string',
+            'fec_hemograma' => 'required|date',
+            'gli_laboratorio' => 'required|integer',
+            'fec_glicemia' => 'required|date',
+            'ant_laboratorio' => 'required|string',
+            'fec_antigeno' => 'required|date',
+            'pru_vih' => 'required|string',
+            'fec_vih' => 'required|date',
+            'pru_sifilis' => 'required|string',
+            'fec_sifilis' => 'required|date',
+            'uro_laboratorio' => 'required|string',
+            'fec_urocultivo' => 'required|date',
+            'fec_antibiograma' => 'required|date',
+            'ig_rubeola' => 'required|string',
+            'fec_rubeola' => 'required|date',
+            'ig_toxoplasma' => 'required|string',
+            'fec_toxoplasma' => 'required|date',
+            'hem_gruesa' => 'required|string',
+            'fec_hemoparasito' => 'required|date',
+            'pru_antigenos' => 'required|string',
+            'fec_antigenos' => 'required|date',
+            'eli_recombinante' => 'required|string',
+            'fec_recombinante' => 'required|date',
+            'coo_cuantitativo' => 'required|string',
+            'fec_coombs' => 'required|date',
+            'fec_ecografia' => 'required|date',
+            'eda_gestacional' => 'required|numeric|min:0', // Cambia a numeric
+            'rie_biopsicosocial' => 'required|string',
+            'real_prueb_rapi_vih' => 'required|boolean',
+            'reali_prueb_trepo_rapid_sifilis' => 'required|boolean',
+            'realizo_urocultivo' => 'required|boolean',
+            'realizo_antibiograma' => 'required|boolean',
+            'real_prueb_eliza_anti_total' => 'required|boolean',
+            'real_prueb_eliza_anti_recomb' => 'required|boolean',
+            'real_prueb_coombis_indi_cuanti' => 'required|boolean',
+            'real_eco_obste_tamizaje' => 'required|boolean',
+            'num_proceso' => 'required|integer'
 
-]);
+        ]);
 
 
-     // Verificar que el ProcesoGestativo esté activo
+        // Verificar que el ProcesoGestativo esté activo
         $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])
-                                            ->where('num_proceso', $validatedData['num_proceso'])
-                                            ->where('estado', 1)
-                                            ->first();
-    
+            ->where('num_proceso', $validatedData['num_proceso'])
+            ->where('estado', 1)
+            ->first();
+
         if (!$procesoGestativo) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
             ], 404);
         }
-    
+
         // Asignar el id_operador y el id del proceso gestativo
         $validatedData['id_operador'] = auth()->user()->userable_id;
         $validatedData['proceso_gestativo_id'] = $procesoGestativo->id;
 
-    // Crear el registro de LaboratorioITrimestre
-    $laboratorio = LaboratorioITrimestre::create($validatedData);
+        // Crear el registro de LaboratorioITrimestre
+        $laboratorio = LaboratorioITrimestre::create($validatedData);
 
-    ConsultasUsuario::create([
-        'id_usuario' => $validatedData['id_usuario'],
-        'fecha' => now(), 
-        'nombre_consulta' => 'Laboratorios primer trimestre', 
-    ]);
+        ConsultasUsuario::create([
+            'id_usuario' => $validatedData['id_usuario'],
+            'fecha' => now(),
+            'nombre_consulta' => 'Laboratorios primer trimestre',
+        ]);
 
-    return response()->json(['estado' => 'Ok', 'data' => $laboratorio], 201);
-}
+        return response()->json(['estado' => 'Ok', 'data' => $laboratorio], 201);
+    }
 
     /**
      * Display the specified resource.
@@ -120,24 +120,24 @@ $validatedData = $request->validate([
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id,$num_proceso)
+    public function show($id, $num_proceso)
     {
 
         $procesoGestativo = ProcesoGestativo::where('id_usuario', $id)
-        ->where('num_proceso', $num_proceso)
-        ->first();
+            ->where('num_proceso', $num_proceso)
+            ->first();
 
         if (!$procesoGestativo) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'No se encontró el proceso gestativo para el usuario proporcionado.'
             ], 404);
-        }   
-           
+        }
+
 
         $laboratorio = LaboratorioITrimestre::with(['operador', 'usuario', 'hemoclasificacion', 'antibiograma'])
             ->where('id_usuario', $id)
-            ->where('proceso_gestativo_id',$procesoGestativo->id)
+            ->where('proceso_gestativo_id', $procesoGestativo->id)
             ->firstOrFail();
 
         return response()->json(['estado' => 'Ok', 'data' => $laboratorio]);
@@ -159,7 +159,7 @@ $validatedData = $request->validate([
                 'mensaje' => 'Debes estar autenticado para realizar esta acción'
             ], 401);
         }
-    
+
         // Validar los datos de entrada
         $validatedData = $request->validate([
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
@@ -195,22 +195,22 @@ $validatedData = $request->validate([
             'eda_gestacional' => 'required|numeric|min:0', // numérico en lugar de entero
             'rie_biopsicosocial' => 'required|string',
         ]);
-    
+
         // Buscar el registro por id_usuario
         $laboratorio = LaboratorioITrimestre::where('cod_laboratorio', $id)
-                                                ->where('id_usuario', $validatedData['id_usuario'])
-                                                ->firstOrFail();
-    
+            ->where('id_usuario', $validatedData['id_usuario'])
+            ->firstOrFail();
+
         // Actualizar el registro con los datos validados
         $laboratorio->update($validatedData);
-    
+
         // Respuesta con los datos actualizados
         return response()->json([
             'estado' => 'Ok',
             'data' => $laboratorio
         ]);
     }
-    
+
 
     /**
      * Remove the specified resource from storage.

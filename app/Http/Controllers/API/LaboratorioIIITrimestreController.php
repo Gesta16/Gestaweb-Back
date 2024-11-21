@@ -77,9 +77,9 @@ class LaboratorioIIITrimestreController extends Controller
             'rie_biopsicosocial' => 'required|string',
             'num_proceso' => 'required|integer', // Asegurarse de incluir num_proceso
             'reali_prueb_rapi_vih' => 'required|boolean',
-            'reali_prueb_trepo_rap_sifilis' => 'required|boolean',
+            'reali_prueb_trepo_rapi_sifilis' => 'required|boolean',
             'reali_prueb_igm_toxoplasma' => 'required|boolean',
-            'reali_prueba_cul_rect_vagi' => 'required|boolean',
+            'reali_prueb_culti_rect_vagi' => 'required|boolean',
             'reali_prueb_perfil_biofisico' => 'required|boolean'
         ]);
     

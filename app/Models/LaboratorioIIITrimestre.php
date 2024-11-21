@@ -34,7 +34,7 @@ class LaboratorioIIITrimestre extends Model
         'reali_prueb_rapi_vih',
         'reali_prueb_trepo_rap_sifilis',
         'reali_prueb_igm_toxoplasma',
-        'reali_prueba_cul_rect_vagi',
+        'reali_prueb_culti_rect_vagi',
         'reali_prueb_perfil_biofisico',
     ];
 
