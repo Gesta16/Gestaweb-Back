@@ -37,10 +37,10 @@ class SeguimientoComplementarioController extends Controller
             'fec_odontologia' => 'required|date',
             'ina_seguimiento' => 'required|string',
             'cau_inasistencia' => 'nullable|string',
-            'asis_nutricionista' => 'required|boolean',
-            'asis_ginecologia' => 'required|boolean',
-            'asis_psicologia' => 'required|boolean',
-            'asis_odontologia' => 'required|boolean'
+            'asistio_nutricionista' => 'required|boolean',
+            'asistio_ginecologia' => 'required|boolean',
+            'asistio_psicologia' => 'required|boolean',
+            'asistio_odontologia' => 'required|boolean'
         ]);
     
         // Verificar que el ProcesoGestativo esté activo

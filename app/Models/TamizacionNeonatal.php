@@ -28,10 +28,10 @@ class TamizacionNeonatal extends Model
         'tamiza_cardi',
         'tamiza_visual',
         'proceso_gestativo_id',
-        'reali_prueb_no_trepo_recien_nacido',
-        'reali_tamiza_auditivo',
-        'reali_tamiza_cardiopatia_conge',
-        'reali_tamiza_visual'
+        'reali_prueb_trepo_recien_nacido',
+        'reali_tami_auditivo',
+        'reali_tami_cardiopatia_congenita',
+        'reali_tami_visual'
     ];
 
     public function hemoclasificacion()
