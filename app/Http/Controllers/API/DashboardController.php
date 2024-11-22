@@ -125,15 +125,15 @@ class DashboardController extends Controller
         // Proporción del II Trimestre
         $proporcionII = DB::table('laboratorio_ii_trimestre')
             ->selectRaw('COUNT(*) as total_gestantes')
-            ->selectRaw('SUM(CASE WHEN reali_prueb_trepo_rapid_sifilis = 1 THEN 1 ELSE 0 END) as tamizaje_realizado')
-            ->selectRaw('ROUND((SUM(CASE WHEN reali_prueb_trepo_rapid_sifilis = 1 THEN 1 ELSE 0 END) / COUNT(*)) * 100, 2) as proporcion_tamizaje')
+            ->selectRaw('SUM(CASE WHEN real_prueb_trep_rap_sifilis = 1 THEN 1 ELSE 0 END) as tamizaje_realizado')
+            ->selectRaw('ROUND((SUM(CASE WHEN real_prueb_trep_rap_sifilis = 1 THEN 1 ELSE 0 END) / COUNT(*)) * 100, 2) as proporcion_tamizaje')
             ->first();
 
         // Proporción del III Trimestre
         $proporcionIII = DB::table('laboratorio_iii_trimestre')
             ->selectRaw('COUNT(*) as total_gestantes')
-            ->selectRaw('SUM(CASE WHEN reali_prueb_trepo_rapid_sifilis = 1 THEN 1 ELSE 0 END) as tamizaje_realizado')
-            ->selectRaw('ROUND((SUM(CASE WHEN reali_prueb_trepo_rapid_sifilis = 1 THEN 1 ELSE 0 END) / COUNT(*)) * 100, 2) as proporcion_tamizaje')
+            ->selectRaw('SUM(CASE WHEN reali_prueb_trepo_rapi_sifilis = 1 THEN 1 ELSE 0 END) as tamizaje_realizado')
+            ->selectRaw('ROUND((SUM(CASE WHEN reali_prueb_trepo_rapi_sifilis = 1 THEN 1 ELSE 0 END) / COUNT(*)) * 100, 2) as proporcion_tamizaje')
             ->first();
 
         // Compilando los resultados
