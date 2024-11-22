@@ -145,4 +145,95 @@ class DashboardController extends Controller
 
         return response()->json($proporciones);
     }
+
+
+    public function getCoverageData(Request $request)
+    {
+
+        $role = $request->input('role'); // Rol del usuario (admin, operador)
+        $cod_ips = $request->input('cod_ips'); // Código de la IPS del usuario
+
+        $query = DB::table('seguimientos_complementarios')
+            ->selectRaw('
+            SUM(asistio_nutricionista) AS total_nutricion,
+            SUM(asistio_ginecologia) AS total_ginecologia,
+            SUM(asistio_psicologia) AS total_psicologia,
+            SUM(asistio_odontologia) AS total_odontologia
+        ');
+        if ($role === 'admin') {
+            // Filtrar por IPS del admin
+            $query->where('id_admin', $cod_ips);
+        } elseif ($role === 'operador') {
+            // Filtrar por IPS del operador
+            $query->where('id_operador', $cod_ips);
+        } elseif ($role === 'superadmin') {
+            return $query->first();
+        }
+
+        // Obtener los resultados
+        $result = $query->first();
+
+        // Retornar los datos en JSON
+        return response()->json($result);
+    }
+
+    //Tasa de mortalidad neonatal temprana
+    public function getNeonatalMortalityRate(Request $request)
+    {
+        $role = $request->input('role'); // Rol del usuario (admin, operador)
+        $cod_ips = $request->input('cod_ips'); // Código de la IPS del usuario
+
+        // Base de la consulta
+        $query = DB::table('mortalidad_preparto as mp')
+            ->join('mortalidad_perinatal as mpn', 'mp.cod_mortalidad', '=', 'mpn.cod_mortalidad')
+            ->selectRaw("
+            DATE_FORMAT(mp.fec_defuncion, '%Y-%m') AS mes, 
+            COUNT(*) AS total_neonatal_temprana
+        ")
+            ->where('mpn.cla_muerte', 'Neonatal temprana')
+            ->groupBy(DB::raw("DATE_FORMAT(mp.fec_defuncion, '%Y-%m')"));
+
+        // Filtrar según el rol del usuario
+        if ($role === 'operador') {
+            $query->where('mp.id_operador', $cod_ips);
+        } elseif ($role === 'admin') {
+            $query->where('mp.id_admin', $cod_ips);
+        }
+
+        // Obtener los datos agrupados por mes
+        $data = $query->get();
+
+        return response()->json($data);
+    }
+
+
+
+    //Proporcion de mujeres con consulta a asesoria IVE
+    public function getIveProportion(Request $request)
+    {
+        $role = $request->input('role'); // Rol del usuario (admin, operador, superadmin)
+        $cod_ips = $request->input('cod_ips'); // Código de la IPS del usuario
+
+        // Base de la consulta
+        $query = DB::table('control_prenatal')
+            ->selectRaw("
+            DATE_FORMAT(fec_control, '%Y-%m') AS mes, 
+            COUNT(*) AS total_mujeres, 
+            SUM(asis_asesoria_ive) AS mujeres_asesoria_ive, 
+            (SUM(asis_asesoria_ive) / COUNT(*)) * 100 AS proporcion_ive
+        ");
+
+        // Filtrar según el rol del usuario
+        if ($role === 'operador') {
+            $query->where('id_operador', $cod_ips); // Filtrar por operador
+        } elseif ($role === 'admin') {
+            $query->where('id_admin', $cod_ips); // Filtrar por administrador
+        }
+
+        // Agrupar por mes
+        $query->groupBy(DB::raw("DATE_FORMAT(fec_control, '%Y-%m')"));
+
+        // Obtener los resultados
+        return $query->get();
+    }
 }

@@ -371,4 +371,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
     Route::get('/conteo', [DashboardController::class, 'contarRegistros']);
     Route::get('/usuario-ips', [DashboardController::class, 'conteoUsuariosPorIps']);
     Route::get('/tamizaje-sifilis',[DashboardController::class, 'getProporcionTamizajeSifilis']);
+    Route::get('/seguimientos-comple',[DashboardController::class, 'getCoverageData']);
+    Route::get('/mortalidad-neonatalTemp',[DashboardController::class, 'getNeonatalMortalityRate']);
+    Route::get('/consultas-ive',[DashboardController::class, 'getIveProportion']);
 });
