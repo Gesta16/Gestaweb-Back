@@ -155,10 +155,10 @@ class DashboardController extends Controller
 
         $query = DB::table('seguimientos_complementarios')
             ->selectRaw('
-            SUM(asistio_nutricionista) AS total_nutricion,
-            SUM(asistio_ginecologia) AS total_ginecologia,
-            SUM(asistio_psicologia) AS total_psicologia,
-            SUM(asistio_odontologia) AS total_odontologia
+            SUM(asistio_nutricionista) AS total_Nutrición,
+            SUM(asistio_ginecologia) AS total_Ginecología,
+            SUM(asistio_psicologia) AS total_Psicología,
+            SUM(asistio_odontologia) AS total_Odontología
         ');
         if ($role === 'admin') {
             // Filtrar por IPS del admin
