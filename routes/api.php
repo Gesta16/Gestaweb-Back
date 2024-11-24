@@ -84,7 +84,7 @@ Route::middleware(['auth:api', 'role:admin,superadmin'])->group(function () {
 });
 
 /** RUTAS DE LA IPS */
-Route::middleware(['auth:api', 'role:superadmin,admin'])->group(function () {
+Route::middleware(['auth:api', 'role:superadmin,admin,operador'])->group(function () {
     Route::apiResource("ips", IpsController::class);
 });
 

@@ -78,6 +78,7 @@ class VacunacionController extends Controller
         // Retornar la respuesta exitosa
         return response()->json([
             'estado' => 'Ok',
+            'mensaje'=>'Vacunación creada exitosamente',
             'vacunacion' => $vacunacion
         ], 201);
     }
@@ -159,6 +160,7 @@ class VacunacionController extends Controller
     
         return response()->json([
             'estado' => 'Ok',
+            'mensaje'=>'Vacunación editada exitosamente',
             'vacunacion' => $vacunacion
         ]);
     }

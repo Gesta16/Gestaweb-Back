@@ -29,10 +29,10 @@ class RutaPYMSController extends Controller
     
         $validatedData = $request->validate([
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
-            'fec_bcg' => 'required|date',
-            'fec_hepatitis' => 'required|date',
+            'fec_bcg' => 'nullable|date',
+            'fec_hepatitis' => 'nullable|date',
             'fec_seguimiento' => 'required|date',
-            'fec_entrega' => 'required|date',
+            'fec_entrega' => 'nullable|date',
             'num_proceso' => 'required|integer', // Agregar validación para num_proceso
             'aplico_vacuna_bcg' => 'required|boolean',
             'aplico_vacuna_hepatitis' => 'required|boolean',
@@ -59,7 +59,7 @@ class RutaPYMSController extends Controller
         // Crear el registro de RutaPYMS
         $ruta = RutaPYMS::create($validatedData);
         
-        return response()->json(['estado' => 'Ok', 'data' => $ruta], 201); // 201 Created
+        return response()->json(['estado' => 'Ok','mensaje'=>'Ruta PYMS creada exitosamente', 'data' => $ruta], 201); // 201 Created
     }
     
 
@@ -128,7 +128,7 @@ class RutaPYMSController extends Controller
 
             return response()->json([
                 'estado' => 'Ok',
-                'mensaje' => 'Ruta actualizada correctamente',
+                'message' => 'Ruta actualizada correctamente',
                 'data' => $ruta
             ], 200);
         } catch (ModelNotFoundException $e) {

@@ -29,15 +29,15 @@ class LaboratorioInTrapartoController extends Controller
         }
     
         $validatedData = $request->validate([
-            'cod_vdrl' => 'required|integer',
+            'cod_vdrl' => 'nullable|integer',
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
-            'pru_sifilis' => 'required|string',
-            'fec_sifilis' => 'required|date',
-            'fec_vdrl' => 'required|date',
-            'rec_sifilis' => 'required|string',
-            'fec_tratamiento' => 'required|date',
-            'pru_vih' => 'required|string',
-            'fec_vih' => 'required|date',
+            'pru_sifilis' => 'nullable|string',
+            'fec_sifilis' => 'nullable|date',
+            'fec_vdrl' => 'nullable|date',
+            'rec_sifilis' => 'nullable|string',
+            'fec_tratamiento' => 'nullable|date',
+            'pru_vih' => 'nullable|string',
+            'fec_vih' => 'nullable|date',
             'num_proceso' => 'required|integer', // Asegúrate de incluir num_proceso
             'reali_prueb_trepo_rapi_sifilis_intra' => 'required|boolean',
             'reali_prueb_no_trepo_vdrl_sifilis_intra' => 'required|boolean',
@@ -90,6 +90,7 @@ class LaboratorioInTrapartoController extends Controller
         if ($laboratorio) {
             return response()->json([
                 'estado' => 'Ok',
+                'mensaje'=>'Laboratirio intraparto creado exitosamente',
                 'data' => $laboratorio
             ], 200);
         } else {
@@ -137,18 +138,18 @@ class LaboratorioInTrapartoController extends Controller
 
             return response()->json([
                 'estado' => 'Ok',
-                'mensaje' => 'Registro actualizado correctamente',
+                'message' => 'Registro actualizado correctamente',
                 'data' => $laboratorio
             ], 200);
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'estado' => 'Error',
-                'mensaje' => 'Registro no encontrado'
+                'message' => 'Registro no encontrado'
             ], 404);
         } catch (\Exception $e) {
             return response()->json([
                 'estado' => 'Error',
-                'mensaje' => 'Error al actualizar el registro',
+                'message' => 'Error al actualizar el registro',
                 'error' => $e->getMessage()
             ], 500);
         }

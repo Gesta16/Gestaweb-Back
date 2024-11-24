@@ -30,11 +30,11 @@ class CreateTamizacionNeonatalTable extends Migration
 
             $table->date('fec_tsh');
             $table->string('resul_tsh');
-            $table->date('fec_pruetrepo');
-            $table->string('pruetreponemica');
-            $table->string('tamiza_aud');
-            $table->string('tamiza_cardi');
-            $table->string('tamiza_visual');
+            $table->date('fec_pruetrepo')->nullable();
+            $table->string('pruetreponemica')->nullable();
+            $table->string('tamiza_aud')->nullable();
+            $table->string('tamiza_cardi')->nullable();
+            $table->string('tamiza_visual')->nullable();
             $table->boolean('reali_prueb_trepo_recien_nacido');//Se realizó la Prueba no treponémica recién nacido
             $table->boolean('reali_tami_auditivo');///Se realizó el Tamizaje auditivo
             $table->boolean('reali_tami_cardiopatia_congenita');//Se realizó el Tamizaje cardiopatías congénitas

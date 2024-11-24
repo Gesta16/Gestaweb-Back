@@ -22,7 +22,7 @@ class CreateControlPrenatalTable extends Migration
             $table->unsignedBigInteger('id_usuario');
             $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
 
-            $table->unsignedBigInteger('cod_fracaso');
+            $table->unsignedBigInteger('cod_fracaso')->nullable();
             $table->foreign('cod_fracaso')->references('cod_fracaso')->on('metodo_fracaso');
 
             $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
@@ -33,16 +33,16 @@ class CreateControlPrenatalTable extends Migration
             $table->date('fec_parto');
             $table->boolean('emb_planeado');
             $table->boolean('fec_anticonceptivo');
-            $table->date('fec_consulta');
-            $table->date('fec_control');
+            $table->date('fec_consulta')->nullable();
+            $table->date('fec_control')->nullable();
             $table->string('ries_reproductivo');
             $table->date('fac_asesoria');
             $table->boolean('usu_solicito');
-            $table->date('fec_terminacion');
+            $table->date('fec_terminacion')->nullable();
             $table->boolean('per_intergenesico');
             $table->boolean('recibio_atencion_preconcep'); //Recibió atención preconcepcional
             $table->boolean('asis_consul_control_precon'); //Asistió a la consulta de control atención preconcepcional
-            $table->boolean('asis_asesoria_ive');//Asistió a la asesoría IVE
+            $table->boolean('asis_asesoria_ive')->nullable();//Asistió a la asesoría IVE
             $table->boolean('tuvo_embarazos_antes');//Ha tenido algún embarazo anterior
             $table->timestamp('created_at')->useCurrent();
         });

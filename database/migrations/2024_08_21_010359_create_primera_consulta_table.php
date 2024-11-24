@@ -43,8 +43,8 @@ class CreatePrimeraConsultaTable extends Migration
             $table->integer('for_parto');
             $table->integer('for_cesarea');
             $table->integer('for_aborto');
-            $table->date('fec_lactancia');
-            $table->date('fec_consejeria');
+            $table->date('fec_lactancia')->nullable();
+            $table->date('fec_consejeria')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->boolean('asis_conse_lactancia');//Asistió a la consejería lactancia materna
             $table->boolean('asis_conse_pre_vih');//Asistió a la consejería pretest VIH

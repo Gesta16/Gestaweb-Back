@@ -27,12 +27,12 @@ class CreateSeguimientosComplementariosTable extends Migration
 
         
         // Campos adicionales
-        $table->date('fec_nutricion');       
-        $table->date('fec_ginecologia');     
-        $table->date('fec_psicologia');      
-        $table->date('fec_odontologia');     
+        $table->date('fec_nutricion')->nullable();       
+        $table->date('fec_ginecologia')->nullable();     
+        $table->date('fec_psicologia')->nullable();      
+        $table->date('fec_odontologia')->nullable();     
         $table->string('ina_seguimiento');   
-        $table->string('cau_inasistencia');  
+        $table->string('cau_inasistencia')->nullable();  
         $table->boolean('asistio_nutricionista');
         $table->boolean('asistio_ginecologia');
         $table->boolean('asistio_psicologia');

@@ -64,8 +64,8 @@ class PrimeraConsultaController extends Controller
             'for_parto' => 'sometimes|required|integer|min:0',
             'for_cesarea' => 'sometimes|required|integer|min:0',
             'for_aborto' => 'sometimes|required|integer|min:0',
-            'fec_lactancia' => 'sometimes|required|date',
-            'fec_consejeria' => 'sometimes|required|date',
+            'fec_lactancia' => 'sometimes|nullable|date',
+            'fec_consejeria' => 'sometimes|nullable|date',
             'num_proceso'=>'integer|required',
             'asis_conse_lactancia' => 'required|boolean',
             'asis_conse_pre_vih' => 'required|boolean'

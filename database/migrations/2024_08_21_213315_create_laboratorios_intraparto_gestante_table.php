@@ -22,18 +22,18 @@ class CreateLaboratoriosIntrapartoGestanteTable extends Migration
 
         $table->unsignedBigInteger('id_usuario');
         $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
-        $table->unsignedBigInteger('cod_vdrl'); // FK a la tabla de pruebas no treponémicas (VDRL)
+        $table->unsignedBigInteger('cod_vdrl')->nullable(); // FK a la tabla de pruebas no treponémicas (VDRL)
         $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
 
         
         // Campos adicionales
-        $table->string('pru_sifilis');        // Prueba treponémica rápida para sífilis intraparto
-        $table->date('fec_sifilis');          // Fecha prueba treponémica rápida para sífilis intraparto
-        $table->date('fec_vdrl');             // Fecha prueba no treponémica (VDRL) para sífilis intraparto
-        $table->string('rec_sifilis');        // Recibió tratamiento para sífilis intraparto (sí, no)
-        $table->date('fec_tratamiento');      // Fecha de inicio de tratamiento para sífilis intraparto
-        $table->string('pru_vih');            // Prueba rápida VIH intraparto (positivo, negativo)
-        $table->date('fec_vih');              // Fecha prueba rápida VIH intraparto
+        $table->string('pru_sifilis')->nullable();        // Prueba treponémica rápida para sífilis intraparto
+        $table->date('fec_sifilis')->nullable();          // Fecha prueba treponémica rápida para sífilis intraparto
+        $table->date('fec_vdrl')->nullable();             // Fecha prueba no treponémica (VDRL) para sífilis intraparto
+        $table->string('rec_sifilis')->nullable();        // Recibió tratamiento para sífilis intraparto (sí, no)
+        $table->date('fec_tratamiento')->nullable();      // Fecha de inicio de tratamiento para sífilis intraparto
+        $table->string('pru_vih')->nullable();            // Prueba rápida VIH intraparto (positivo, negativo)
+        $table->date('fec_vih')->nullable();              // Fecha prueba rápida VIH intraparto
         $table->boolean('reali_prueb_trepo_rapi_sifilis_intra');//Realizó la prueba treponémica rápida para sífilis intraparto
         $table->boolean('reali_prueb_no_trepo_vdrl_sifilis_intra');//Realizó la prueba no treponémica (VDRL) para sífilis intraparto
         $table->boolean('reali_prueb_rapi_vih');//Realizó la Prueba rápida VIH

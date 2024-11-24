@@ -26,10 +26,10 @@ class CreateRutaPYMSTable extends Migration
 
 
         // Campos adicionales
-        $table->date('fec_bcg');               // Fecha de vacunación BCG
-        $table->date('fec_hepatitis');         // Fecha de vacunación hepatitis
+        $table->date('fec_bcg')->nullable();               // Fecha de vacunación BCG
+        $table->date('fec_hepatitis')->nullable();         // Fecha de vacunación hepatitis
         $table->date('fec_seguimiento');       // Fecha de seguimiento a recién nacido
-        $table->date('fec_entrega');           // Fecha de entrega de carnet
+        $table->date('fec_entrega')->nullable();           // Fecha de entrega de carnet
         $table->boolean('aplico_vacuna_bcg');  // Se aplicó la vacuna BCG
         $table->boolean('aplico_vacuna_hepatitis'); //Se aplicó la vacuna hepatitis
         $table->boolean('reali_entrega_carnet'); //Se realizó la entrega de carnet

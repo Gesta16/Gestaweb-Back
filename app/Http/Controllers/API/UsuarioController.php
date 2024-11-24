@@ -25,7 +25,7 @@ class UsuarioController extends Controller
         $user = Auth::user();
         if($user->rol->nombre_rol == 'superadmin'){
             $usuarios = Usuario::orderBy('id_usuario', 'desc')->get();
-        }else if($user->rol->nombre_rol == 'admin'){
+        }else if($user->rol->nombre_rol == 'admin' || $user->rol->nombre_rol == 'operador'){
             $usuarios = Usuario::where('cod_ips', $user->userable->cod_ips)->get();
         }else{
             return response()->json(['error' => 'No autorizado']);
