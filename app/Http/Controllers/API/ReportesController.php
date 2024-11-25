@@ -113,19 +113,19 @@ class ReportesController extends Controller
                 'Intención Reproductiva' => [
                     'tabla' => 'control_prenatal',
                     'columnas' => [
-                        'usuario.nom_usuario'=> 'Nombre',
-                        'usuario.ape_usuario'=> 'Apellido',
-                        'usuario.documento_usuario'=> 'Documento',
-                        'emb_planeado'=>'Embarazo planeado'
+                        'usuario.nom_usuario' => 'Nombre',
+                        'usuario.ape_usuario' => 'Apellido',
+                        'usuario.documento_usuario' => 'Documento',
+                        'emb_planeado' => 'Embarazo planeado'
                     ]
                 ],
                 'Consulta IVE' => [
                     'tabla' => 'control_prenatal',
                     'columnas' => [
                         'usuario.nom_usuario' => 'Nombre',
-                        'usuario.ape_usuario'=> 'Apellido',
-                        'usuario.documento_usuario'=> 'Documento',
-                        'asis_asesoria_ive'=> 'Assistio a asesoria IVE'
+                        'usuario.ape_usuario' => 'Apellido',
+                        'usuario.documento_usuario' => 'Documento',
+                        'asis_asesoria_ive' => 'Assistio a asesoria IVE'
                     ]
                 ],
             ],
@@ -133,10 +133,10 @@ class ReportesController extends Controller
                 'Tratamiento de Sífilis' => [
                     'tabla' => 'its',
                     'columnas' => [
-                        'usuario.nom_usuario'=> 'Nombre',
-                        'usuario.ape_usuario'=> 'Apellido',
-                        'usuario.documento_usuario'=> 'Documento',
-                        'rec_tratamiento'=>'Recibio tratamiento'
+                        'usuario.nom_usuario' => 'Nombre',
+                        'usuario.ape_usuario' => 'Apellido',
+                        'usuario.documento_usuario' => 'Documento',
+                        'rec_tratamiento' => 'Recibio tratamiento'
                     ]
                 ],
             ],
@@ -159,6 +159,25 @@ class ReportesController extends Controller
         $query = DB::table($tabla)
             ->join('usuario', "$tabla.id_usuario", '=', 'usuario.id_usuario')
             ->select($columnKeys);
+
+        // Aplicar filtros para columnas específicas (campos con "Sí")
+        foreach ($columnKeys as $columna) {
+            // Validar si la columna es relevante y agregar el filtro
+            if (in_array($columna, [
+                'asis_consul_control_precon',
+                'asistio_nutricionista',
+                'asistio_odontologia',
+                'asistio_ginecologia',
+                'asistio_psicologia',
+                'emb_planeado',
+                'asis_asesoria_ive',
+                'rec_tratamiento'
+            ])) {
+                Log::info("Aplicando filtro para columna: $columna");
+                $query->where($columna, '=', 'Si');
+            }
+        }
+
 
         // Aplicar filtros de fecha
         if ($fechaInicio && $fechaFin) {
