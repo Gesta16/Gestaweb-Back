@@ -48,8 +48,7 @@ use App\Http\Controllers\API\EstudioHipotiroidismoCongenitoController;
 use App\Http\Controllers\API\RutaPYMSController;
 use App\Http\Controllers\API\TamizacionNeonatalController;
 use App\Http\Controllers\API\DashboardController;
-
-
+use App\Http\Controllers\API\ReportesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -375,3 +374,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
     Route::get('/mortalidad-neonatalTemp',[DashboardController::class, 'getNeonatalMortalityRate']);
     Route::get('/consultas-ive',[DashboardController::class, 'getIveProportion']);
 });
+
+/** RUTAS REPORTES */
+Route::post('/filtrar-indicadores', [ReportesController::class, 'filtrarIndicadores']);
+
