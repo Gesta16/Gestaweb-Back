@@ -50,7 +50,7 @@ class PrimeraConsultaController extends Controller
             'id_operador' => 'sometimes|required|exists:operador,id_operador',
             'id_usuario' => 'sometimes|required|exists:usuario,id_usuario',
             'cod_riesgo' => 'sometimes|required|exists:riesgo,cod_riesgo',
-            'cod_dm' => 'sometimes|required|exists:tipo_dm,cod_dm',
+            'cod_dm' => 'sometimes|nullable|exists:tipo_dm,cod_dm',
             'peso_previo' => 'sometimes|required|integer|min:0',
             'tal_consulta' => 'sometimes|required|numeric|min:0|max:999.99',
             'imc_consulta' => 'sometimes|required|integer|min:0',
@@ -115,6 +115,7 @@ class PrimeraConsultaController extends Controller
     
         return response()->json([
             'estado' => 'Ok',
+            'mensaje' => 'Primera consulta creada exitosamente',
             'data' => $primeraConsulta
         ], 201);
     }

@@ -25,7 +25,7 @@ class CreatePrimeraConsultaTable extends Migration
             $table->unsignedBigInteger('cod_riesgo');
             $table->foreign('cod_riesgo')->references('cod_riesgo')->on('riesgo');
 
-            $table->unsignedBigInteger('cod_dm');
+            $table->unsignedBigInteger('cod_dm')->nullable();
             $table->foreign('cod_dm')->references('cod_dm')->on('tipo_dm');
 
             $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');

@@ -111,7 +111,7 @@ class LaboratorioITrimestreController extends Controller
             'nombre_consulta' => 'Laboratorios primer trimestre',
         ]);
 
-        return response()->json(['estado' => 'Ok', 'data' => $laboratorio], 201);
+        return response()->json(['estado' => 'Ok', 'mensaje'=>'Laboratorio 1 trimestre creado con exito.' ,'data' => $laboratorio], 201);
     }
 
     /**

@@ -112,6 +112,7 @@ class LaboratorioIIITrimestreController extends Controller
     
         return response()->json([
             'estado' => 'Ok',
+            'mensaje' => 'Laboratorio 3 trimestre creado con exito',
             'data' => $laboratorio
         ], 201);
     }

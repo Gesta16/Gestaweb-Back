@@ -35,7 +35,7 @@ class CreateItsTable extends Migration
         $table->date('fec_rpr');                 // Fecha prueba no treponémica (RPR)
         $table->string('rec_tratamiento');       // Recibió tratamiento para sífilis (si, no)
         $table->string('rec_pareja');            // Recibió tratamiento para sífilis para la pareja
-        $table->boolean('reali_prueb_eliza_vih');// Realizó la prueba Elisa para VIH
+        $table->boolean('reali_prueb_elisa_vih');// Realizó la prueba Elisa para VIH
         $table->boolean('reali_prueb_no_trepo_vdrl_sifilis'); //Realizó la prueba no treponémica (VDRL) para sífilis
         $table->boolean('reali_prueb_no_trepo_rpr_sifilis'); //Realizó la prueba no treponémica (RPR) para sífilis
         
