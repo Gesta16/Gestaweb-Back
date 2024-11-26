@@ -61,7 +61,7 @@ class ItsController extends Controller
         $validatedData = $request->validate([
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'cod_vdrl' => 'required|integer|exists:prueba_no_treponemica__v_d_r_l,cod_vdrl',
-            'cod_rpr' => 'required|integer|exists:prueba_no_treponemica__r_p_r,cod_rpr',
+            'cod_rpr' => 'nullable|integer|exists:prueba_no_treponemica__r_p_r,cod_rpr',
             'eli_vih' => 'nullable|string',
             'fec_vih' => 'nullable|date',
             'fec_vdrl' => 'nullable|date',
