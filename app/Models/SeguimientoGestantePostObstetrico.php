@@ -24,6 +24,7 @@ class SeguimientoGestantePostObstetrico extends Model
         'fec_fallecimiento',
         'fec_planificacion',
         'proceso_gest_id',
+        'recib_aseso_anticonceptiva'
     ];
 
     

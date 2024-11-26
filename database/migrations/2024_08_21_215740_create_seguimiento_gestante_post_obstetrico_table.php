@@ -30,6 +30,7 @@ class CreateSeguimientoGestantePostObstetricoTable extends Migration
         $table->string('con_egreso');           // Condición al egreso tras el parto o aborto (Vivo, Muerto)
         $table->date('fec_fallecimiento')->nullable(); // Fecha del fallecimiento
         $table->date('fec_planificacion')->nullable(); // Fecha de atención de planificación familiar posparto
+        $table->boolean('recib_aseso_anticonceptiva');
 
         // Definir la relación
         $table->foreign('cod_metodo')->references('cod_metodo')->on('metodos_anticonceptivos');

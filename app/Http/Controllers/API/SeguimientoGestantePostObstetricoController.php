@@ -33,6 +33,7 @@ class SeguimientoGestantePostObstetricoController extends Controller
             'con_egreso' => 'required|string',
             'fec_fallecimiento' => 'nullable|date',
             'fec_planificacion' => 'nullable|date',
+            'recib_aseso_anticonceptiva'=>'required|boolean',
             'num_proceso' => 'required|integer', // Asegúrate de incluir num_proceso
         ]);
     
@@ -56,7 +57,7 @@ class SeguimientoGestantePostObstetricoController extends Controller
         // Crear el registro de SeguimientoGestantePostObstetrico
         $seguimiento = SeguimientoGestantePostObstetrico::create($validatedData);
     
-        return response()->json(['estado' => 'Ok', 'data' => $seguimiento], 201); // 201 Created
+        return response()->json(['estado' => 'Ok', 'mensaje' => 'Seguimiento Post Obstétrico creado con exito', 'data' => $seguimiento], 201); // 201 Created
     }
     
     public function show($id, $num_proceso)
