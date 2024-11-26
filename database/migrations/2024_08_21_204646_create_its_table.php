@@ -26,7 +26,7 @@ class CreateItsTable extends Migration
 
         // Claves foráneas
         $table->unsignedBigInteger('cod_vdrl');  
-        $table->unsignedBigInteger('cod_rpr'); 
+        $table->unsignedBigInteger('cod_rpr')->nullable(); 
 
         // Otros campos
         $table->string('eli_vih')->nullable();               // Elisa para VIH (reactivo, no reactivo)
@@ -42,7 +42,7 @@ class CreateItsTable extends Migration
 
         // Definir las relaciones
         $table->foreign('cod_vdrl')->references('cod_vdrl')->on('prueba_no_treponemica__v_d_r_l');
-        $table->foreign('cod_rpr')->references('cod_rpr')->on('prueba_no_treponemica__r_p_r')->nullable();
+        $table->foreign('cod_rpr')->references('cod_rpr')->on('prueba_no_treponemica__r_p_r');
     });
 }
 
