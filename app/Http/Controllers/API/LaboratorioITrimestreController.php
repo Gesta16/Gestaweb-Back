@@ -42,7 +42,7 @@ class LaboratorioITrimestreController extends Controller
         $validatedData = $request->validate([
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'cod_hemoclasifi' => 'required|integer|exists:hemoclasificacion,cod_hemoclasifi',
-            'cod_antibiograma' => 'required|integer|exists:antibiograma,cod_antibiograma',
+            'cod_antibiograma' => 'nullable|integer|exists:antibiograma,cod_antibiograma',
             'fec_hemoclasificacion' => 'required|date',
             'hem_laboratorio' => 'required|string',
             'fec_hemograma' => 'required|date',

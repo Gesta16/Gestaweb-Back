@@ -25,7 +25,7 @@ class CreateLaboratorioITrimestreTable extends Migration
             $table->unsignedBigInteger('cod_hemoclasifi');
             $table->foreign('cod_hemoclasifi')->references('cod_hemoclasifi')->on('hemoclasificacion');
 
-            $table->unsignedBigInteger('cod_antibiograma');
+            $table->unsignedBigInteger('cod_antibiograma')->nullable();
             $table->foreign('cod_antibiograma')->references('cod_antibiograma')->on('antibiograma');
 
             $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');

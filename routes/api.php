@@ -365,7 +365,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DASHBOARD */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get('/calendario-usuario', [DashboardController::class, 'CalendarioUsuario']);
     Route::get('/conteo', [DashboardController::class, 'contarRegistros']);
     Route::get('/usuario-ips', [DashboardController::class, 'conteoUsuariosPorIps']);
