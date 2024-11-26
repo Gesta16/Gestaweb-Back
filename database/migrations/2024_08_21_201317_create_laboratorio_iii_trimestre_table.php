@@ -53,7 +53,7 @@ class CreateLaboratorioIiiTrimestreTable extends Migration
             
             // Riesgo biopsicosocial escala de Herrera y Hurtado
             $table->string('rie_biopsicosocial');
-            $table->boolean('reali_prueb_rapi_vih');//Realizó la prueba rápida VIH
+            $table->boolean('reali_prueb_rapi_vih_3');//Realizó la prueba rápida VIH
             $table->boolean('reali_prueb_trepo_rapi_sifilis');//Realizó la prueba treponémica rápida para sífilis
             $table->boolean('reali_prueb_igm_toxoplasma');//Realizó la prueba IG-M toxoplasma
             $table->boolean('reali_prueb_culti_rect_vagi');//Realizó la prueba de cultivo rectal y vaginal

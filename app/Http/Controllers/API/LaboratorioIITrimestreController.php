@@ -111,6 +111,7 @@ class LaboratorioIITrimestreController extends Controller
     
         return response()->json([
             'estado' => 'Ok',
+            'mensaje' => 'Laboratorio segundo trimestre creado con exito',
             'data' => $laboratorio
         ], 201);
     }
@@ -137,7 +138,6 @@ class LaboratorioIITrimestreController extends Controller
     
         return response()->json([
             'estado' => 'Ok',
-            'mensaje' => 'Laboratorio 2 trimestre creado con exito',
             'data' => $laboratorio
         ]);
     }
@@ -213,6 +213,7 @@ class LaboratorioIITrimestreController extends Controller
     
         return response()->json([
             'estado' => 'Ok',
+            'message'=>'Laboratorio 2 trimestre editado con exito',
             'data' => $laboratorio
         ]);
     }
