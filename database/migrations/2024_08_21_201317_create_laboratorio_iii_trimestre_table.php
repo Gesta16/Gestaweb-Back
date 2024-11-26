@@ -49,7 +49,7 @@ class CreateLaboratorioIiiTrimestreTable extends Migration
             $table->date('fec_biofisico')->nullable();
             
             // Edad gestacional al momento de la ecografía de perfil
-            $table->integer('edad_gestacional');
+            $table->integer('edad_gestacional')->nullable();
             
             // Riesgo biopsicosocial escala de Herrera y Hurtado
             $table->string('rie_biopsicosocial');

@@ -73,7 +73,7 @@ class LaboratorioIIITrimestreController extends Controller
             'cul_rectal' => 'nullable|string',
             'fec_rectal' => 'nullable|date',
             'fec_biofisico' => 'nullable|date',
-            'edad_gestacional' => 'required|integer|min:0',
+            'edad_gestacional' => 'nullable|integer|min:0',
             'rie_biopsicosocial' => 'required|string',
             'num_proceso' => 'required|integer', // Asegurarse de incluir num_proceso
             'reali_prueb_rapi_vih_3' => 'required|boolean',
