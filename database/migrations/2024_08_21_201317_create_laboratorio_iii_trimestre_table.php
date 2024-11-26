@@ -30,23 +30,23 @@ class CreateLaboratorioIiiTrimestreTable extends Migration
             $table->date('fec_hemograma');
             
             // Prueba rápida VIH
-            $table->string('pru_vih');
-            $table->date('fec_vih');
+            $table->string('pru_vih')->nullable();
+            $table->date('fec_vih')->nullable();
             
             // Prueba treponémica rápida para sífilis
-            $table->string('pru_sifilis');
-            $table->date('fec_sifilis');
+            $table->string('pru_sifilis')->nullable();
+            $table->date('fec_sifilis')->nullable();
             
             // IG-M toxoplasma
-            $table->string('ig_toxoplasma');
-            $table->date('fec_toxoplasma');
+            $table->string('ig_toxoplasma')->nullable();
+            $table->date('fec_toxoplasma')->nullable();
             
             // Cultivo rectal y vaginal
-            $table->string('cul_rectal');
-            $table->date('fec_rectal');
+            $table->string('cul_rectal')->nullable();
+            $table->date('fec_rectal')->nullable();
             
             // Fecha perfil biofísico
-            $table->date('fec_biofisico');
+            $table->date('fec_biofisico')->nullable();
             
             // Edad gestacional al momento de la ecografía de perfil
             $table->integer('edad_gestacional');

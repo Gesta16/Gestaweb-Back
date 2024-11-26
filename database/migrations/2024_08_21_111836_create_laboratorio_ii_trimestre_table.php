@@ -24,28 +24,28 @@ class CreateLaboratorioIiTrimestreTable extends Migration
             
             $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
 
-            $table->string('pru_vih');
-            $table->date('fec_vih');
-            $table->string('pru_sifilis');
-            $table->date('fec_sifilis');
+            $table->string('pru_vih')->nullable();
+            $table->date('fec_vih')->nullable();
+            $table->string('pru_sifilis')->nullable();
+            $table->date('fec_sifilis')->nullable();
             $table->string('pru_oral');
             $table->string('pru_uno');
             $table->string('pru_dos');
             $table->date('fec_prueba');
-            $table->string('rep_citologia');
-            $table->date('fec_citologia');
+            $table->string('rep_citologia')->nullable();
+            $table->date('fec_citologia')->nullable();
             $table->string('ig_toxoplasma');
             $table->date('fec_toxoplasma');
-            $table->string('pru_avidez');
-            $table->date('fec_avidez');
-            $table->string('tox_laboratorio');
-            $table->date('fec_toxoplasmosis');
-            $table->string('hem_gruesa');
-            $table->date('fec_hemoparasito');
-            $table->string('coo_cualitativo');
-            $table->date('fec_coombs');
-            $table->date('fec_ecografia');
-            $table->decimal('eda_gestacional', 8, 2);
+            $table->string('pru_avidez')->nullable();
+            $table->date('fec_avidez')->nullable();
+            $table->string('tox_laboratorio')->nullable();
+            $table->date('fec_toxoplasmosis')->nullable();
+            $table->string('hem_gruesa')->nullable();
+            $table->date('fec_hemoparasito')->nullable();
+            $table->string('coo_cualitativo')->nullable();
+            $table->date('fec_coombs')->nullable();
+            $table->date('fec_ecografia')->nullable();
+            $table->decimal('eda_gestacional', 8, 2)->nullable();
             $table->string('rie_biopsicosocial');
             $table->boolean('reali_prueb_rapi_vih');//Realizó la prueba rápida VIH
             $table->boolean('real_prueb_trep_rap_sifilis');//Realizó la prueba treponémica rápida sífilis

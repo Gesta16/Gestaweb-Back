@@ -29,12 +29,12 @@ class CreateItsTable extends Migration
         $table->unsignedBigInteger('cod_rpr'); 
 
         // Otros campos
-        $table->string('eli_vih');               // Elisa para VIH (reactivo, no reactivo)
-        $table->date('fec_vih');                 // Fecha elisa para VIH
-        $table->date('fec_vdrl');                // Fecha prueba no treponémica (VDRL)
-        $table->date('fec_rpr');                 // Fecha prueba no treponémica (RPR)
-        $table->string('rec_tratamiento');       // Recibió tratamiento para sífilis (si, no)
-        $table->string('rec_pareja');            // Recibió tratamiento para sífilis para la pareja
+        $table->string('eli_vih')->nullable();               // Elisa para VIH (reactivo, no reactivo)
+        $table->date('fec_vih')->nullable();                 // Fecha elisa para VIH
+        $table->date('fec_vdrl')->nullable();                // Fecha prueba no treponémica (VDRL)
+        $table->date('fec_rpr')->nullable();                 // Fecha prueba no treponémica (RPR)
+        $table->string('rec_tratamiento')->nullable();       // Recibió tratamiento para sífilis (si, no)
+        $table->string('rec_pareja')->nullable();            // Recibió tratamiento para sífilis para la pareja
         $table->boolean('reali_prueb_elisa_vih');// Realizó la prueba Elisa para VIH
         $table->boolean('reali_prueb_no_trepo_vdrl_sifilis'); //Realizó la prueba no treponémica (VDRL) para sífilis
         $table->boolean('reali_prueb_no_trepo_rpr_sifilis'); //Realizó la prueba no treponémica (RPR) para sífilis
