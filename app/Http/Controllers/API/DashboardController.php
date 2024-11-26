@@ -79,18 +79,30 @@ class DashboardController extends Controller
             $totalOperadores = Operador::count();
             $totalAdministradores = Admin::count();
             $totalUsuarios = Usuario::count();
+            return response()->json([
+                'total_ips' => $totalIps,
+                'total_operadores' => $totalOperadores,
+                'total_administradores' => $totalAdministradores,
+                'total_usuarios' => $totalUsuarios,
+            ]);
         } elseif ($usuario->rol_id == 2) {
             $totalOperadores = Operador::where('cod_ips', $codIps)->count();
             $totalAdministradores = Admin::where('cod_ips', $codIps)->count();
             $totalUsuarios = Usuario::where('cod_ips', $codIps)->count();
+            return response()->json([
+                'total_ips' => $totalIps,
+                'total_operadores' => $totalOperadores,
+                'total_administradores' => $totalAdministradores,
+                'total_usuarios' => $totalUsuarios,
+            ]);
+        }elseif($usuario->rol_id == 3){
+            $totalUsuarios = Usuario::where('cod_ips', $codIps)->count();
+            return response()->json([
+                'total_usuarios' => $totalUsuarios,
+            ]);
         }
 
-        return response()->json([
-            'total_ips' => $totalIps,
-            'total_operadores' => $totalOperadores,
-            'total_administradores' => $totalAdministradores,
-            'total_usuarios' => $totalUsuarios,
-        ]);
+       
     }
 
     public function conteoUsuariosPorIps()
