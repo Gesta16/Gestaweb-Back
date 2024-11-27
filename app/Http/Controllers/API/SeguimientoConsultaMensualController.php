@@ -11,14 +11,14 @@ use Illuminate\Http\Request;
 
 class SeguimientoConsultaMensualController extends Controller
 {
-    
+
     public function index()
     {
         $seguimientos = SeguimientoConsultaMensual::all();
         return response()->json($seguimientos);
     }
 
-    
+
     public function store(Request $request)
     {
         // Verificar si el usuario está autenticado
@@ -28,7 +28,7 @@ class SeguimientoConsultaMensualController extends Controller
                 'mensaje' => 'Debes estar autenticado para realizar esta acción'
             ], 401); // 401 Unauthorized
         }
-    
+
         // Validar los datos de entrada
         $validatedData = $request->validate([
             'cod_riesgo' => 'required|exists:riesgo,cod_riesgo',
@@ -47,66 +47,66 @@ class SeguimientoConsultaMensualController extends Controller
             'ten_artd' => 'required|numeric',
             'num_proceso' => 'required|integer', // Añadir validación para num_proceso
         ]);
-    
+
         // Verificar que el ProcesoGestativo esté activo
         $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])
-                                            ->where('num_proceso', $validatedData['num_proceso'])
-                                            ->where('estado', 1) // O el estado que definas para "activo"
-                                            ->first();
-    
+            ->where('num_proceso', $validatedData['num_proceso'])
+            ->where('estado', 1) // O el estado que definas para "activo"
+            ->first();
+
         if (!$procesoGestativo) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
             ], 404);
         }
-    
+
         // Asignar el id_operador y el id del proceso gestativo
         $validatedData['id_operador'] = auth()->user()->userable_id;
         $validatedData['proceso_gestativo_id'] = $procesoGestativo->id;
-    
+
         // Crear el registro de SeguimientoConsultaMensual
         $seguimiento = SeguimientoConsultaMensual::create($validatedData);
-    
+
         // Crear el registro de ConsultasUsuario
         ConsultasUsuario::create([
             'id_usuario' => $validatedData['id_usuario'],
             'fecha' => now(),
-            'nombre_consulta' => 'Consulta Mensual', 
+            'nombre_consulta' => 'Consulta Mensual',
         ]);
-    
+
         return response()->json([
             'estado' => 'Ok',
             'mensaje' => 'Seguimiento creado exitosamente',
             'data' => $seguimiento
         ], 201);
     }
-    
+
     public function show($id, $num_proceso)
     {
         // Verificar que el ProcesoGestativo esté activo
         $procesoGestativo = ProcesoGestativo::where('id_usuario', $id)
-                                            ->where('num_proceso', $num_proceso)
-                                            ->first();
-    
+            ->where('num_proceso', $num_proceso)
+            ->first();
+
         if (!$procesoGestativo) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
             ], 404);
         }
-    
+
         // Obtener el seguimiento correspondiente
         $seguimiento = SeguimientoConsultaMensual::where('id_usuario', $id)
-                                                 ->where('proceso_gestativo_id', $procesoGestativo->id)
-                                                 ->firstOrFail();
-    
+            ->where('proceso_gestativo_id', $procesoGestativo->id)
+            ->firstOrFail();
+
         return response()->json([
             'estado' => 'Ok',
             'seguimiento' => $seguimiento
         ], 200);
     }
-    
+
 
     public function update(Request $request, $id)
     {
@@ -170,11 +170,54 @@ class SeguimientoConsultaMensualController extends Controller
         }
     }
 
-    
+
     public function destroy($id)
     {
         $seguimiento = SeguimientoConsultaMensual::findOrFail($id);
         $seguimiento->delete();
         return response()->json(null, 204);
+    }
+
+    public function seguimientosMensualesGestante(Request $request)
+    {
+        $idUsuario = $request->input('id_usuario');
+        $numProceso = $request->input('num_proceso');
+
+        // Validar que ambos parámetros estén presentes
+        if (!$idUsuario || !$numProceso) {
+            return response()->json([
+                'estado' => 'Error',
+                'message' => 'Faltan parámetros requeridos (id_usuario o num_proceso).'
+            ], 400);
+        }
+
+        // Buscar el proceso gestativo activo para el usuario y número de proceso
+        $procesoGestativo = ProcesoGestativo::where('id_usuario', $idUsuario)
+            ->where('num_proceso', $numProceso)
+            ->first();
+
+        if (!$procesoGestativo) {
+            return response()->json([
+                'estado' => 'Error',
+                'message' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
+            ], 404);
+        }
+
+        // Obtener los seguimientos asociados al proceso gestativo
+        $seguimientos = SeguimientoConsultaMensual::where('id_usuario', $idUsuario)
+            ->where('proceso_gestativo_id', $procesoGestativo->id)
+            ->get();
+
+        if ($seguimientos->isEmpty()) {
+            return response()->json([
+                'estado' => 'Error',
+                'message' => 'No se encontraron seguimientos mensuales para el proceso gestativo especificado.'
+            ], 404);
+        }
+
+        return response()->json([
+            'estado' => 'Ok',
+            'data' => $seguimientos
+        ], 200);
     }
 }

@@ -83,14 +83,15 @@ Route::middleware(['auth:api', 'role:admin,superadmin'])->group(function () {
 });
 
 /** RUTAS DE LA IPS */
-Route::middleware(['auth:api', 'role:superadmin,admin,operador'])->group(function () {
+Route::middleware(['auth:api', 'role:superadmin,admin,operador,usuario'])->group(function () {
     Route::apiResource("ips", IpsController::class);
 });
 
 /** RUTAS DEL USUARIO*/
-Route::middleware(['auth:api', 'role:superadmin,admin,operador'])->group(function () {
+Route::middleware(['auth:api', 'role:superadmin,admin,operador,usuario'])->group(function () {
     Route::post("usuario/nuevo-proceso/{usuarioId}", [UsuarioController::class, 'crearProcesoGestativo']);
     Route::get("usuario/contar-procesos/{usuarioId}", [UsuarioController::class, 'contarProcesosGestativos']);
+    Route::get('/usuario/{id_usuario}/completo', [UsuarioController::class, 'getUsuarioCompleto']);
     Route::apiResource("usuario", UsuarioController::class);
 });
 
@@ -100,114 +101,114 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador"])->group(functio
 });
 
 /** RUTAS DEL DEPARTAMENTO */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("departamento", DepartamentoController::class);
 });
 
 /** RUTAS DEL TIPO DOCUMENTO */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("documento", TipoDocumentoController::class);
 });
 
 /** RUTAS DEL REGIMEN */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("regimen", RegimenController::class);
 });
 
 /** RUTAS DE POBLACION DIFERENCIAL */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("poblacion-diferencial", PoblacionDiferencialController::class);
 });
 
 /** RUTAS DEL METODO FRACASO */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("metodo-fracaso", MetodoFracasoController::class);
 });
 
 /** RUTAS DEL RIESGO */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("riesgo", RiesgoController::class);
 });
 
 /** RUTAS DEL TIPO DM */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("tipo-dm", TipoDmController::class);
 });
 
 /** RUTAS DEL BIOLOGICO */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("biologico", BiologicoController::class);
 });
 
 /** RUTAS DE LA HEMOCLASIFICACION */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("hemoclasificacion", HemoclasificacionController::class);
 });
 
 /** RUTAS DEL ANTIBIOGRAMA */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("antibiograma", AntibiogramaController::class);
 });
 
 /** RUTAS DE LA PRUEBA NO TREPONEMICA VDRL */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     route::apiResource("prueba-no-treponemica-VDRL", PruebaNoTreponemicaVDRLController::class);
 });
 
 /** RUTAS DE LA PRUEBA NO TREPONEMICA RPR */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("prueba-no-treponemica-RPR", PruebaNoTreponemicaRPRController::class);
 });
 
 /** RUTAS DE NUMERO CONTROLES */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("numero-controles", NumeroControlesController::class);
 });
 
 /** RUTAS DE DIAGNOSTICO NUTRICIONAL MES */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("diagnostico-nutricional-mes", DiagnosticoNutricionalMesController::class);
 });
 
 /** RUTAS DE FORMA MEDICION EDAD GESTACIONAL */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("forma-medicion-edad-gestacional", FormaMedicionEdadGestacionalController::class);
 });
 
 /** RUTAS DE SESIONES CURSO PATERNIDAD Y MATERNIDAD */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("sesiones-cpm", NumSesionesCursoPaternidadMaternidadController::class);
 });
 
 /** RUTAS DE TERMINACION GESTACION */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("terminacion-gestacion", TerminacionGestacionController::class);
 });
 
 /** RUTAS DE METODO ANTICONCEPTIVO */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("metodo-anticonceptivo", MetodoAnticonceptivoController::class);
 });
 
 /** RUTAS DE MORTALIDAD PERINATAL */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("mortalidad-perinatal", MortalidadPerinatalController::class);
 });
 
 /** RUTAS DE MORTALIDAD PERINATAL */ //PENDIENTE DE REVISAR SI SE ESTA UTILIZANDO
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::apiResource("prueba-ptrn", PruebaNoTreponemicaRecienNacidoController::class);
 });
 
 /** RUTAS DE MUNICIPIO */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function () {
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function () {
     Route::get("municipio/{cod_departamento}", [MunicipioController::class, 'index']);
     Route::get("municipio-individual/{id}", [MunicipioController::class, 'show']);
 });
 
 
 /** RUTAS DEL CONTROL PRENATAL */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get('/control-prenatal', [ControlPrenatalController::class, 'index']);
     Route::get('/control-prenatal/{id_usuario}/{num_proceso}', [ControlPrenatalController::class, 'show']);
     Route::post('/control-prenatal', [ControlPrenatalController::class, 'store']);
@@ -216,7 +217,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DE LA PRIMERA CONSULTA */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get("primera-consulta", [PrimeraConsultaController::class, 'index']);
     Route::post("primera-consulta", [PrimeraConsultaController::class, 'store']);
     Route::get("primera-consulta/{id}/{num_proceso}", [PrimeraConsultaController::class, 'show']);
@@ -225,12 +226,12 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DE LA VACUNACION */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::apiResource("vacunacion", VacunacionController::class);
 });
 
 /** RUTAS DE FINALIZACION DE LA GESTACION */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get('/finalizacion-gestacion', [FinalizacionGestacionController::class, 'index']);
     Route::post('/finalizacion-gestacion', [FinalizacionGestacionController::class, 'store']);
     Route::get('/finalizacion-gestacion/{id}/{num_proceso}', [FinalizacionGestacionController::class, 'show']);
@@ -239,7 +240,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DE LABORATORIO INTRAPARTO */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get('/laboratorio-intraparto', [LaboratorioInTrapartoController::class, 'index']);
     Route::post('/laboratorio-intraparto', [LaboratorioInTrapartoController::class, 'store']);
     Route::get('/laboratorio-intraparto/{id}/{num_proceso}', [LaboratorioInTrapartoController::class, 'show']);
@@ -248,7 +249,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DE SEGUIMIENTO GESTANTE POST OBSTETRICO */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get('/seguimiento-post-obstetrico', [SeguimientoGestantePostObstetricoController::class, 'index']);
     Route::post('/seguimiento-post-obstetrico', [SeguimientoGestantePostObstetricoController::class, 'store']);
     Route::get('/seguimiento-post-obstetrico/{id}/{num_proceso}', [SeguimientoGestantePostObstetricoController::class, 'show']);
@@ -257,7 +258,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DEL LABORATORIO-I-SEMESTRE*/
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get("laboratorio-primer-semestre", [LaboratorioITrimestreController::class, 'index']);
     Route::post("laboratorio-primer-semestre", [LaboratorioITrimestreController::class, 'store']);
     Route::get("laboratorio-primer-semestre/{id}/{num_proceso}", [LaboratorioITrimestreController::class, 'show']);
@@ -266,7 +267,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DEL LABORATORIO-II-SEMESTRE*/
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get("laboratorio-segundo-semestre", [LaboratorioIITrimestreController::class, 'index']);
     Route::post("laboratorio-segundo-semestre", [LaboratorioIITrimestreController::class, 'store']);
     Route::get("laboratorio-segundo-semestre/{id}/{num_proceso}", [LaboratorioIITrimestreController::class, 'show']);
@@ -275,7 +276,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DEL LABORATORIO-III-SEMESTRE*/
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get("laboratorio-tercer-semestre", [LaboratorioIIITrimestreController::class, 'index']);
     Route::post("laboratorio-tercer-semestre", [LaboratorioIIITrimestreController::class, 'store']);
     Route::get("laboratorio-tercer-semestre/{id}/{num_proceso}", [LaboratorioIIITrimestreController::class, 'show']);
@@ -284,7 +285,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS ITS*/
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get("its", [ItsController::class, 'index']);
     Route::post("its", [ItsController::class, 'store']);
     Route::get("its/{id}/{num_proceso}", [ItsController::class, 'show']);
@@ -293,16 +294,18 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DE SEGUIMIENTO CONSULTA MENSUAL*/
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get('seguimiento-consulta-mensual', [SeguimientoConsultaMensualController::class, 'index']);
     Route::post('seguimiento-consulta-mensual', [SeguimientoConsultaMensualController::class, 'store']);
     Route::get('seguimiento-consulta-mensual/{id}/{num_proceso}', [SeguimientoConsultaMensualController::class, 'show']);
     Route::post('seguimiento-consulta-mensual/{id}', [SeguimientoConsultaMensualController::class, 'update']);
     Route::delete('seguimiento-consulta-mensual/{id}', [SeguimientoConsultaMensualController::class, 'destroy']);
+    Route::get('/seguimientos-mensuales', [SeguimientoConsultaMensualController::class, 'seguimientosMensualesGestante']);
+
 });
 
 /** RUTAS DE SEGUIMIENTO COMPLEMENTARIOS */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get('seguimientos-complementarios', [SeguimientoComplementarioController::class, 'index']);
     Route::post('seguimientos-complementarios', [SeguimientoComplementarioController::class, 'store']);
     Route::get('seguimientos-complementarios/{id}/{num_proceso}', [SeguimientoComplementarioController::class, 'show']);
@@ -311,7 +314,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DE MICRONUTRIENTES */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get('micronutrientes', [MicronutrienteController::class, 'index']);
     Route::post('micronutrientes', [MicronutrienteController::class, 'store']);
     Route::get('micronutrientes/{id}/{num_proceso}', [MicronutrienteController::class, 'show']);
@@ -320,7 +323,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DE MORTALIDAD PREPARTO */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get('mortalidad-preparto', [MortalidadPrepartoController::class, 'index']);
     Route::post('mortalidad-preparto', [MortalidadPrepartoController::class, 'store']);
     Route::get('mortalidad-preparto/{id}/{num_proceso}', [MortalidadPrepartoController::class, 'show']);
@@ -329,7 +332,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DE DATOS DEL RECIEN NACIDO */
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get('datos-recien-nacido', [DatosRecienNacidoController::class, 'index']);
     Route::post('datos-recien-nacido', [DatosRecienNacidoController::class, 'store']);
     Route::get('datos-recien-nacido/{id}/{num_proceso}', [DatosRecienNacidoController::class, 'show']);
@@ -338,7 +341,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DE ESTUDIO HIPOTIROIDISMO*/
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get('/estudios-hipotiroidismo', [EstudioHipotiroidismoCongenitoController::class, 'index']);
     Route::post('/estudios-hipotiroidismo', [EstudioHipotiroidismoCongenitoController::class, 'store']);
     Route::get('/estudios-hipotiroidismo/{id}/{num_proceso}', [EstudioHipotiroidismoCongenitoController::class, 'show']);
@@ -347,7 +350,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DE RUTAS PYMS*/
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get('/rutas-pyms', [RutaPYMSController::class, 'index']);
     Route::post('/rutas-pyms', [RutaPYMSController::class, 'store']);
     Route::get('/rutas-pyms/{id}/{num_proceso}', [RutaPYMSController::class, 'show']);
@@ -356,7 +359,7 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(fu
 });
 
 /** RUTAS DE RUTAS TAMIZACIONES NEONATALES*/
-Route::middleware(["auth:api", "role:superadmin,admin,operador,user"])->group(function(){
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
     Route::get('/tamizaciones-neonatales', [TamizacionNeonatalController::class, 'index']);
     Route::post('/tamizaciones-neonatales', [TamizacionNeonatalController::class, 'store']);
     Route::get('/tamizaciones-neonatales/{id}/{num_proceso}', [TamizacionNeonatalController::class, 'show']);

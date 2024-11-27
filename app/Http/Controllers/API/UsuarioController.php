@@ -344,4 +344,52 @@ class UsuarioController extends Controller
             ], 500);
         }
     }
+
+    public function getUsuarioCompleto($id_usuario)
+    {
+        try {
+            // Recuperar usuario con todas las relaciones
+            $usuario = Usuario::with([
+                'controlesPrenatales',
+                'primeraConsultas',
+                'vacunaciones',
+                'laboratorios',
+                'laboratorios2',
+                'laboratorios3',
+                'laboratoriosIntraparto',
+                'its',
+                'micronutrientes',
+                'seguimientosComplementarios',
+                'seguimientos',
+                'procesosGestativos',
+                'finalizacionGestacion',
+                'datosRecienNacido',
+                'tamizacionNeonatal',
+                'hipotiroidismoCongenito',
+                'seguimientoPostObstetrico.metodosAnticonceptivos',
+                'ips',
+            ])->find($id_usuario);
+
+            // Verificar si el usuario existe
+            if (!$usuario) {
+                return response()->json([
+                    'estado' => 'Error',
+                    'mensaje' => 'Usuario no encontrado',
+                ], 404);
+            }
+
+            // Retornar datos del usuario y relaciones
+            return response()->json([
+                'estado' => 'Ok',
+                'data' => $usuario,
+            ], 200);
+        } catch (\Exception $e) {
+            // Manejar errores y retornar respuesta
+            return response()->json([
+                'estado' => 'Error',
+                'mensaje' => 'Error al obtener datos del usuario',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }
