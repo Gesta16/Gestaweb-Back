@@ -26,7 +26,7 @@ class CreateItsTable extends Migration
 
         // Claves foráneas
         $table->unsignedBigInteger('cod_vdrl');  
-        $table->unsignedBigInteger('cod_rpr'); 
+        $table->unsignedBigInteger('cod_rpr')->nullable(); 
 
         // Otros campos
         $table->string('eli_vih')->nullable();               // Elisa para VIH (reactivo, no reactivo)
