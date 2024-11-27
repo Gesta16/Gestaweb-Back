@@ -266,7 +266,7 @@ class ReportesController extends Controller
         $query = DB::table($tabla)
             ->join('usuario', "$tabla.id_usuario", '=', 'usuario.id_usuario')
             ->leftjoin('ips', "usuario.cod_ips", '=', 'ips.cod_ips')
-            ->leftJoin('metodos_anticonceptivos', "$tabla.cod_metodo", '=', 'metodos_anticonceptivos.cod_metodo')
+            //->leftJoin('metodos_anticonceptivos', "$tabla.cod_metodo", '=', 'metodos_anticonceptivos.cod_metodo')
             ->select($columnKeys);
 
         // Obtener el tipo de valores para la subcategoría
