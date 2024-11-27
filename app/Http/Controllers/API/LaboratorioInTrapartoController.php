@@ -27,7 +27,7 @@ class LaboratorioInTrapartoController extends Controller
                 'mensaje' => 'Debes estar autenticado para realizar esta acción'
             ], 401); // 401 Unauthorized
         }
-    
+
         $validatedData = $request->validate([
             'cod_vdrl' => 'nullable|integer',
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
@@ -43,14 +43,14 @@ class LaboratorioInTrapartoController extends Controller
             'reali_prueb_no_trepo_vdrl_sifilis_intra' => 'required|boolean',
             'reali_prueb_rapi_vih' => 'required|boolean'
         ]);
-    
+
         $validatedData['id_operador'] = auth()->user()->userable_id;
-    
+
         // Verificar que el ProcesoGestativo esté activo
         $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])
-                                            ->where('num_proceso', $validatedData['num_proceso'])
-                                            ->first();
-    
+            ->where('num_proceso', $validatedData['num_proceso'])
+            ->first();
+
         if (!$procesoGestativo) {
             return response()->json([
                 'estado' => 'Error',
@@ -60,37 +60,37 @@ class LaboratorioInTrapartoController extends Controller
 
         $validatedData['proceso_gestativo_id'] = $procesoGestativo->id;
 
-    
+
         // Crear el registro de LaboratorioInTraparto
         $laboratorio = LaboratorioInTraparto::create($validatedData);
-        
-        return response()->json(['estado' => 'Ok', 'data' => $laboratorio], 201);
+
+        return response()->json(['estado' => 'Ok', 'mensaje' => 'Laboratorio intraparto creado con exito.', 'data' => $laboratorio], 201);
     }
-    
+
 
     public function show($id, $num_proceso)
     {
         // Verificar que el ProcesoGestativo esté activo
         $procesoGestativo = ProcesoGestativo::where('id_usuario', $id)
-                                            ->where('num_proceso', $num_proceso)
-                                            ->first();
-    
+            ->where('num_proceso', $num_proceso)
+            ->first();
+
         if (!$procesoGestativo) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
             ], 404);
         }
-    
+
         // Obtener el laboratorio para el usuario y proceso
         $laboratorio = LaboratorioInTraparto::where('id_usuario', $id)
-                                            ->where('proceso_gestativo_id', $procesoGestativo->id)
-                                            ->first();
-    
+            ->where('proceso_gestativo_id', $procesoGestativo->id)
+            ->first();
+
         if ($laboratorio) {
             return response()->json([
                 'estado' => 'Ok',
-                'mensaje'=>'Laboratirio intraparto creado exitosamente',
+                'mensaje' => 'Laboratirio intraparto creado exitosamente',
                 'data' => $laboratorio
             ], 200);
         } else {
@@ -114,13 +114,16 @@ class LaboratorioInTrapartoController extends Controller
             $validatedData = $request->validate([
                 'cod_vdrl' => 'required|integer',
                 'id_usuario' => 'required|integer|exists:usuario,id_usuario',
-                'pru_sifilis' => 'required|string',
-                'fec_sifilis' => 'required|date',
-                'fec_vdrl' => 'required|date',
-                'rec_sifilis' => 'required|string',
-                'fec_tratamiento' => 'required|date',
-                'pru_vih' => 'required|string',
-                'fec_vih' => 'required|date',
+                'pru_sifilis' => 'sometimes|nullable|string',
+                'fec_sifilis' => 'sometimes|nullable|date',
+                'fec_vdrl' => 'sometimes|nullable|date',
+                'rec_sifilis' => 'sometimes|nullable|string',
+                'fec_tratamiento' => 'sometimes|nullable|date',
+                'pru_vih' => 'sometimes|nullable|string',
+                'fec_vih' => 'sometimes|nullable|date',
+                'reali_prueb_trepo_rapi_sifilis_intra' => 'sometimes|required|boolean',
+                'reali_prueb_no_trepo_vdrl_sifilis_intra' => 'sometimes|required|boolean',
+                'reali_prueb_rapi_vih' => 'sometimes|required|boolean'
             ]);
 
             if (!isset($validatedData['id_usuario'])) {
@@ -138,7 +141,7 @@ class LaboratorioInTrapartoController extends Controller
 
             return response()->json([
                 'estado' => 'Ok',
-                'message' => 'Registro actualizado correctamente',
+                'mensaje' => 'Registro actualizado correctamente',
                 'data' => $laboratorio
             ], 200);
         } catch (ModelNotFoundException $e) {
@@ -155,7 +158,7 @@ class LaboratorioInTrapartoController extends Controller
         }
     }
 
-    
+
     public function destroy($id)
     {
         $laboratorio = LaboratorioInTraparto::find($id);

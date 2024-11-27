@@ -58,7 +58,7 @@ class EstudioHipotiroidismoCongenitoController extends Controller
         // Crear el registro de EstudioHipotiroidismoCongenito
         $estudio = EstudioHipotiroidismoCongenito::create($validatedData);
         
-        return response()->json(['estado' => 'Ok', 'data' => $estudio], 201); // 201 Created
+        return response()->json(['estado' => 'Ok', 'message' => 'Estudio de hipotiroidismo creado con exito' , 'data' => $estudio], 201); // 201 Created
     }
 
     public function show($id, $num_proceso)
@@ -128,7 +128,7 @@ class EstudioHipotiroidismoCongenitoController extends Controller
 
             return response()->json([
                 'estado' => 'Ok',
-                'mensaje' => 'Estudio actualizado correctamente',
+                'message' => 'Estudio actualizado correctamente',
                 'data' => $estudio
             ], 200);
         } catch (ModelNotFoundException $e) {

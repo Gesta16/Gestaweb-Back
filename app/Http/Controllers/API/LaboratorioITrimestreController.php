@@ -164,7 +164,7 @@ class LaboratorioITrimestreController extends Controller
         $validatedData = $request->validate([
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'cod_hemoclasifi' => 'required|integer|exists:hemoclasificacion,cod_hemoclasifi',
-            'cod_antibiograma' => 'required|integer|exists:antibiograma,cod_antibiograma',
+            'cod_antibiograma' => 'nullable|integer|exists:antibiograma,cod_antibiograma',
             'fec_hemoclasificacion' => 'required|date',
             'hem_laboratorio' => 'required|string',
             'fec_hemograma' => 'required|date',
@@ -172,28 +172,36 @@ class LaboratorioITrimestreController extends Controller
             'fec_glicemia' => 'required|date',
             'ant_laboratorio' => 'required|string',
             'fec_antigeno' => 'required|date',
-            'pru_vih' => 'required|string',
-            'fec_vih' => 'required|date',
-            'pru_sifilis' => 'required|string',
-            'fec_sifilis' => 'required|date',
-            'uro_laboratorio' => 'required|string',
-            'fec_urocultivo' => 'required|date',
-            'fec_antibiograma' => 'required|date',
+            'pru_vih' => 'nullable|string',
+            'fec_vih' => 'nullable|date',
+            'pru_sifilis' => 'nullable|string',
+            'fec_sifilis' => 'nullable|date',
+            'uro_laboratorio' => 'nullable|string',
+            'fec_urocultivo' => 'nullable|date',
+            'fec_antibiograma' => 'nullable|date',
             'ig_rubeola' => 'required|string',
             'fec_rubeola' => 'required|date',
             'ig_toxoplasma' => 'required|string',
             'fec_toxoplasma' => 'required|date',
             'hem_gruesa' => 'required|string',
             'fec_hemoparasito' => 'required|date',
-            'pru_antigenos' => 'required|string',
-            'fec_antigenos' => 'required|date',
-            'eli_recombinante' => 'required|string',
-            'fec_recombinante' => 'required|date',
-            'coo_cuantitativo' => 'required|string',
-            'fec_coombs' => 'required|date',
-            'fec_ecografia' => 'required|date',
-            'eda_gestacional' => 'required|numeric|min:0', // numérico en lugar de entero
+            'pru_antigenos' => 'nullable|string',
+            'fec_antigenos' => 'nullable|date',
+            'eli_recombinante' => 'nullable|string',
+            'fec_recombinante' => 'nullable|date',
+            'coo_cuantitativo' => 'nullable|string',
+            'fec_coombs' => 'nullable|date',
+            'fec_ecografia' => 'nullable|date',
+            'eda_gestacional' => 'nullable|numeric|min:0', // numérico en lugar de entero
             'rie_biopsicosocial' => 'required|string',
+            'real_prueb_rapi_vih' => 'required|boolean',
+            'reali_prueb_trepo_rapid_sifilis' => 'required|boolean',
+            'realizo_urocultivo' => 'required|boolean',
+            'realizo_antibiograma' => 'required|boolean',
+            'real_prueb_eliza_anti_total' => 'required|boolean',
+            'real_prueb_eliza_anti_recomb' => 'required|boolean',
+            'real_prueb_coombis_indi_cuanti' => 'required|boolean',
+            'real_eco_obste_tamizaje' => 'required|boolean'
         ]);
 
         // Buscar el registro por id_usuario
@@ -207,6 +215,7 @@ class LaboratorioITrimestreController extends Controller
         // Respuesta con los datos actualizados
         return response()->json([
             'estado' => 'Ok',
+            'mensaje' => 'Laboratorio 1 trimestre editado correctamente',
             'data' => $laboratorio
         ]);
     }

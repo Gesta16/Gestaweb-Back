@@ -134,6 +134,12 @@ class VacunacionController extends Controller
             'fec_influenza' => 'sometimes|nullable|date',
             'fec_tetanico' => 'sometimes|nullable|date',
             'fec_dpt' => 'sometimes|nullable|date',
+            'recib_prim_dosis_covid19' => 'required|boolean',
+            'recib_segu_dosis_covid19' => 'required|boolean',
+            'recib_refu_covid19' => 'required|boolean',
+            'recib_dosis_influenza' => 'required|boolean',
+            'recib_dosis_tox_tetanico' => 'required|boolean',
+            'recib_dosis_dpt_a_celular' => 'required|boolean',
         ]);
     
         if ($validator->fails()) {

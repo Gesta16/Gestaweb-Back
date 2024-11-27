@@ -36,7 +36,7 @@ class CreateControlPrenatalTable extends Migration
             $table->date('fec_consulta')->nullable();
             $table->date('fec_control')->nullable();
             $table->string('ries_reproductivo');
-            $table->date('fac_asesoria');
+            $table->date('fac_asesoria')->nullable();
             $table->boolean('usu_solicito');
             $table->date('fec_terminacion')->nullable();
             $table->boolean('per_intergenesico');

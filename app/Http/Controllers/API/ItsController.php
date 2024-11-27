@@ -106,13 +106,16 @@ class ItsController extends Controller
         $data = $request->validate([
             'id_usuario' => 'sometimes|exists:usuario,id_usuario',
             'cod_vdrl' => 'sometimes|exists:prueba_no_treponemica__v_d_r_l,cod_vdrl',
-            'cod_rpr' => 'sometimes|exists:prueba_no_treponemica__r_p_r,cod_rpr',
-            'eli_vih' => 'sometimes|string',
-            'fec_vih' => 'sometimes|date',
-            'fec_vdrl' => 'sometimes|date',
-            'fec_rpr' => 'sometimes|date',
-            'rec_tratamiento' => 'sometimes|string',
-            'rec_pareja' => 'sometimes|string',
+            'cod_rpr' => 'sometimes|nullable|exists:prueba_no_treponemica__r_p_r,cod_rpr',
+            'eli_vih' => 'sometimes|nullable|string',
+            'fec_vih' => 'sometimes|nullable|date',
+            'fec_vdrl' => 'sometimes|nullable|date',
+            'fec_rpr' => 'sometimes|nullable|date',
+            'rec_tratamiento' => 'sometimes|nullable|string',
+            'rec_pareja' => 'sometimes|nullable|string',
+            'reali_prueb_elisa_vih' => 'sometimes|required|boolean',
+            'reali_prueb_no_trepo_vdrl_sifilis' => 'sometimes|required|boolean',
+            'reali_prueb_no_trepo_rpr_sifilis' => 'sometimes|required|boolean',
         ]);
     
         $it = Its::find($id);

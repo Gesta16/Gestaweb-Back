@@ -173,29 +173,37 @@ class LaboratorioIITrimestreController extends Controller
         // Validar los datos de entrada
         $validatedData = $request->validate([
             'id_usuario' => 'sometimes|required|integer|exists:usuario,id_usuario',
-            'pru_vih' => 'sometimes|required|string',
-            'fec_vih' => 'sometimes|required|date',
-            'pru_sifilis' => 'sometimes|required|string',
-            'fec_sifilis' => 'sometimes|required|date',
+            'pru_vih' => 'sometimes|nullable|string',
+            'fec_vih' => 'sometimes|nullable|date',
+            'pru_sifilis' => 'sometimes|nullable|string',
+            'fec_sifilis' => 'sometimes|nullable|date',
             'pru_oral' => 'sometimes|required|string',
             'pru_uno' => 'sometimes|required|string',
             'pru_dos' => 'sometimes|required|string',
             'fec_prueba' => 'sometimes|required|date',
-            'rep_citologia' => 'sometimes|required|string',
-            'fec_citologia' => 'sometimes|required|date',
+            'rep_citologia' => 'sometimes|nullable|string',
+            'fec_citologia' => 'sometimes|nullable|date',
             'ig_toxoplasma' => 'sometimes|required|string',
             'fec_toxoplasma' => 'sometimes|required|date',
-            'pru_avidez' => 'sometimes|required|string',
-            'fec_avidez' => 'sometimes|required|date',
-            'tox_laboratorio' => 'sometimes|required|string',
-            'fec_toxoplasmosis' => 'sometimes|required|date',
-            'hem_gruesa' => 'sometimes|required|string',
-            'fec_hemoparasito' => 'sometimes|required|date',
-            'coo_cualitativo' => 'sometimes|required|string',
-            'fec_coombs' => 'sometimes|required|date',
-            'fec_ecografia' => 'sometimes|required|date',
-            'eda_gestacional' => 'sometimes|required|numeric|min:0',
+            'pru_avidez' => 'sometimes|nullable|string',
+            'fec_avidez' => 'sometimes|nullable|date',
+            'tox_laboratorio' => 'sometimes|nullable|string',
+            'fec_toxoplasmosis' => 'sometimes|nullable|date',
+            'hem_gruesa' => 'sometimes|nullable|string',
+            'fec_hemoparasito' => 'sometimes|nullable|date',
+            'coo_cualitativo' => 'sometimes|nullable|string',
+            'fec_coombs' => 'sometimes|nullable|date',
+            'fec_ecografia' => 'sometimes|nullable|date',
+            'eda_gestacional' => 'sometimes|nullable|numeric|min:0',
             'rie_biopsicosocial' => 'sometimes|required|string',
+            'reali_prueb_rapi_vih' => 'sometimes|required|boolean',
+            'real_prueb_trep_rap_sifilis' => 'sometimes|required|boolean',
+            'reali_citologia' => 'sometimes|required|boolean',
+            'reali_prueb_avidez_ig_g' => 'sometimes|required|boolean',
+            'reali_prueb_toxoplasmosis_ig_a' => 'sometimes|required|boolean',
+            'reali_prueb_hemoparasito' => 'sometimes|required|boolean',
+            'reali_prueb_coombis_indi_cuanti' => 'sometimes|required|boolean',
+            'reali_eco_obste_detalle_anato' => 'sometimes|required|boolean',
         ]);
     
         // Asignar el id_operador del usuario autenticado si no se envía uno nuevo
@@ -213,7 +221,7 @@ class LaboratorioIITrimestreController extends Controller
     
         return response()->json([
             'estado' => 'Ok',
-            'message'=>'Laboratorio 2 trimestre editado con exito',
+            'mensaje'=>'Laboratorio 2 trimestre editado con exito',
             'data' => $laboratorio
         ]);
     }

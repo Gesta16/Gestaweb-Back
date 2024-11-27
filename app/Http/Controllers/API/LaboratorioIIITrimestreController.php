@@ -132,17 +132,22 @@ class LaboratorioIIITrimestreController extends Controller
             'id_usuario' => 'sometimes|exists:usuario,id_usuario',
             'hemograma' => 'sometimes|string',
             'fec_hemograma' => 'sometimes|date',
-            'pru_vih' => 'sometimes|string',
-            'fec_vih' => 'sometimes|date',
-            'pru_sifilis' => 'sometimes|string',
-            'fec_sifilis' => 'sometimes|date',
-            'ig_toxoplasma' => 'sometimes|string',
-            'fec_toxoplasma' => 'sometimes|date',
-            'cul_rectal' => 'sometimes|string',
-            'fec_rectal' => 'sometimes|date',
-            'fec_biofisico' => 'sometimes|date',
-            'edad_gestacional' => 'sometimes|integer|min:0',
-            'rie_biopsicosocial' => 'sometimes|string',
+            'pru_vih' => 'sometimes|nullable|string',
+            'fec_vih' => 'sometimes|nullable|date',
+            'pru_sifilis' => 'sometimes|nullable|string',
+            'fec_sifilis' => 'sometimes|nullable|date',
+            'ig_toxoplasma' => 'sometimes|nullable|string',
+            'fec_toxoplasma' => 'sometimes|nullable|date',
+            'cul_rectal' => 'sometimes|nullable|string',
+            'fec_rectal' => 'sometimes|nullable|date',
+            'fec_biofisico' => 'sometimes|nullable|date',
+            'edad_gestacional' => 'sometimes|nullable|integer|min:0',
+            'rie_biopsicosocial' => 'sometimes|required|string',
+            'reali_prueb_rapi_vih_3' => 'sometimes|required|boolean',
+            'reali_prueb_trepo_rapi_sifilis' => 'sometimes|required|boolean',
+            'reali_prueb_igm_toxoplasma' => 'sometimes|required|boolean',
+            'reali_prueb_culti_rect_vagi' => 'sometimes|required|boolean',
+            'reali_prueb_perfil_biofisico' => 'sometimes|required|boolean'
         ]);
 
         $laboratorio= LaboratorioIIITrimestre::where('cod_treslaboratorio', $id)
@@ -153,6 +158,7 @@ class LaboratorioIIITrimestreController extends Controller
 
         return response()->json([
             'estado' => 'Ok',
+            'mensaje' => 'Laboratorio 3 trimestre editado con exito',
             'data' => $laboratorio
         ]);
     }

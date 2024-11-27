@@ -10,14 +10,14 @@ use Illuminate\Http\Request;
 
 class SeguimientoComplementarioController extends Controller
 {
-    
+
     public function index()
     {
         $seguimientos = SeguimientoComplementario::all();
         return response()->json($seguimientos);
     }
 
-    
+
     public function store(Request $request)
     {
         if (!auth()->check()) {
@@ -26,7 +26,7 @@ class SeguimientoComplementarioController extends Controller
                 'mensaje' => 'Debes estar autenticado para realizar esta acción'
             ], 401); // 401 Unauthorized
         }
-    
+
         $validatedData = $request->validate([
             'cod_sesiones' => 'required|exists:num_sesiones_curso_paternidad_maternidad,cod_sesiones',
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
@@ -42,64 +42,64 @@ class SeguimientoComplementarioController extends Controller
             'asistio_psicologia' => 'required|boolean',
             'asistio_odontologia' => 'required|boolean'
         ]);
-    
+
         // Verificar que el ProcesoGestativo esté activo
         $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])
-                                            ->where('num_proceso', $validatedData['num_proceso'])
-                                            ->where('estado', 1) // O el estado que definas para "activo"
-                                            ->first();
-    
+            ->where('num_proceso', $validatedData['num_proceso'])
+            ->where('estado', 1) // O el estado que definas para "activo"
+            ->first();
+
         if (!$procesoGestativo) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
             ], 404);
         }
-    
+
         $validatedData['id_operador'] = auth()->user()->userable_id;
         $validatedData['proceso_gestativo_id'] = $procesoGestativo->id;
-    
+
         $seguimiento = SeguimientoComplementario::create($validatedData);
-    
+
         ConsultasUsuario::create([
             'id_usuario' => $validatedData['id_usuario'],
             'fecha' => now(),
             'nombre_consulta' => 'Control Complementario',
         ]);
-    
+
         return response()->json([
             'estado' => 'Ok',
             'mensaje' => 'Seguimiento creado exitosamente',
             'data' => $seguimiento
         ], 201);
     }
-    
+
 
     public function show($id, $num_proceso)
     {
         // Verificar que el ProcesoGestativo esté activo
         $procesoGestativo = ProcesoGestativo::where('id_usuario', $id)
-                                            ->where('num_proceso', $num_proceso)
-                                            ->first();
-    
+            ->where('num_proceso', $num_proceso)
+            ->first();
+
         if (!$procesoGestativo) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
             ], 404);
         }
-    
+
         // Obtener el seguimiento correspondiente
         $seguimiento = SeguimientoComplementario::where('id_usuario', $id)
-                                                 ->where('proceso_gestativo_id', $procesoGestativo->id)
-                                                 ->firstOrFail();
-    
+            ->where('proceso_gestativo_id', $procesoGestativo->id)
+            ->firstOrFail();
+
         return response()->json([
             'estado' => 'Ok',
             'seguimiento' => $seguimiento
         ], 200);
     }
-    
+
 
     public function update(Request $request, $id)
     {
@@ -114,12 +114,16 @@ class SeguimientoComplementarioController extends Controller
             $validatedData = $request->validate([
                 'cod_sesiones' => 'required|exists:num_sesiones_curso_paternidad_maternidad,cod_sesiones',
                 'id_usuario' => 'required|integer|exists:usuario,id_usuario',
-                'fec_nutricion' => 'required|date',
-                'fec_ginecologia' => 'required|date',
-                'fec_psicologia' => 'required|date',
-                'fec_odontologia' => 'required|date',
+                'fec_nutricion' => 'nullable|date',
+                'fec_ginecologia' => 'nullable|date',
+                'fec_psicologia' => 'nullable|date',
+                'fec_odontologia' => 'nullable|date',
                 'ina_seguimiento' => 'required|string',
                 'cau_inasistencia' => 'nullable|string',
+                'asistio_nutricionista' => 'required|boolean',
+                'asistio_ginecologia' => 'required|boolean',
+                'asistio_psicologia' => 'required|boolean',
+                'asistio_odontologia' => 'required|boolean'
             ]);
 
             // Validación del campo id_usuario

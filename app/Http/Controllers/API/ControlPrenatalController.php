@@ -9,6 +9,7 @@ use App\Models\ConsultasUsuario;
 use App\Models\ProcesoGestativo;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class ControlPrenatalController extends Controller
 {
@@ -31,7 +32,7 @@ class ControlPrenatalController extends Controller
                 ], 401);
             }
 
-            \Log::info('Datos de entrada:', $request->all());
+            Log::info('Datos de entrada:', $request->all());
 
             $validatedData = $request->validate([
                 'id_usuario' => 'required|integer|exists:usuario,id_usuario',
@@ -45,7 +46,7 @@ class ControlPrenatalController extends Controller
                 'fec_consulta' => 'nullable|date',
                 'fec_control' => 'nullable|date',
                 'ries_reproductivo' => 'required|string|max:255',
-                'fac_asesoria' => 'required|date',
+                'fac_asesoria' => 'nullable|date',
                 'usu_solicito' => 'required|boolean',
                 'fec_terminacion' => 'nullable|date',
                 'per_intergenesico' => 'required|boolean',
@@ -92,7 +93,7 @@ class ControlPrenatalController extends Controller
                 'data' => $control
             ], 201);
         } catch (\Exception $e) {
-            \Log::error('Error al crear control prenatal:', [
+            Log::error('Error al crear control prenatal:', [
                 'mensaje' => $e->getMessage(),
                 'input' => $request->all(), // Captura los datos que causaron el error
             ]);
@@ -152,20 +153,24 @@ class ControlPrenatalController extends Controller
             $validatedData = $request->validate([
                 'id_operador' => 'integer|exists:operador,id_operador',
                 'id_usuario' => 'integer|exists:usuario,id_usuario',
-                'cod_fracaso' => 'integer|exists:metodo_fracaso,cod_fracaso',
+                'cod_fracaso' => 'nullable|integer|exists:metodo_fracaso,cod_fracaso',
                 'edad_gestacional' => 'numeric',
                 'trim_ingreso' => 'string|max:255',
                 'fec_mestruacion' => 'date',
                 'fec_parto' => 'date',
                 'emb_planeado' => 'boolean',
                 'fec_anticonceptivo' => 'boolean',
-                'fec_consulta' => 'date',
-                'fec_control' => 'date',
+                'fec_consulta' => 'nullable|date',
+                'fec_control' => 'nullable|date',
                 'ries_reproductivo' => 'string|max:255',
-                'fac_asesoria' => 'date',
+                'fac_asesoria' => 'nullable|date',
                 'usu_solicito' => 'boolean',
-                'fec_terminacion' => 'date',
+                'fec_terminacion' => 'nullable|date',
                 'per_intergenesico' => 'boolean',
+                'recibio_atencion_preconcep' => 'boolean',
+                'asis_consul_control_precon' => 'boolean',
+                'asis_asesoria_ive' => 'nullable|boolean',
+                'tuvo_embarazos_antes' => 'boolean'
             ]);
 
             if (!isset($validatedData['id_usuario'])) {

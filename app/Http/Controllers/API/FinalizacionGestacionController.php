@@ -112,9 +112,9 @@ class FinalizacionGestacionController extends Controller
 
             $validatedData = $request->validate([
                 'cod_terminacion' => 'required|exists:terminacion_gestacion,cod_terminacion',
-                'id_usuario' => 'required|integer|exists:usuario,id_usuario',
-                'cod_terminacion' => 'required|integer',
-                'fec_evento' => 'required|date',
+                'id_usuario' => 'sometimes|required|integer|exists:usuario,id_usuario',
+                'cod_terminacion' => 'sometimes|required|integer',
+                'fec_evento' => 'sometimes|required|date',
             ]);
 
             // Validación del campo id_usuario

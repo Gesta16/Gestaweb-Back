@@ -108,6 +108,7 @@ class SeguimientoGestantePostObstetricoController extends Controller
                 'con_egreso' => 'required|string',
                 'fec_fallecimiento' => 'nullable|date',
                 'fec_planificacion' => 'nullable|date',
+                'recib_aseso_anticonceptiva'=>'required|boolean',
             ]);
 
             if (!isset($validatedData['id_usuario'])) {

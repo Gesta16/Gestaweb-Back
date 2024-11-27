@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class RutaPYMSController extends Controller
 {
-    
+
     public function index()
     {
         $rutas = RutaPYMS::all();
@@ -26,7 +26,7 @@ class RutaPYMSController extends Controller
                 'mensaje' => 'Debes estar autenticado para realizar esta acción'
             ], 401); // 401 Unauthorized
         }
-    
+
         $validatedData = $request->validate([
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
             'fec_bcg' => 'nullable|date',
@@ -38,50 +38,50 @@ class RutaPYMSController extends Controller
             'aplico_vacuna_hepatitis' => 'required|boolean',
             'reali_entrega_carnet' => 'required|boolean',
         ]);
-    
+
         $validatedData['id_operador'] = auth()->user()->userable_id;
-    
+
         // Verificar que el ProcesoGestativo esté activo
         $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])
-                                            ->where('num_proceso', $validatedData['num_proceso'])
-                                            ->first();
-    
+            ->where('num_proceso', $validatedData['num_proceso'])
+            ->first();
+
         if (!$procesoGestativo) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
             ], 404);
         }
-    
+
         // Asignar el id del proceso gestativo a los datos validados
         $validatedData['proceso_gestativo_id'] = $procesoGestativo->id;
-    
+
         // Crear el registro de RutaPYMS
         $ruta = RutaPYMS::create($validatedData);
-        
-        return response()->json(['estado' => 'Ok','mensaje'=>'Ruta PYMS creada exitosamente', 'data' => $ruta], 201); // 201 Created
+
+        return response()->json(['estado' => 'Ok', 'message' => 'Ruta PYMS creada exitosamente', 'data' => $ruta], 201); // 201 Created
     }
-    
+
 
     public function show($id, $num_proceso)
     {
         // Verificar que el ProcesoGestativo esté activo
         $procesoGestativo = ProcesoGestativo::where('id_usuario', $id)
-                                            ->where('num_proceso', $num_proceso)
-                                            ->first();
-    
+            ->where('num_proceso', $num_proceso)
+            ->first();
+
         if (!$procesoGestativo) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
             ], 404);
         }
-    
+
         // Obtener los datos de RutaPYMS para el usuario y proceso
         $ruta = RutaPYMS::where('id_usuario', $id)
-                         ->where('proceso_gestativo_id', $procesoGestativo->id)
-                         ->first();
-    
+            ->where('proceso_gestativo_id', $procesoGestativo->id)
+            ->first();
+
         if ($ruta) {
             return response()->json([
                 'estado' => 'Ok',
@@ -102,15 +102,18 @@ class RutaPYMSController extends Controller
                 return response()->json([
                     'estado' => 'Error',
                     'mensaje' => 'Debes estar autenticado para realizar esta acción'
-                ], 401); 
+                ], 401);
             }
 
             $validatedData = $request->validate([
                 'id_usuario' => 'required|integer|exists:usuario,id_usuario',
-                'fec_bcg' => 'required|date',
-                'fec_hepatitis' => 'required|date',
-                'fec_seguimiento' => 'required|date',
-                'fec_entrega' => 'required|date',
+                'fec_bcg' => 'nullable|date',
+                'fec_hepatitis' => 'nullable|date',
+                'fec_seguimiento' => 'nullable|date',
+                'fec_entrega' => 'nullable|date',
+                'aplico_vacuna_bcg' => 'required|boolean',
+                'aplico_vacuna_hepatitis' => 'required|boolean',
+                'reali_entrega_carnet' => 'required|boolean',
             ]);
 
             if (!isset($validatedData['id_usuario'])) {
@@ -145,8 +148,8 @@ class RutaPYMSController extends Controller
         }
     }
 
-    
-    
+
+
     public function destroy($id)
     {
         $ruta = RutaPYMS::find($id);

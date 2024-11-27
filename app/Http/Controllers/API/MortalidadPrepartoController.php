@@ -55,7 +55,7 @@ class MortalidadPrepartoController extends Controller
         // Crear el registro de MortalidadPreparto
         $mortalidadPreparto = MortalidadPreparto::create($validatedData);
     
-        return response()->json(['estado' => 'Ok', 'data' => $mortalidadPreparto], 201); // 201 Created
+        return response()->json(['estado' => 'Ok', 'mensaje' => 'Mortalidad perinatal creado correctamente' , 'data' => $mortalidadPreparto], 201); // 201 Created
     }
     
 

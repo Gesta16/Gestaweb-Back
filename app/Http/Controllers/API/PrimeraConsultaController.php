@@ -192,7 +192,7 @@ class PrimeraConsultaController extends Controller
             'id_operador' => 'sometimes|required|exists:operador,id_operador',
             'id_usuario' => 'sometimes|required|exists:usuario,id_usuario',
             'cod_riesgo' => 'sometimes|required|exists:riesgo,cod_riesgo',
-            'cod_dm' => 'sometimes|required|exists:tipo_dm,cod_dm',
+            'cod_dm' => 'sometimes|nullable|exists:tipo_dm,cod_dm',
             'peso_previo' => 'sometimes|required|integer|min:0',
             'tal_consulta' => 'sometimes|required|numeric|min:0|max:999.99',
             'imc_consulta' => 'sometimes|required|integer|min:0',
@@ -206,8 +206,10 @@ class PrimeraConsultaController extends Controller
             'for_parto' => 'sometimes|required|integer|min:0',
             'for_cesarea' => 'sometimes|required|integer|min:0',
             'for_aborto' => 'sometimes|required|integer|min:0',
-            'fec_lactancia' => 'sometimes|required|date',
-            'fec_consejeria' => 'sometimes|required|date',
+            'fec_lactancia' => 'sometimes|nullable|date',
+            'fec_consejeria' => 'sometimes|nullable|date',
+            'asis_conse_lactancia' => 'required|boolean',
+            'asis_conse_pre_vih' => 'required|boolean'
         ]);
     
         // Si la validación falla, devuelve un error 422
