@@ -25,7 +25,7 @@ class CreateItsTable extends Migration
         $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
 
         // Claves foráneas
-        $table->unsignedBigInteger('cod_vdrl');  
+        $table->unsignedBigInteger('cod_vdrl')->nullable();  
         $table->unsignedBigInteger('cod_rpr')->nullable(); 
 
         // Otros campos

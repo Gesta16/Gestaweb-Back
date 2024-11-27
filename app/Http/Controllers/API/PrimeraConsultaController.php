@@ -226,6 +226,7 @@ class PrimeraConsultaController extends Controller
         // Devolver respuesta exitosa con los datos actualizados
         return response()->json([
             'estado' => 'Ok',
+            'mensaje' => 'Consulta actualizado correctamente',
             'consulta' => $consulta
         ]);
     }
