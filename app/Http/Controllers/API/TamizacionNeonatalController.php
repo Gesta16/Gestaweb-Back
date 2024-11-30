@@ -64,7 +64,7 @@ class TamizacionNeonatalController extends Controller
         // Crear el registro de TamizacionNeonatal
         $tamizacion = TamizacionNeonatal::create($validatedData);
 
-        return response()->json(['estado' => 'Ok', 'message' => 'Proceso gestativo creado con exito', 'data' => $tamizacion], 201); // 201 Created
+        return response()->json(['estado' => 'Ok', 'message' => 'Tamización neonatal creada con exito', 'data' => $tamizacion], 201); // 201 Created
     }
 
 

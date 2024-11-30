@@ -59,7 +59,7 @@ class DatosRecienNacidoController extends Controller
         // Crear el registro de DatosRecienNacido
         $datosRecienNacido = DatosRecienNacido::create($validatedData);
     
-        return response()->json(['estado' => 'Ok', 'data' => $datosRecienNacido], 201); // 201 Created
+        return response()->json(['estado' => 'Ok', 'mensaje' => 'Datos Recien nacido creados exitosamente' , 'data' => $datosRecienNacido], 201); // 201 Created
     }
     
 
@@ -131,7 +131,7 @@ class DatosRecienNacidoController extends Controller
 
             return response()->json([
                 'estado' => 'Ok',
-                'mensaje' => 'Registro actualizado correctamente',
+                'message' => 'Registro actualizado correctamente',
                 'data' => $datosRecienNacido
             ], 200);
         } catch (ModelNotFoundException $e) {
