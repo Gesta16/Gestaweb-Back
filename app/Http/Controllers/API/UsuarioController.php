@@ -118,7 +118,7 @@ class UsuarioController extends Controller
                 $usuario->user()->save($user);
     
                 // Enviar email de bienvenida (descomentar si tienes configurado el correo)
-                Mail::to($usuario->email_usuario)->send(new WelcomeUserMail($usuario, $contrasenaGenerada));
+                //Mail::to($usuario->email_usuario)->send(new WelcomeUserMail($usuario, $contrasenaGenerada));
             }
     
             DB::commit(); // Confirmar la transacción

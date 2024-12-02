@@ -151,6 +151,12 @@ class Usuario extends Model
         return $this->hasMany(SeguimientoGestantePostObstetrico::class, 'id_usuario', 'id_usuario');
     }
 
+    // Relación con las notas de usuario
+    public function userNotes()
+    {
+        return $this->hasMany(UserNote::class, 'id_usuario');
+    }
+
     // Relación con IPS
     public function ips()
     {

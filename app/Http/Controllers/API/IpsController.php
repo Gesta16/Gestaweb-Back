@@ -106,7 +106,7 @@ class IpsController extends Controller
             }
     
             // Enviar email de bienvenida
-            Mail::to($admin->email_admin)->send(new WelcomeAdminMail($admin, $contrasenaGenerada));
+            //Mail::to($admin->email_admin)->send(new WelcomeAdminMail($admin, $contrasenaGenerada));
     
             // Si todas las operaciones fueron exitosas, confirmar la transacción
             DB::commit();

@@ -49,6 +49,7 @@ use App\Http\Controllers\API\RutaPYMSController;
 use App\Http\Controllers\API\TamizacionNeonatalController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\ReportesController;
+use App\Http\Controllers\API\UserNoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -381,3 +382,12 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group
 /** RUTAS REPORTES */
 Route::post('/filtrar-indicadores', [ReportesController::class, 'filtrarIndicadores']);
 
+/** RUTAS USER NOTES */
+Route::middleware(["auth:api", "role:usuario"])->group(function() {
+   
+    Route::get('/user-notes', [UserNoteController::class, 'index']);
+    Route::get('/user-notes/{id}', [UserNoteController::class, 'show']);
+    Route::post('/user-notes', [UserNoteController::class, 'store']);
+    Route::put('/user-notes/{id}', [UserNoteController::class, 'update']);
+    Route::delete('/user-notes/{id}', [UserNoteController::class, 'destroy']);
+});
