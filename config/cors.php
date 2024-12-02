@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 
-    'allowed_origins' => ['https://gestawebucc.com'],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
