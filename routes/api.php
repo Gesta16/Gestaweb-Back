@@ -50,6 +50,7 @@ use App\Http\Controllers\API\TamizacionNeonatalController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\ReportesController;
 use App\Http\Controllers\API\UserNoteController;
+use App\Http\Controllers\API\ExcelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -381,6 +382,12 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group
 
 /** RUTAS REPORTES */
 Route::post('/filtrar-indicadores', [ReportesController::class, 'filtrarIndicadores']);
+
+/** RUTAS IMPORTACIÓN EXCEL */
+Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
+    
+});
+Route::post('/importar-excel', [ExcelController::class, 'procesarExcel']);
 
 /** RUTAS USER NOTES */
 Route::middleware(["auth:api", "role:usuario"])->group(function() {
