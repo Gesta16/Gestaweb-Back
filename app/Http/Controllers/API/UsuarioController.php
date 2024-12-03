@@ -260,7 +260,7 @@ class UsuarioController extends Controller
             }
     
             // Verificar si el usuario autenticado es un Operador
-            if ($authUser->rol_id !== 1 && $authUser->rol_id !== 3) {
+            if ($authUser->rol_id !== 1 && $authUser->rol_id !== 3 && $authUser->rol_id !== 4) {
                 return response()->json([
                     'error' => 'No autorizado. Solo un Operador (rol 3) o Administrador (rol 1) puede crear un usuario.'
                 ], 403);
@@ -286,6 +286,7 @@ class UsuarioController extends Controller
                 $usuario->cod_municipio = $request->cod_municipio;
                 $usuario->cod_ips = $request->cod_ips;
                 $usuario->cod_poblacion = $request->cod_poblacion;
+                $usuario->autorizacion = $request->autorizacion;
 
                 if($request->has('password')&& !empty($request->password)){
                     $user = $usuario->user;
