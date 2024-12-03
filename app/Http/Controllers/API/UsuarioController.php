@@ -102,6 +102,7 @@ class UsuarioController extends Controller
             $usuario->cod_municipio = $request->cod_municipio;
             $usuario->cod_ips = $request->cod_ips;
             $usuario->cod_poblacion = $request->cod_poblacion;
+            $usuario->autorizacion = false; 
     
             if ($usuario->save()) {
                 // Generar una contraseña aleatoria
@@ -118,7 +119,7 @@ class UsuarioController extends Controller
                 $usuario->user()->save($user);
     
                 // Enviar email de bienvenida (descomentar si tienes configurado el correo)
-                //Mail::to($usuario->email_usuario)->send(new WelcomeUserMail($usuario, $contrasenaGenerada));
+                Mail::to($usuario->email_usuario)->send(new WelcomeUserMail($usuario, $contrasenaGenerada));
             }
     
             DB::commit(); // Confirmar la transacción

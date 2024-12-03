@@ -43,6 +43,8 @@ class CreateUsuarioTable extends Migration
             $table->string('dir_usuario');
             $table->string('email_usuario')->unique();
             $table->integer('num_proceso')->default(1);
+            $table->boolean('autorizacion')->default(false);
+
 
 
             //$table->timestamps();
