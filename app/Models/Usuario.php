@@ -33,6 +33,7 @@ class Usuario extends Model
         'cel_usuario',
         'dir_usuario',
         'email_usuario',
+        'autorizacion'
     ];
 
     public $timestamps = false;

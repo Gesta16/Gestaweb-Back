@@ -94,6 +94,7 @@ Route::middleware(['auth:api', 'role:superadmin,admin,operador,usuario'])->group
     Route::post("usuario/nuevo-proceso/{usuarioId}", [UsuarioController::class, 'crearProcesoGestativo']);
     Route::get("usuario/contar-procesos/{usuarioId}", [UsuarioController::class, 'contarProcesosGestativos']);
     Route::get('/usuario/{id_usuario}/completo', [UsuarioController::class, 'getUsuarioCompleto']);
+    Route::post('/usuario/{id}', [UsuarioController::class, 'update']);
     Route::apiResource("usuario", UsuarioController::class);
 });
 

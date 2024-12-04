@@ -102,6 +102,7 @@ class UsuarioController extends Controller
             $usuario->cod_municipio = $request->cod_municipio;
             $usuario->cod_ips = $request->cod_ips;
             $usuario->cod_poblacion = $request->cod_poblacion;
+            $usuario->autorizacion = false; 
     
             if ($usuario->save()) {
                 // Generar una contraseña aleatoria
@@ -118,7 +119,7 @@ class UsuarioController extends Controller
                 $usuario->user()->save($user);
     
                 // Enviar email de bienvenida (descomentar si tienes configurado el correo)
-                //Mail::to($usuario->email_usuario)->send(new WelcomeUserMail($usuario, $contrasenaGenerada));
+                Mail::to($usuario->email_usuario)->send(new WelcomeUserMail($usuario, $contrasenaGenerada));
             }
     
             DB::commit(); // Confirmar la transacción
@@ -259,7 +260,7 @@ class UsuarioController extends Controller
             }
     
             // Verificar si el usuario autenticado es un Operador
-            if ($authUser->rol_id !== 1 && $authUser->rol_id !== 3) {
+            if ($authUser->rol_id !== 1 && $authUser->rol_id !== 3 && $authUser->rol_id !== 4) {
                 return response()->json([
                     'error' => 'No autorizado. Solo un Operador (rol 3) o Administrador (rol 1) puede crear un usuario.'
                 ], 403);
@@ -285,6 +286,7 @@ class UsuarioController extends Controller
                 $usuario->cod_municipio = $request->cod_municipio;
                 $usuario->cod_ips = $request->cod_ips;
                 $usuario->cod_poblacion = $request->cod_poblacion;
+                $usuario->autorizacion = $request->autorizacion;
 
                 if($request->has('password')&& !empty($request->password)){
                     $user = $usuario->user;

@@ -10,10 +10,11 @@ use App\Models\Admin;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log; // Asegúrate de incluir esta clase
 
 class AuthController extends Controller
 {
-     public function login(Request $request)
+    public function login(Request $request)
     {
         // Validar las credenciales proporcionadas
         $request->validate([
@@ -47,6 +48,18 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Usuario no tiene un modelo relacionado válido.',
             ], 401);
+        }
+
+        // Recuperar el valor de autorización del modelo relacionado (usuario)
+        $autorizacion = $relatedModel->autorizacion; // Suponiendo que el campo es `autorizacion`
+
+        // Imprimir en la consola el valor de autorizacion (para fines de depuración)
+        Log::info('Valor de autorizacion: ' . $autorizacion);
+
+        // Si la autorización es 0, puedes permitirle continuar
+        if ($autorizacion == 0) {
+            // Imprimir en la consola que está en el estado inicial
+            Log::info('El usuario tiene autorización en 0, permitiendo el ingreso.');
         }
 
         // Si todas las validaciones pasan, generar el token de acceso
