@@ -256,7 +256,7 @@ class ExcelImport implements ToModel, WithStartRow
             try {
 
                 $documento = $this->buscarTipoDocumento($row[8]);
-                $poblacion = $this->buscarTipoPoblacion($row[11]);
+                $poblacion = $this->buscarTipoPoblacion($row[15]);
 
                 $fechaConv_diag_usuario = $this->convertirFecha($row[6]);
                 $fechaConv_fec_ingreso = $this->convertirFecha($row[7]);
@@ -276,7 +276,7 @@ class ExcelImport implements ToModel, WithStartRow
                     'ape_usuario'       => ($row[10] ?? '') . ' ' . ($row[11] ?? ''),
                     'nom_usuario'       => ($row[12] ?? '') . ' ' . ($row[13] ?? ''),
                     'fec_nacimiento'    => $fechaConv_fec_nacim,
-                    'cod_poblacion'     => $poblacion, // $row[11]
+                    'cod_poblacion'     => $poblacion, // $row[15]
                     'edad_usuario'      => $row[16] ?? 'No se encontro dato',
                     'tel_usuario'       => ($row[17] ?? '') === 'NO REPORTA' ? $teleUnico : ($row[17] ?? $teleUnico),
                     'cel_usuario'       => $row[18] ?? 'No se encontro dato',
