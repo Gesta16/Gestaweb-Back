@@ -23,9 +23,18 @@ class ExcelController extends Controller
         }
 
         try {
+            $import = new ExcelImport();
             // Procesar el archivo usando la importación personalizada
-            Excel::import(new ExcelImport, $request->file('excel'));
-            return response()->json(['message' => 'Archivo procesado con éxito'], 200);
+            Excel::import($import, $request->file('excel'));
+            //$datos = $import->data;
+
+            return response()->json([
+                'errores' => $import->errorData,
+                'ips' => $import->ipsData,
+                'departamentos' => $import->departData,
+                'municipios' => $import->municData,
+                
+            ], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error procesando el archivo: ' . $e->getMessage()], 500);
         }
