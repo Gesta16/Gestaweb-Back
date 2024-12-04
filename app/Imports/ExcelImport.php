@@ -226,7 +226,7 @@ class ExcelImport implements ToModel, WithStartRow
             return null;
         }
 
-        $ipsId = $this->buscarIpsParecida($row[0]);
+        $ipsId = $this->buscarIpsParecida($row[2]);
 
         $departaId = $this->buscarDepartamentoParecido($row[4]);
 
