@@ -230,7 +230,7 @@ class ExcelImport implements ToModel, WithStartRow, WithEvents
             return null;
         }
 
-        $ipsId = $this->buscarIpsParecida($row[0]);
+        $ipsId = $this->buscarIpsParecida($row[2]);
 
         $departaId = $this->buscarDepartamentoParecido($row[4]);
 
@@ -239,7 +239,7 @@ class ExcelImport implements ToModel, WithStartRow, WithEvents
         if ($ipsId == null) {
             $this->ipsData[] = [
                 'documento' =>  $row[9] ?? 'no tiene documento',
-                'ips' => $row[0],
+                'ips' => $row[2],
                 'mensaje' => 'No se encontro la IPS',
             ];
             //$this->data[] = $ipsData;

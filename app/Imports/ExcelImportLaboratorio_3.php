@@ -96,6 +96,7 @@ class ExcelImportLaboratorio_3 implements ToModel, WithStartRow
                     'reali_prueb_igm_toxoplasma'        => ($row[120] ?? '') == '' ? false : true,
                     'reali_prueb_culti_rect_vagi'       => ($row[122] ?? '') == '' ? false : true,
                     'reali_prueb_perfil_biofisico'      => ($row[124] ?? '') == '' ? false : true,
+                    'reali_hemograma'                   => ($row[114] ?? '') == '' ? false : true,
                 ]);
 
             } catch (\Exception $e) {

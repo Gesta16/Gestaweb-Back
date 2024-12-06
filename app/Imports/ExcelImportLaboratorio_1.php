@@ -116,13 +116,14 @@ class ExcelImportLaboratorio_1 implements ToModel, WithStartRow
 
                     'cod_hemoclasifi'                   => $hemoclasificacion,
                     'fec_hemoclasificacion'             => ($row[59] ?? '') == '' ? '1000-01-01' : $this->convertirFecha($row[59]), // $row[59] ?? 'No se encontro dato'
-                    'hem_laboratorio'                   => $row[60] ?? 'No se encontro dato',
-                    'fec_hemograma'                     => ($row[61] ?? '') == '' ? '1000-01-01' : $this->convertirFecha($row[61]), //  $row[61] ?? 'No se encontro dato'
-                    'gli_laboratorio'                   => $row[62] ?? 999,
-                    'fec_glicemia'                      => ($row[63] ?? '') == '' ? '1000-01-01' : $this->convertirFecha($row[63]), // $row[63] ?? 'No se encontro dato'
+
+                    'hem_laboratorio'                   => $row[60] ?? null,
+                    'fec_hemograma'                     => ($row[61] ?? '') == '' ? null : $this->convertirFecha($row[61]), //  $row[61] ?? 'No se encontro dato'
+                    'gli_laboratorio'                   => $row[62] ?? null,
+                    'fec_glicemia'                      => ($row[63] ?? '') == '' ? null : $this->convertirFecha($row[63]), // $row[63] ?? 'No se encontro dato'
         
-                    'ant_laboratorio'                   => $row[64] ?? 'No se encontro dato',
-                    'fec_antigeno'                      => ($row[65] ?? '') == '' ? '1000-01-01' : $this->convertirFecha($row[65]),
+                    'ant_laboratorio'                   => $row[64] ?? null,
+                    'fec_antigeno'                      => ($row[65] ?? '') == '' ? null : $this->convertirFecha($row[65]),
                     'pru_vih'                           => $row[66] ?? null, // PUEDE NULL
         
                     'fec_vih'                           => ($row[67] ?? '') == '' ? null : $this->convertirFecha($row[67]), // PUEDE NULL
@@ -134,13 +135,17 @@ class ExcelImportLaboratorio_1 implements ToModel, WithStartRow
                     'cod_antibiograma'                  => ($row[72] ?? '') == '' ? null : $this->buscarAntibiograma($row[72]), // PUEDE NULL $row[72] ?? 'No se encontro dato'
                     'fec_antibiograma'                  => ($row[73] ?? '') == '' ? null : $this->convertirFecha($row[73]), // PUEDE NULL
 
-                    'ig_rubeola'                        => $row[74]?? 'No se encontro dato',
-                    'fec_rubeola'                       => ($row[75] ?? '') == '' ? '1000-01-01' : $this->convertirFecha($row[75]),
-                    'ig_toxoplasma'                     => $row[76]?? 'No se encontro dato',
-                    
-                    'fec_toxoplasma'                    => ($row[77] ?? '') == '' ? '1000-01-01' : $this->convertirFecha($row[77]),
-                    'hem_gruesa'                        => $row[80]?? 'No se encontro dato',
-                    'fec_hemoparasito'                  => ($row[81] ?? '') == '' ? '1000-01-01' : $this->convertirFecha($row[81]),
+                    'ig_rubeola'                        => $row[74] ?? null,
+                    'fec_rubeola'                       => ($row[75] ?? '') == '' ? null : $this->convertirFecha($row[75]),
+
+                    'ig_toxoplasma'                     => $row[76]?? null,
+                    'fec_toxoplasma'                    => ($row[77] ?? '') == '' ? null : $this->convertirFecha($row[77]),
+
+                    'igm_toxoplamas'                    => $row[78] ?? null,
+                    'fec_igmtoxoplasma'                 =>($row[79] ?? '') == '' ? null : $this->convertirFecha($row[77]),
+
+                    'hem_gruesa'                        => $row[80] ?? null,
+                    'fec_hemoparasito'                  => ($row[81] ?? '') == '' ? null : $this->convertirFecha($row[81]),
                     
                     'pru_antigenos'                     => $row[82]?? null, // PUEDE NULL
                     'fec_antigenos'                     => ($row[83] ?? '') == '' ? null : $this->convertirFecha($row[83]), // PUEDE NULL
@@ -164,6 +169,15 @@ class ExcelImportLaboratorio_1 implements ToModel, WithStartRow
                     
                     'real_prueb_coombis_indi_cuanti'    => ($row[86] ?? '') == '' ? false : true,
                     'real_eco_obste_tamizaje'           => ($row[88] ?? '') == '' ? false : true,
+
+                    'real_hemograma'                    => ($row[60] ?? '') == '' ? false : true,
+
+                    'real_glicemia'                     => ($row[62] ?? '') == '' ? false : true,
+                    'real_antigenos'                    => ($row[82] ?? '') == '' ? false : true,
+                    'real_ig_toxoplasma'                => ($row[76] ?? '') == '' ? false : true,
+                    'real_igm_toxoplasma'               => ($row[78] ?? '') == '' ? false : true,
+                    'real_ig_rubeola'                   => ($row[74] ?? '') == '' ? false : true,
+                    'real_hemoparasito'                 => ($row[80] ?? '') == '' ? false : true,
                 ]);
 
             } catch (\Exception $e) {
