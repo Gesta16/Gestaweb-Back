@@ -36,6 +36,7 @@ class LaboratorioIIITrimestre extends Model
         'reali_prueb_igm_toxoplasma',
         'reali_prueb_culti_rect_vagi',
         'reali_prueb_perfil_biofisico',
+        'reali_hemograma'
     ];
 
     public function operador()

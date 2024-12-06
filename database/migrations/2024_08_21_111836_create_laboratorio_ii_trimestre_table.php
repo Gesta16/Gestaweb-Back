@@ -28,14 +28,14 @@ class CreateLaboratorioIiTrimestreTable extends Migration
             $table->date('fec_vih')->nullable();
             $table->string('pru_sifilis')->nullable();
             $table->date('fec_sifilis')->nullable();
-            $table->string('pru_oral');
-            $table->string('pru_uno');
-            $table->string('pru_dos');
-            $table->date('fec_prueba');
+            $table->string('pru_oral')->nullable();
+            $table->string('pru_uno')->nullable();
+            $table->string('pru_dos')->nullable();
+            $table->date('fec_prueba')->nullable();
             $table->string('rep_citologia')->nullable();
             $table->date('fec_citologia')->nullable();
-            $table->string('ig_toxoplasma');
-            $table->date('fec_toxoplasma');
+            $table->string('ig_toxoplasma')->nullable();
+            $table->date('fec_toxoplasma')->nullable();
             $table->string('pru_avidez')->nullable();
             $table->date('fec_avidez')->nullable();
             $table->string('tox_laboratorio')->nullable();
@@ -55,6 +55,10 @@ class CreateLaboratorioIiTrimestreTable extends Migration
             $table->boolean('reali_prueb_hemoparasito');//Realizó la prueba Hemoparásito - gota gruesa
             $table->boolean('reali_prueb_coombis_indi_cuanti');//Realizó la prueba Coombis indirecto cuantitativo
             $table->boolean('reali_eco_obste_detalle_anato');//Realizó la ecografía obtétrica detalle anatómico
+            $table->boolean('real_igm_toxoplasma');
+            $table->boolean('real_prueb_oral');
+            $table->boolean('real_prueb_oral_1');
+            $table->boolean('real_prueb_oral_2');
             $table->timestamp('created_at')->useCurrent();
 
 

@@ -48,6 +48,7 @@ use App\Http\Controllers\API\EstudioHipotiroidismoCongenitoController;
 use App\Http\Controllers\API\RutaPYMSController;
 use App\Http\Controllers\API\TamizacionNeonatalController;
 use App\Http\Controllers\API\DashboardController;
+use App\Http\Controllers\API\DashboardGestanteController;
 use App\Http\Controllers\API\ReportesController;
 use App\Http\Controllers\API\UserNoteController;
 use App\Http\Controllers\API\ExcelController;
@@ -392,10 +393,23 @@ Route::post('/importar-excel', [ExcelController::class, 'procesarExcel']);
 
 /** RUTAS USER NOTES */
 Route::middleware(["auth:api", "role:usuario"])->group(function() {
-   
     Route::get('/user-notes', [UserNoteController::class, 'index']);
     Route::get('/user-notes/{id}', [UserNoteController::class, 'show']);
     Route::post('/user-notes', [UserNoteController::class, 'store']);
     Route::put('/user-notes/{id}', [UserNoteController::class, 'update']);
     Route::delete('/user-notes/{id}', [UserNoteController::class, 'destroy']);
+});
+
+
+/* RUTAS DASHBOARD GESTANTE*/
+Route::middleware(["auth:api", "role:usuario"])->group(function(){
+    Route::get('/edadGestante', [DashboardGestanteController::class, 'getEdadGestacional']);
+    Route::get('/conteoControles', [DashboardGestanteController::class, 'getControlesPrenatales']);
+    Route::get('/sessionesCurso',[DashboardGestanteController::class, 'getSesionesCurso']);
+    Route::get('/fechaProbParto', [DashboardGestanteController::class, 'getFechaProbableParto']);
+    Route::get('/pesoGestante', [DashboardGestanteController::class, 'getControlPesoGestante']);
+    Route::get('/presionGestante',[DashboardGestanteController::class, 'getControlPresion']);
+    Route::get('/vacunacionGestante', [DashboardGestanteController::class, 'getVacunasGestante']);
+    Route::get('/vacunacionBebe', [DashboardGestanteController::class,'getVacunacionBebe']);
+    Route::get('/getResutadosItri',[DashboardGestanteController::class, 'getExamenesITrimestre']);
 });

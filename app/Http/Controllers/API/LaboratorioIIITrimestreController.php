@@ -62,8 +62,8 @@ class LaboratorioIIITrimestreController extends Controller
         // Validar los datos de entrada
         $validatedData = $request->validate([
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
-            'hemograma' => 'required|string',
-            'fec_hemograma' => 'required|date',
+            'hemograma' => 'nullable|string',
+            'fec_hemograma' => 'nullable|date',
             'pru_vih' => 'nullable|string',
             'fec_vih' => 'nullable|date',
             'pru_sifilis' => 'nullable|string',
@@ -80,7 +80,8 @@ class LaboratorioIIITrimestreController extends Controller
             'reali_prueb_trepo_rapi_sifilis' => 'required|boolean',
             'reali_prueb_igm_toxoplasma' => 'required|boolean',
             'reali_prueb_culti_rect_vagi' => 'required|boolean',
-            'reali_prueb_perfil_biofisico' => 'required|boolean'
+            'reali_prueb_perfil_biofisico' => 'required|boolean',
+            'reali_hemograma' => 'required|boolean',
         ]);
     
         // Verificar que el ProcesoGestativo esté activo

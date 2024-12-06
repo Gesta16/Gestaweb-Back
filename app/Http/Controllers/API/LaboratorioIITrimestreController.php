@@ -177,10 +177,10 @@ class LaboratorioIITrimestreController extends Controller
             'fec_vih' => 'sometimes|nullable|date',
             'pru_sifilis' => 'sometimes|nullable|string',
             'fec_sifilis' => 'sometimes|nullable|date',
-            'pru_oral' => 'sometimes|required|string',
-            'pru_uno' => 'sometimes|required|string',
-            'pru_dos' => 'sometimes|required|string',
-            'fec_prueba' => 'sometimes|required|date',
+            'pru_oral' => 'sometimes|nullable|string',
+            'pru_uno' => 'sometimes|nullable|string',
+            'pru_dos' => 'sometimes|nullable|string',
+            'fec_prueba' => 'sometimes|nullable|date',
             'rep_citologia' => 'sometimes|nullable|string',
             'fec_citologia' => 'sometimes|nullable|date',
             'ig_toxoplasma' => 'sometimes|required|string',
@@ -204,6 +204,10 @@ class LaboratorioIITrimestreController extends Controller
             'reali_prueb_hemoparasito' => 'sometimes|required|boolean',
             'reali_prueb_coombis_indi_cuanti' => 'sometimes|required|boolean',
             'reali_eco_obste_detalle_anato' => 'sometimes|required|boolean',
+            'real_igm_toxoplasma' => 'sometimes|required|boolean',
+            'real_prueb_oral' => 'sometimes|required|boolean',
+            'real_prueb_oral_1' => 'sometimes|required|boolean',
+            'real_prueb_oral_2' => 'sometimes|required|boolean',
         ]);
     
         // Asignar el id_operador del usuario autenticado si no se envía uno nuevo
