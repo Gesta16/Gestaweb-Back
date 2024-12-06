@@ -57,7 +57,15 @@ class LaboratorioITrimestre extends Model
         'real_prueb_eliza_anti_total',
         'real_prueb_eliza_anti_recomb',
         'real_prueb_coombis_indi_cuanti',
-        'real_eco_obste_tamizaje'
+        'real_eco_obste_tamizaje',
+        'real_hemograma',
+        'real_glicemia',
+        'real_antigenos',
+        'real_ig_toxoplasma',
+        'real_igm_toxoplasma',
+        'real_ig_rubeola',
+        'real_hemoparasito',
+
     ];
 
     public function operador()

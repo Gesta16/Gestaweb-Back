@@ -37,6 +37,6 @@ class SeguimientoComplementario extends Model
     
     public function sesiones()
     {
-        return $this->belongsTo(Sesion::class, 'cod_sesiones', 'cod_sesiones');
+        return $this->belongsTo(NumSesionesCursoPaternidadMaternidad::class, 'cod_sesiones', 'cod_sesiones');
     }
 }

@@ -44,12 +44,12 @@ class LaboratorioITrimestreController extends Controller
             'cod_hemoclasifi' => 'required|integer|exists:hemoclasificacion,cod_hemoclasifi',
             'cod_antibiograma' => 'nullable|integer|exists:antibiograma,cod_antibiograma',
             'fec_hemoclasificacion' => 'required|date',
-            'hem_laboratorio' => 'required|string',
-            'fec_hemograma' => 'required|date',
-            'gli_laboratorio' => 'required|integer',
-            'fec_glicemia' => 'required|date',
-            'ant_laboratorio' => 'required|string',
-            'fec_antigeno' => 'required|date',
+            'hem_laboratorio' => 'nullable|string',
+            'fec_hemograma' => 'nullable|date',
+            'gli_laboratorio' => 'nullable|integer',
+            'fec_glicemia' => 'nullable|date',
+            'ant_laboratorio' => 'nullable|string',
+            'fec_antigeno' => 'nullable|date',
             'pru_vih' => 'nullable|string',
             'fec_vih' => 'nullable|date',
             'pru_sifilis' => 'nullable|string',
@@ -70,7 +70,7 @@ class LaboratorioITrimestreController extends Controller
             'coo_cuantitativo' => 'nullable|string',
             'fec_coombs' => 'nullable|date',
             'fec_ecografia' => 'nullable|date',
-            'eda_gestacional' => 'nullable|numeric|min:0', 
+            'eda_gestacional' => 'nullable|numeric|min:0',
             'rie_biopsicosocial' => 'required|string',
             'real_prueb_rapi_vih' => 'required|boolean',
             'reali_prueb_trepo_rapid_sifilis' => 'required|boolean',
@@ -80,7 +80,14 @@ class LaboratorioITrimestreController extends Controller
             'real_prueb_eliza_anti_recomb' => 'required|boolean',
             'real_prueb_coombis_indi_cuanti' => 'required|boolean',
             'real_eco_obste_tamizaje' => 'required|boolean',
-            'num_proceso' => 'required|integer'
+            'real_hemograma' => 'required|boolean',
+            'real_glicemia' => 'required|boolean',
+            'real_antigenos' => 'required|boolean',
+            'real_ig_toxoplasma' => 'required|boolean',
+            'real_igm_toxoplasma' => 'required|boolean',
+            'real_ig_rubeola' => 'required|boolean',
+            'real_hemoparasito' => 'required|boolean',
+            'num_proceso' => 'required|integer',
 
         ]);
 
@@ -111,7 +118,7 @@ class LaboratorioITrimestreController extends Controller
             'nombre_consulta' => 'Laboratorios primer trimestre',
         ]);
 
-        return response()->json(['estado' => 'Ok', 'mensaje'=>'Laboratorio 1 trimestre creado con exito.' ,'data' => $laboratorio], 201);
+        return response()->json(['estado' => 'Ok', 'mensaje' => 'Laboratorio 1 trimestre creado con exito.', 'data' => $laboratorio], 201);
     }
 
     /**

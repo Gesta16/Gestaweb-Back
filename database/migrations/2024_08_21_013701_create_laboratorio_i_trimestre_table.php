@@ -29,14 +29,13 @@ class CreateLaboratorioITrimestreTable extends Migration
             $table->foreign('cod_antibiograma')->references('cod_antibiograma')->on('antibiograma');
 
             $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
-
             $table->date('fec_hemoclasificacion');
-            $table->string('hem_laboratorio');
-            $table->date('fec_hemograma');
-            $table->integer('gli_laboratorio');
-            $table->date('fec_glicemia');
-            $table->string('ant_laboratorio');
-            $table->date('fec_antigeno');
+            $table->string('hem_laboratorio')->nullable();
+            $table->date('fec_hemograma')->nullable();
+            $table->integer('gli_laboratorio')->nullable();
+            $table->date('fec_glicemia')->nullable();
+            $table->string('ant_laboratorio')->nullable();
+            $table->date('fec_antigeno')->nullable();
             $table->string('pru_vih')->nullable();
             $table->date('fec_vih')->nullable();
             $table->string('pru_sifilis')->nullable();
@@ -44,12 +43,14 @@ class CreateLaboratorioITrimestreTable extends Migration
             $table->string('uro_laboratorio')->nullable();
             $table->date('fec_urocultivo')->nullable();
             $table->date('fec_antibiograma')->nullable();
-            $table->string('ig_rubeola');
-            $table->date('fec_rubeola');
-            $table->string('ig_toxoplasma');
-            $table->date('fec_toxoplasma');
-            $table->string('hem_gruesa');
-            $table->date('fec_hemoparasito');
+            $table->string('ig_rubeola')->nullable();
+            $table->date('fec_rubeola')->nullable();
+            $table->string('ig_toxoplasma')->nullable();
+            $table->date('fec_toxoplasma')->nullable();
+            $table->string('igm_toxoplamas')->nullable();
+            $table->date('fec_igmtoxoplasma')->nullable();
+            $table->string('hem_gruesa')->nullable();
+            $table->date('fec_hemoparasito')->nullable();
             $table->string('pru_antigenos')->nullable();
             $table->date('fec_antigenos')->nullable();
             $table->string('eli_recombinante')->nullable();
@@ -67,6 +68,13 @@ class CreateLaboratorioITrimestreTable extends Migration
             $table->boolean('real_prueb_eliza_anti_recomb');//Realizó la prueba de elisa antígenos recombinante
             $table->boolean('real_prueb_coombis_indi_cuanti');//Realizó la prueba de Coombis indirecto cuantitativo
             $table->boolean('real_eco_obste_tamizaje');//Realizó la ecografía obstétrica tamizaje
+            $table->boolean('real_hemograma');
+            $table->boolean('real_glicemia');
+            $table->boolean('real_antigenos');
+            $table->boolean('real_ig_toxoplasma');
+            $table->boolean('real_igm_toxoplasma');
+            $table->boolean('real_ig_rubeola');
+            $table->boolean('real_hemoparasito');
             $table->timestamp('created_at')->useCurrent();
 
 

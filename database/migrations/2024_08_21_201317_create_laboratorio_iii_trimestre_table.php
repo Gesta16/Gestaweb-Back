@@ -26,8 +26,8 @@ class CreateLaboratorioIiiTrimestreTable extends Migration
 
 
             // Hemograma
-            $table->string('hemograma');
-            $table->date('fec_hemograma');
+            $table->string('hemograma')->nullable();
+            $table->date('fec_hemograma')->nullable();
             
             // Prueba rápida VIH
             $table->string('pru_vih')->nullable();
@@ -58,7 +58,7 @@ class CreateLaboratorioIiiTrimestreTable extends Migration
             $table->boolean('reali_prueb_igm_toxoplasma');//Realizó la prueba IG-M toxoplasma
             $table->boolean('reali_prueb_culti_rect_vagi');//Realizó la prueba de cultivo rectal y vaginal
             $table->boolean('reali_prueb_perfil_biofisico');//Realizó la prueba de Perfil biofísico
-
+            $table->boolean('reali_hemograma');
             $table->timestamp('created_at')->useCurrent();
 
         });
