@@ -28,14 +28,18 @@ class CreateLaboratorioIiTrimestreTable extends Migration
             $table->date('fec_vih')->nullable();
             $table->string('pru_sifilis')->nullable();
             $table->date('fec_sifilis')->nullable();
+
             $table->string('pru_oral');
             $table->string('pru_uno');
             $table->string('pru_dos');
             $table->date('fec_prueba');
+
             $table->string('rep_citologia')->nullable();
             $table->date('fec_citologia')->nullable();
+
             $table->string('ig_toxoplasma');
             $table->date('fec_toxoplasma');
+
             $table->string('pru_avidez')->nullable();
             $table->date('fec_avidez')->nullable();
             $table->string('tox_laboratorio')->nullable();
@@ -46,7 +50,9 @@ class CreateLaboratorioIiTrimestreTable extends Migration
             $table->date('fec_coombs')->nullable();
             $table->date('fec_ecografia')->nullable();
             $table->decimal('eda_gestacional', 8, 2)->nullable();
+            
             $table->string('rie_biopsicosocial');
+
             $table->boolean('reali_prueb_rapi_vih');//Realizó la prueba rápida VIH
             $table->boolean('real_prueb_trep_rap_sifilis');//Realizó la prueba treponémica rápida sífilis
             $table->boolean('reali_citologia');//Realizó la citología

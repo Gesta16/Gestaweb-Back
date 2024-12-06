@@ -5,12 +5,15 @@ use App\Models\Ips;
 use App\Models\Departamento;
 use App\Models\Municipio;
 use App\Models\Usuario;
+use App\Models\ProcesoGestativo;
 
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterImport;
 
-class ExcelImport implements ToModel, WithStartRow
+class ExcelImport implements ToModel, WithStartRow, WithEvents
 {
     public $data = [];
     public $errorData = [];
@@ -20,6 +23,7 @@ class ExcelImport implements ToModel, WithStartRow
     private $ips;
     private $departamento;
     private $municipio;
+    private $usuariosInsertados = [];
 
     public function __construct() 
     {   
@@ -226,7 +230,7 @@ class ExcelImport implements ToModel, WithStartRow
             return null;
         }
 
-        $ipsId = $this->buscarIpsParecida($row[2]);
+        $ipsId = $this->buscarIpsParecida($row[0]);
 
         $departaId = $this->buscarDepartamentoParecido($row[4]);
 
@@ -258,31 +262,33 @@ class ExcelImport implements ToModel, WithStartRow
                 $documento = $this->buscarTipoDocumento($row[8]);
                 $poblacion = $this->buscarTipoPoblacion($row[15]);
 
-                $fechaConv_diag_usuario = $this->convertirFecha($row[6]);
-                $fechaConv_fec_ingreso = $this->convertirFecha($row[7]);
-                $fechaConv_fec_nacim = $this->convertirFecha($row[14]);
-
                 $emailUnico = 'N/A' . uniqid(mt_rand(), true);
                 $teleUnico = 'N/E' . uniqid(mt_rand(), true);
 
-                Usuario::create([
+                $usuario = Usuario::create([
                     'cod_ips'           => $ipsId ?? null,
                     'cod_departamento'  => $departaId, // $row[4] ?? 'No se encontro dato'
                     'cod_municipio'     => $municId, // $row[5] ?? 'No se encontro dato'
-                    'fec_diag_usuario'  => $fechaConv_diag_usuario,
-                    'fec_ingreso'       => $fechaConv_fec_ingreso,
+                    'fec_diag_usuario'  => ($row[6] ?? '') == '' ? '1000-01-01' : $this->convertirFecha($row[6]), //  $fechaConv_diag_usuario
+                    'fec_ingreso'       => ($row[7] ?? '') == '' ? '1000-01-01' : $this->convertirFecha($row[7]), // $fechaConv_fec_ingreso
                     'cod_documento'     => $documento, // $row[8] ?? 'No se encontro dato'
                     'documento_usuario' => $row[9] ?? 'No se encontro dato',
                     'ape_usuario'       => ($row[10] ?? '') . ' ' . ($row[11] ?? ''),
                     'nom_usuario'       => ($row[12] ?? '') . ' ' . ($row[13] ?? ''),
-                    'fec_nacimiento'    => $fechaConv_fec_nacim,
+                    'fec_nacimiento'    => ($row[14] ?? '') == '' ? '1000-01-01' : $this->convertirFecha($row[14]), // $fechaConv_fec_nacim
                     'cod_poblacion'     => $poblacion, // $row[15]
                     'edad_usuario'      => $row[16] ?? 'No se encontro dato',
-                    'tel_usuario'       => ($row[17] ?? '') === 'NO REPORTA' ? $teleUnico : ($row[17] ?? $teleUnico),
+                    'tel_usuario'       => ($row[17] ?? '') == 'NO REPORTA' ? $teleUnico : ($row[17] ?? $teleUnico),
                     'cel_usuario'       => $row[18] ?? 'No se encontro dato',
                     'dir_usuario'       => $row[19] ?? 'No se encontro dato',            
                     'email_usuario'     => $emailUnico,
                 ]);
+
+                $this->usuariosInsertados[] = [
+                    'documento' => $usuario->id_usuario,
+                    'estado' => $row[200] ?? null,
+                ];
+                
             } catch (\Exception $e) {
                 // Si ocurre un error, guarda el error y los datos en la variable de errores
                 $errorData[] = [
@@ -293,6 +299,31 @@ class ExcelImport implements ToModel, WithStartRow
             }
         }
         return null;
+    }
+
+    public function registerEvents(): array
+    {
+        //\Log::info("register");
+        
+        return [
+            //\Log::info("register_return"),
+            AfterImport::class => function (AfterImport $event) {
+                //\Log::info("afterImport");
+                // Lógica después de la importación
+                foreach ($this->usuariosInsertados as $usuarioData) {
+                    $nombre_estado = false;
+                    if($usuarioData['estado'] == 'Gestante'){
+                        $nombre_estado = true;
+                    }
+                    //\Log::info("foreach", ['documento' => $usuarioData['documento']]);
+                    ProcesoGestativo::create([
+                        'id_usuario' => $usuarioData['documento'],
+                        'num_proceso' => 1,
+                        'estado' => $nombre_estado,
+                    ]);
+                }
+            },
+        ];
     }
 }
 // $this->data[] = [
