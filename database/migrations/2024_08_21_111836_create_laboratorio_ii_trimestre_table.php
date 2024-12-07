@@ -55,7 +55,7 @@ class CreateLaboratorioIiTrimestreTable extends Migration
             $table->boolean('reali_prueb_hemoparasito');//Realizó la prueba Hemoparásito - gota gruesa
             $table->boolean('reali_prueb_coombis_indi_cuanti');//Realizó la prueba Coombis indirecto cuantitativo
             $table->boolean('reali_eco_obste_detalle_anato');//Realizó la ecografía obtétrica detalle anatómico
-            $table->boolean('real_igm_toxoplasma');
+            $table->boolean('real_igm_toxoplasma_2');
             $table->boolean('real_prueb_oral');
             $table->boolean('real_prueb_oral_1');
             $table->boolean('real_prueb_oral_2');

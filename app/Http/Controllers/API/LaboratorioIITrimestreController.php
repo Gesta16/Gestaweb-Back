@@ -42,9 +42,9 @@ class LaboratorioIITrimestreController extends Controller
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'Debes estar autenticado para realizar esta acción'
-            ], 401); 
+            ], 401);
         }
-    
+
         // Validar los datos de entrada
         $validatedData = $request->validate([
             'id_usuario' => 'required|integer|exists:usuario,id_usuario',
@@ -80,68 +80,72 @@ class LaboratorioIITrimestreController extends Controller
             'reali_prueb_hemoparasito' => 'required|boolean',
             'reali_prueb_coombis_indi_cuanti' => 'required|boolean',
             'reali_eco_obste_detalle_anato' => 'required|boolean',
+            'real_igm_toxoplasma_2' => 'required|boolean',
+            'real_prueb_oral' => 'required|boolean',
+            'real_prueb_oral_1' => 'required|boolean',
+            'real_prueb_oral_2' => 'required|boolean'
         ]);
-    
+
         // Verificar que el ProcesoGestativo esté activo
         $procesoGestativo = ProcesoGestativo::where('id_usuario', $validatedData['id_usuario'])
-                                            ->where('num_proceso', $validatedData['num_proceso'])
-                                            ->where('estado', 1)
-                                            ->first();
-    
+            ->where('num_proceso', $validatedData['num_proceso'])
+            ->where('estado', 1)
+            ->first();
+
         if (!$procesoGestativo) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
             ], 404);
         }
-    
+
         // Asignar el id_operador y el id del proceso gestativo
         $validatedData['id_operador'] = auth()->user()->userable_id;
         $validatedData['proceso_gestativo_id'] = $procesoGestativo->id;
-    
+
         // Crear el registro de LaboratorioIITrimestre
         $laboratorio = LaboratorioIITrimestre::create($validatedData);
-    
+
         // Crear el registro de ConsultasUsuario
         ConsultasUsuario::create([
             'id_usuario' => $validatedData['id_usuario'],
             'fecha' => now(),
-            'nombre_consulta' => 'Laboratorios segundo trimestre', 
+            'nombre_consulta' => 'Laboratorios segundo trimestre',
         ]);
-    
+
         return response()->json([
             'estado' => 'Ok',
             'mensaje' => 'Laboratorio segundo trimestre creado con exito',
             'data' => $laboratorio
         ], 201);
     }
-    
-    public function show($id,$num_proceso)
+
+    public function show($id, $num_proceso)
     {
         // Verificar que el ProcesoGestativo esté activo
         $procesoGestativo = ProcesoGestativo::where('id_usuario', $id)
-                                            ->where('num_proceso', $num_proceso)
-                                            ->first();
-    
+            ->where('num_proceso', $num_proceso)
+            ->first();
+
         if (!$procesoGestativo) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'No se encontró el proceso gestativo activo para el usuario proporcionado.'
             ], 404);
         }
-    
+
         // Obtener el registro de LaboratorioIITrimestre con relaciones
         $laboratorio = LaboratorioIITrimestre::with(['operador', 'usuario'])
-                                             ->where('id_usuario', $id)
-                                             ->where('proceso_gestativo_id', $procesoGestativo->id)
-                                             ->firstOrFail();
-    
+            ->where('id_usuario', $id)
+            ->where('proceso_gestativo_id', $procesoGestativo->id)
+            ->firstOrFail();
+
         return response()->json([
             'estado' => 'Ok',
             'data' => $laboratorio
         ]);
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -157,19 +161,19 @@ class LaboratorioIITrimestreController extends Controller
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'Debes estar autenticado para realizar esta acción'
-            ], 401); 
+            ], 401);
         }
-    
+
         // Buscar el registro a actualizar
         $laboratorio = LaboratorioIITrimestre::find($id);
-    
+
         if (!$laboratorio) {
             return response()->json([
                 'estado' => 'Error',
                 'mensaje' => 'Registro no encontrado'
             ], 404);
         }
-    
+
         // Validar los datos de entrada
         $validatedData = $request->validate([
             'id_usuario' => 'sometimes|required|integer|exists:usuario,id_usuario',
@@ -204,32 +208,32 @@ class LaboratorioIITrimestreController extends Controller
             'reali_prueb_hemoparasito' => 'sometimes|required|boolean',
             'reali_prueb_coombis_indi_cuanti' => 'sometimes|required|boolean',
             'reali_eco_obste_detalle_anato' => 'sometimes|required|boolean',
-            'real_igm_toxoplasma' => 'sometimes|required|boolean',
+            'real_igm_toxoplasma_2' => 'sometimes|required|boolean',
             'real_prueb_oral' => 'sometimes|required|boolean',
             'real_prueb_oral_1' => 'sometimes|required|boolean',
             'real_prueb_oral_2' => 'sometimes|required|boolean',
         ]);
-    
+
         // Asignar el id_operador del usuario autenticado si no se envía uno nuevo
         if (!array_key_exists('id_operador', $validatedData)) {
             $validatedData['id_operador'] = auth()->user()->userable_id;
         }
-    
+
         // Actualizar el registro de LaboratorioIITrimestre
         $laboratorio = LaboratorioIITrimestre::where('cod_doslaboratorio', $id)
-                                            ->where('id_usuario', $validatedData['id_usuario'])
-                                             ->firstOrFail();
+            ->where('id_usuario', $validatedData['id_usuario'])
+            ->firstOrFail();
 
         $laboratorio->update($validatedData);
 
-    
+
         return response()->json([
             'estado' => 'Ok',
-            'mensaje'=>'Laboratorio 2 trimestre editado con exito',
+            'mensaje' => 'Laboratorio 2 trimestre editado con exito',
             'data' => $laboratorio
         ]);
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -255,5 +259,4 @@ class LaboratorioIITrimestreController extends Controller
             'mensaje' => 'Registro eliminado correctamente'
         ]);
     }
-    
 }

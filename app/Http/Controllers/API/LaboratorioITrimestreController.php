@@ -61,6 +61,8 @@ class LaboratorioITrimestreController extends Controller
             'fec_rubeola' => 'required|date',
             'ig_toxoplasma' => 'required|string',
             'fec_toxoplasma' => 'required|date',
+            'igm_toxoplamas' => 'nullable|string',
+            'fec_igmtoxoplasma' => 'nullable|date',
             'hem_gruesa' => 'required|string',
             'fec_hemoparasito' => 'required|date',
             'pru_antigenos' => 'nullable|string',
@@ -190,6 +192,8 @@ class LaboratorioITrimestreController extends Controller
             'fec_rubeola' => 'required|date',
             'ig_toxoplasma' => 'required|string',
             'fec_toxoplasma' => 'required|date',
+            'igm_toxoplamas' => 'nullable|string',
+            'fec_igmtoxoplasma' => 'nullable|date',
             'hem_gruesa' => 'required|string',
             'fec_hemoparasito' => 'required|date',
             'pru_antigenos' => 'nullable|string',
@@ -208,7 +212,14 @@ class LaboratorioITrimestreController extends Controller
             'real_prueb_eliza_anti_total' => 'required|boolean',
             'real_prueb_eliza_anti_recomb' => 'required|boolean',
             'real_prueb_coombis_indi_cuanti' => 'required|boolean',
-            'real_eco_obste_tamizaje' => 'required|boolean'
+            'real_eco_obste_tamizaje' => 'required|boolean',
+            'real_hemograma' => 'required|boolean',
+            'real_glicemia' => 'required|boolean',
+            'real_antigenos' => 'required|boolean',
+            'real_ig_toxoplasma' => 'required|boolean',
+            'real_igm_toxoplasma' => 'required|boolean',
+            'real_ig_rubeola' => 'required|boolean',
+            'real_hemoparasito' => 'required|boolean',
         ]);
 
         // Buscar el registro por id_usuario
