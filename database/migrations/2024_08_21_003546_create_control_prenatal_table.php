@@ -40,6 +40,7 @@ class CreateControlPrenatalTable extends Migration
             $table->boolean('usu_solicito');
             $table->date('fec_terminacion')->nullable();
             $table->boolean('per_intergenesico');
+            
             $table->boolean('recibio_atencion_preconcep'); //Recibió atención preconcepcional
             $table->boolean('asis_consul_control_precon'); //Asistió a la consulta de control atención preconcepcional
             $table->boolean('asis_asesoria_ive')->nullable();//Asistió a la asesoría IVE

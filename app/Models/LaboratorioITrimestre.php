@@ -38,6 +38,8 @@ class LaboratorioITrimestre extends Model
         'fec_rubeola',
         'ig_toxoplasma',
         'fec_toxoplasma',
+        'igm_toxoplamas',
+        'fec_igmtoxoplasma',
         'hem_gruesa',
         'fec_hemoparasito',
         'pru_antigenos',

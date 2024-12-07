@@ -50,7 +50,7 @@ class LaboratorioIITrimestre extends Model
         'reali_prueb_hemoparasito',
         'reali_prueb_coombis_indi_cuanti',
         'reali_eco_obste_detalle_anato',
-        'real_igm_toxoplasma',
+        'real_igm_toxoplasma_2',
         'real_prueb_oral',
         'real_prueb_oral_1',
         'real_prueb_oral_2'

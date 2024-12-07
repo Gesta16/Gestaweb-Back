@@ -46,7 +46,9 @@ class CreateLaboratorioIiTrimestreTable extends Migration
             $table->date('fec_coombs')->nullable();
             $table->date('fec_ecografia')->nullable();
             $table->decimal('eda_gestacional', 8, 2)->nullable();
+            
             $table->string('rie_biopsicosocial');
+
             $table->boolean('reali_prueb_rapi_vih');//Realizó la prueba rápida VIH
             $table->boolean('real_prueb_trep_rap_sifilis');//Realizó la prueba treponémica rápida sífilis
             $table->boolean('reali_citologia');//Realizó la citología
@@ -55,7 +57,7 @@ class CreateLaboratorioIiTrimestreTable extends Migration
             $table->boolean('reali_prueb_hemoparasito');//Realizó la prueba Hemoparásito - gota gruesa
             $table->boolean('reali_prueb_coombis_indi_cuanti');//Realizó la prueba Coombis indirecto cuantitativo
             $table->boolean('reali_eco_obste_detalle_anato');//Realizó la ecografía obtétrica detalle anatómico
-            $table->boolean('real_igm_toxoplasma');
+            $table->boolean('real_igm_toxoplasma_2');
             $table->boolean('real_prueb_oral');
             $table->boolean('real_prueb_oral_1');
             $table->boolean('real_prueb_oral_2');

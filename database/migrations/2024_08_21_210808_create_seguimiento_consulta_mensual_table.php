@@ -32,9 +32,9 @@ class CreateSeguimientoConsultaMensualTable extends Migration
 
         // Campos adicionales
         $table->date('fec_consulta'); 
-        $table->integer('edad_gestacional'); 
+        $table->integer('edad_gestacional');
         $table->decimal('alt_uterina', 5, 2); 
-        $table->integer('trim_gestacional'); 
+        $table->integer('trim_gestacional');
         $table->decimal('peso', 5, 2); 
         $table->decimal('talla', 5, 2); 
         $table->decimal('imc', 5, 2); 

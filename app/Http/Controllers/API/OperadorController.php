@@ -39,10 +39,10 @@ class OperadorController extends Controller
             ]);
         }
 
-        return [
+        return response()->json([
             'estado'=>'Ok',
             'operador'=>$operador
-        ];
+        ]);
     }
 
     /**
