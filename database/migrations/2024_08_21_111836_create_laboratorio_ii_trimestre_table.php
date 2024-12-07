@@ -46,7 +46,9 @@ class CreateLaboratorioIiTrimestreTable extends Migration
             $table->date('fec_coombs')->nullable();
             $table->date('fec_ecografia')->nullable();
             $table->decimal('eda_gestacional', 8, 2)->nullable();
+            
             $table->string('rie_biopsicosocial');
+
             $table->boolean('reali_prueb_rapi_vih');//Realizó la prueba rápida VIH
             $table->boolean('real_prueb_trep_rap_sifilis');//Realizó la prueba treponémica rápida sífilis
             $table->boolean('reali_citologia');//Realizó la citología

@@ -15,8 +15,8 @@ class ProcesoGestativo extends Model
 
 
     protected $fillable = [
-        'usuario_id', 
-        'estado',     
+        'id_usuario', 
+        'estado', 
         'num_proceso', 
     ];
 
