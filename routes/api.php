@@ -407,8 +407,7 @@ Route::middleware(["auth:api", "role:usuario"])->group(function(){
     Route::get('/conteoControles', [DashboardGestanteController::class, 'getControlesPrenatales']);
     Route::get('/sessionesCurso',[DashboardGestanteController::class, 'getSesionesCurso']);
     Route::get('/fechaProbParto', [DashboardGestanteController::class, 'getFechaProbableParto']);
-    Route::get('/pesoGestante', [DashboardGestanteController::class, 'getControlPesoGestante']);
-    Route::get('/presionGestante',[DashboardGestanteController::class, 'getControlPresion']);
+    Route::get('/pesoYPresionGestante', [DashboardGestanteController::class, 'getControlPesoGestante']);
     Route::get('/vacunacionGestante', [DashboardGestanteController::class, 'getVacunasGestante']);
     Route::get('/vacunacionBebe', [DashboardGestanteController::class,'getVacunacionBebe']);
     Route::get('/getResutadosItri',[DashboardGestanteController::class, 'getExamenesITrimestre']);

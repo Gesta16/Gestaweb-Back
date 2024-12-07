@@ -77,7 +77,7 @@ class DashboardGestanteController extends Controller
         $usuario = $user->userable;
 
         //Conteo de controles prenatales
-        $conteoControles = $usuario->controlesPrenatales()->count;
+        $conteoControles = $usuario->controlesPrenatales()->count();
 
         return response()->json($conteoControles, 200);
     }
@@ -98,7 +98,7 @@ class DashboardGestanteController extends Controller
 
         $usuario = $user->userable;
 
-        $seguimientosComplementarios = $usuario->seguimientosComplementarios();
+        $seguimientosComplementarios = $usuario->seguimientosComplementarios()->get();
 
         // Recorrer los seguimientos para obtener el número de sesiones
         $sesionesData = $seguimientosComplementarios->map(function ($seguimiento) {
@@ -130,7 +130,15 @@ class DashboardGestanteController extends Controller
 
         $usuario = $user->userable;
 
-        $fechaProbableParto = $usuario->controlesPrenatales()->fec_parto;
+        // Obtener el último control prenatal o el primero que tenga fec_parto
+        $controlPrenatal = $usuario->controlesPrenatales()->orderBy('fec_parto', 'desc')->first();
+
+        // Verificar si se encontró un control prenatal
+        if (!$controlPrenatal) {
+            return response()->json(['error' => 'No se encontró información de controles prenatales'], 404);
+        }
+
+        $fechaProbableParto = $controlPrenatal->fec_parto;
 
         return response()->json($fechaProbableParto, 200);
     }
@@ -151,50 +159,23 @@ class DashboardGestanteController extends Controller
 
         $usuario = $user->userable;
 
-        $peso = $usuario->seguimientos();
+        $peso = $usuario->seguimientos()->get();
 
-        $pesoData = $peso->map(function ($data) {
+        $data = $peso->map(function ($data) {
             return [
                 'peso' => $data->peso,
-                'fecha' => $data->created_at
-            ];
-        });
-
-        return response()->json([
-            'peso' => $pesoData,
-        ]);
-    }
-
-    public function getControlPresion()
-    {
-        // Verificar si el usuario está autenticado
-        if (!auth()->check()) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-
-        // Verificar si el usuario tiene el rol 'gestante' (rol 4)
-        $user = auth()->user();
-
-        if ($user->rol->id !== 4) {
-            return response()->json(['error' => 'Acceso denegado'], 403);
-        }
-
-        $usuario = $user->userable;
-
-        $tension = $usuario->seguimientos();
-
-        $tensionData = $tension->map(function ($data) {
-            return [
+                'fecha' => $data->created_at,
                 'tension_sis' => $data->ten_arts,
                 'tension_dia' => $data->ten_artd,
-                'fecha' => $data->created_at
+                
             ];
         });
 
         return response()->json([
-            'tension' => $tensionData
+            'data' => $data,
         ]);
     }
+
 
     public function getVacunasGestante()
     {
