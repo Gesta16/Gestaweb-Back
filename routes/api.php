@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\SignoAlarmaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
@@ -411,4 +412,9 @@ Route::middleware(["auth:api", "role:usuario"])->group(function(){
     Route::get('/vacunacionGestante', [DashboardGestanteController::class, 'getVacunasGestante']);
     Route::get('/vacunacionBebe', [DashboardGestanteController::class,'getVacunacionBebe']);
     Route::get('/getResutadosItri',[DashboardGestanteController::class, 'getExamenesITrimestre']);
+});
+
+/** RUTAS DE SIGNOS DE ALARMA */
+Route::middleware(["auth:api", "role:superadmin,operador,usuario"])->group(function(){
+    Route::apiResource("signo-alarma", SignoAlarmaController::class);
 });

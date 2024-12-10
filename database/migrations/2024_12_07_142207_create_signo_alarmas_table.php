@@ -18,7 +18,7 @@ class CreateSignoAlarmasTable extends Migration
             $table->string('nombre');
             $table->text('consejo');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('ususario')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('usuario')->onDelete('cascade');
             $table->timestamps();
         });
     }
