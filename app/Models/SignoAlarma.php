@@ -11,6 +11,11 @@ class SignoAlarma extends Model
 
     protected $fillable = [
         'nombre',
-        'consejo'
+        'descripcion'
     ];
+
+    public function usuarios()
+    {
+        return $this->belongsToMany(Usuario::class, 'usuario_signo_alarma', 'signo_alarma_id', 'usuario_id');
+    }
 }

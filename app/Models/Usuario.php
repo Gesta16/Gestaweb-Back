@@ -9,7 +9,7 @@ class Usuario extends Model
 {
     use HasFactory;
 
-    protected $table = 'usuario'; 
+    protected $table = 'usuario';
 
     protected $primaryKey = 'id_usuario';
     public $incrementing = true;
@@ -85,6 +85,12 @@ class Usuario extends Model
     {
         return $this->hasMany(SeguimientoConsultaMensual::class, 'id_usuario');
     }
+
+    public function signosAlarmas()
+    {
+        return $this->belongsToMany(SignoAlarma::class, 'usuario_signo_alarma', 'usuario_id', 'signo_alarma_id');
+    }
+
 
     // Relación con procesos gestativos
     public function procesosGestativos()
@@ -163,5 +169,4 @@ class Usuario extends Model
     {
         return $this->belongsTo(Ips::class, 'cod_ips', 'cod_ips');
     }
-
 }

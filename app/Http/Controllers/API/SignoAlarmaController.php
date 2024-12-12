@@ -16,10 +16,7 @@ class SignoAlarmaController extends Controller
     public function index()
     {
         $signos_alarma = SignoAlarma::all();
-        return response()->json([
-            'estado' => 'Ok',
-            'signos_alarma' => $signos_alarma
-        ], 200);
+        return response()->json($signos_alarma,200);
     }
 
     /**
@@ -42,7 +39,7 @@ class SignoAlarmaController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'consejo' => 'required|string'
+            'descripcion' => 'required|string'
         ]);
 
         $data = SignoAlarma::create($request->all());
@@ -89,7 +86,7 @@ class SignoAlarmaController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'consejo' => 'required|string'
+            'descripcion' => 'required|string'
         ]);
 
         $signo_alarma = SignoAlarma::find($id);
