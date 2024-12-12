@@ -75,7 +75,7 @@ class VacunacionController extends Controller
         // Crear el registro de vacunación
         $vacunacion = Vacunacion::create($validatedData);
     
-        // Retornar la respuesta exitosa
+        // Retornar la respuesta exitosax
         return response()->json([
             'estado' => 'Ok',
             'mensaje'=>'Vacunación creada exitosamente',
