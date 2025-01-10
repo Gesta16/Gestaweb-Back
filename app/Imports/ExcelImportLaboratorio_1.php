@@ -142,7 +142,7 @@ class ExcelImportLaboratorio_1 implements ToModel, WithStartRow
                     'fec_toxoplasma'                    => ($row[77] ?? '') == '' ? null : $this->convertirFecha($row[77]),
 
                     'igm_toxoplamas'                    => $row[78] ?? null,
-                    'fec_igmtoxoplasma'                 =>($row[79] ?? '') == '' ? null : $this->convertirFecha($row[77]),
+                    'fec_igmtoxoplasma'                 =>($row[79] ?? '') == '' ? null : $this->convertirFecha($row[79]),
 
                     'hem_gruesa'                        => $row[80] ?? null,
                     'fec_hemoparasito'                  => ($row[81] ?? '') == '' ? null : $this->convertirFecha($row[81]),
