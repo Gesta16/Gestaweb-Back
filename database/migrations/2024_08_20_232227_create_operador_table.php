@@ -36,7 +36,7 @@ class CreateOperadorTable extends Migration
             $table->foreign('cod_municipio')->references('cod_municipio')->on('municipio');
 
             $table->string('documento_operador')->unique();
-            $table->integer('tel_operador')->unique();
+            $table->string('tel_operador')->unique();
             $table->string('email_operador')->unique();
             $table->string('esp_operador');
         });
