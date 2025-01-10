@@ -388,9 +388,9 @@ Route::post('/filtrar-indicadores', [ReportesController::class, 'filtrarIndicado
 
 /** RUTAS IMPORTACIÓN EXCEL */
 Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){
-    
+    Route::post('/importar-excel', [ExcelController::class, 'procesarExcel']);
 });
-Route::post('/importar-excel', [ExcelController::class, 'procesarExcel']);
+
 
 /** RUTAS USER NOTES */
 Route::middleware(["auth:api", "role:usuario"])->group(function() {
