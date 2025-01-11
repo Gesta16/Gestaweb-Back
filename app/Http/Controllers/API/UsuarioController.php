@@ -20,27 +20,71 @@ class UsuarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index()
+    // {
+    //     $user = Auth::user();
+    //     if($user->rol->nombre_rol == 'superadmin'){
+    //         $usuarios = Usuario::orderBy('id_usuario', 'desc')->get();
+    //     }else if($user->rol->nombre_rol == 'admin' || $user->rol->nombre_rol == 'operador'){
+    //         $usuarios = Usuario::where('cod_ips', $user->userable->cod_ips)->get();
+    //     }else{
+    //         return response()->json(['error' => 'No autorizado']);
+    //     }
+
+    //     if ($usuarios->isEmpty()) {
+    //         return response()->json([
+    //             'estado' => 'Sin datos',
+    //             'mensaje' => 'No se encontraron usuarios.'
+    //         ], 404); // Código HTTP 404 indica que no se encontraron datos
+    //     }
+
+    //     return response()->json([
+    //         'estado' => 'Ok',
+    //         'usuarios' => $usuarios
+    //     ], 200);
+    // }
+
     public function index()
     {
         $user = Auth::user();
-        if($user->rol->nombre_rol == 'superadmin'){
-            $usuarios = Usuario::orderBy('id_usuario', 'desc')->get();
-        }else if($user->rol->nombre_rol == 'admin' || $user->rol->nombre_rol == 'operador'){
-            $usuarios = Usuario::where('cod_ips', $user->userable->cod_ips)->get();
-        }else{
-            return response()->json(['error' => 'No autorizado']);
+
+        if (!$user) {
+            return response()->json(['error' => 'No autorizado. Debes estar autenticado.'], 401);
+        }
+
+        if ($user->rol->nombre_rol === 'superadmin') {
+            $usuarios = Usuario::with('procesosGestativos:id,id_usuario') // Incluir procesos gestativos
+                ->withCount('procesosGestativos') // Incluir conteo de procesos gestativos
+                ->orderBy('id_usuario', 'desc')
+                ->get();
+        } elseif ($user->rol->nombre_rol === 'admin' || $user->rol->nombre_rol === 'operador') {
+            $usuarios = Usuario::where('cod_ips', $user->userable->cod_ips)
+                ->with('procesosGestativos:id,id_usuario')
+                ->withCount('procesosGestativos')
+                ->get();
+        } else {
+            return response()->json(['error' => 'No autorizado'], 403);
         }
 
         if ($usuarios->isEmpty()) {
             return response()->json([
                 'estado' => 'Sin datos',
                 'mensaje' => 'No se encontraron usuarios.'
-            ], 404); // Código HTTP 404 indica que no se encontraron datos
+            ], 404);
         }
 
+        // Transformar los datos para incluir atributos directamente
+        $usuariosTransformados = $usuarios->map(function ($usuario) {
+            return $usuario->toArray() + [
+                'procesos_gestativos_count' => $usuario->procesos_gestativos_count, // Conteo de procesos
+                'procesos_gestativos_id' => $usuario->procesosGestativos->isNotEmpty() ? $usuario->procesosGestativos->first()->id : null, // ID único
+            ];
+        });
+
+        // Retornar usuarios con los nuevos atributos
         return response()->json([
             'estado' => 'Ok',
-            'usuarios' => $usuarios
+            'usuarios' => $usuariosTransformados
         ], 200);
     }
 
