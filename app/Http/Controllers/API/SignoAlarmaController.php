@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\SignoAlarma;
 use Illuminate\Http\Request;
+use App\Models\Usuario;
 
 class SignoAlarmaController extends Controller
 {
@@ -15,9 +16,22 @@ class SignoAlarmaController extends Controller
      */
     public function index()
     {
-        $signos_alarma = SignoAlarma::all();
-        return response()->json($signos_alarma,200);
+        $signos_alarma = SignoAlarma::with('usuario:id_usuario,documento_usuario') // Solo traemos los campos necesarios
+            ->select('nombre', 'descripcion', 'usuario_id')
+            ->get()
+            ->map(function ($signo) {
+                return [
+                    'nombre' => $signo->nombre,
+                    'descripcion' => $signo->descripcion,
+                    'documento' => $signo->usuario ? $signo->usuario->documento_usuario : null,
+                ];
+            });
+
+        return response()->json($signos_alarma, 200);
     }
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -39,10 +53,25 @@ class SignoAlarmaController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string'
+            'descripcion' => 'required|string',
+            'documento' => 'required|string'
         ]);
 
-        $data = SignoAlarma::create($request->all());
+        // Verificar si el documento ya está registrado
+        $usuario_id = Usuario::where('documento_usuario', $request->documento)->first();
+
+        if (!$usuario_id) {
+            return response()->json([
+                'error' => 'Este documento no existe.'
+            ], 403);
+        }
+
+        // Agregar el ID del usuario existente a los datos
+        $signo_alarma = $request->all();
+        $signo_alarma['usuario_id'] = $usuario_id->id_usuario;
+
+        $data = SignoAlarma::create($signo_alarma);
+         
         return response()->json([
             'estado' => 'Ok',
             'signo_alarma' => $data
@@ -58,6 +87,16 @@ class SignoAlarmaController extends Controller
     public function show($id)
     {
         $signo_alarma = SignoAlarma::find($id);
+        return response()->json([
+            'estado' => 'Ok',
+            'signo_alarma' => $signo_alarma
+        ], 200);
+    }
+
+    public function alarmaUser($id)
+    {
+        $signo_alarma = SignoAlarma::where('usuario_id', $id)->get();
+
         return response()->json([
             'estado' => 'Ok',
             'signo_alarma' => $signo_alarma
