@@ -92,6 +92,20 @@ class OperadorController extends Controller
                     'error' => 'No autorizado. Rol de usuario no válido.'
                 ], 403);
             }
+
+            // Verificar si el email ya esta registrado
+            if (Operador::where('email_operador', $request->email_operador)->exists()) {
+                return response()->json([
+                    'error' => 'Este Email ya se encuentra registrado.'
+                ], 403);
+            }
+
+            // Verificar si el docuento ya esta registrado
+            if (User::where('documento', $request->documento_operador)->exists()) {
+                return response()->json([
+                    'error' => 'Este documento ya se encuentra registrado.'
+                ], 403);
+            }
     
             // Crear el operador
             $operador = new Operador();

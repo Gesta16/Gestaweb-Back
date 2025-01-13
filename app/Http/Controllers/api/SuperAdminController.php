@@ -63,6 +63,13 @@ class SuperAdminController extends Controller
                 ], 403);
             }
 
+            // Verificar si el docuento ya esta registrado
+            if (User::where('documento', $request->documento_superadmin)->exists()) {
+                return response()->json([
+                    'error' => 'Este documento ya se encuentra registrado.'
+                ], 403);
+            }
+
             // Crear el SuperAdmin
             $superAdmin = new SuperAdmin();
             $superAdmin->nom_superadmin = $request->nom_superadmin;

@@ -23,7 +23,7 @@ class CreateSuperadminTable extends Migration
             
             $table->string('documento_superadmin')->unique();
             $table->string('email_superadmin')->unique();
-            $table->integer('tel_superadmin');
+            $table->string('tel_superadmin');
 
 
             //$table->timestamps();

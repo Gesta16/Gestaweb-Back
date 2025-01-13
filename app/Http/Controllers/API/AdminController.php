@@ -70,6 +70,34 @@ class AdminController extends Controller
                 ], 404);
             }
 
+            // Verificar si el docuento ya esta registrado
+            if (Admin::where('documento_admin', $request->documento_admin)->exists()) {
+                return response()->json([
+                    'error' => 'Este documento ya se encuentra registrado.'
+                ], 403);
+            }
+
+            // Verificar si el docuento ya esta registrado
+            if (User::where('documento', $request->documento_admin)->exists()) {
+                return response()->json([
+                    'error' => 'Este documento ya se encuentra registrado.'
+                ], 403);
+            }
+
+            // Verificar si el email ya esta registrado
+            if (Admin::where('email_admin', $request->email_admin)->exists()) {
+                return response()->json([
+                    'error' => 'Este Email ya se encuentra registrado.'
+                ], 403);
+            }
+
+            // Verificar si el numero telefonico ya esta registrado
+            if (Admin::where('tel_admin', $request->tel_admin)->exists()) {
+                return response()->json([
+                    'error' => 'Este Teléfono ya se encuentra registrado.'
+                ], 403);
+            }
+
             // Verificar si el usuario autenticado es un SuperAdmin
             if ($authUser->rol_id !== 1) {
                 $authAdmin = $authUser->userable; // Obtén el admin asociado al usuario autenticado

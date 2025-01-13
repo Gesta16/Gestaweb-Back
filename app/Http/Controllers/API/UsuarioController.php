@@ -126,6 +126,35 @@ class UsuarioController extends Controller
                     'error' => 'No autorizado. Debes estar autenticado para crear un usuario.'  
                 ], 401);
             }
+
+            // Verificar si el docuento ya esta registrado
+            if (Usuario::where('documento_usuario', $request->documento_usuario)->exists()) {
+                return response()->json([
+                    'error' => 'Este documento ya se encuentra registrado.'
+                ], 403);
+            }
+
+            // Verificar si el email ya esta registrado
+            if (Usuario::where('email_usuario', $request->email_usuario)->exists()) {
+                return response()->json([
+                    'error' => 'Este Email ya se encuentra registrado.'
+                ], 403);
+            }
+
+            // Verificar si el telefono ya esta registrado
+            if (Usuario::where('tel_usuario', $request->tel_usuario)->exists()) {
+                return response()->json([
+                    'error' => 'Este Teléfono ya se encuentra registrado.',
+                    'tel_usuario' => $request->tel_usuario
+                ], 403);
+            }
+
+            // Verificar si el celular ya esta registrado
+            if (Usuario::where('cel_usuario', $request->cel_usuario)->exists()) {
+                return response()->json([
+                    'error' => 'Este Celular ya se encuentra registrado.'
+                ], 403);
+            }
             
             // Crear el Usuario
             $usuario = new Usuario();

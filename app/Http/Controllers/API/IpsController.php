@@ -54,6 +54,27 @@ class IpsController extends Controller
                     'error' => 'No autorizado. Solo SuperAdmin pueden crear Ips.'
                 ], 403);
             }
+
+            // Verificar si el NIT ya esta registrado
+            if (Ips::where('nit_ips', $request->nit_ips)->exists()) {
+                return response()->json([
+                    'error' => 'Este NIT ya se encuentra registrado.'
+                ], 403);
+            }
+
+            // Verificar si el email ya esta registrado
+            if (Admin::where('email_admin', $request->email_ips)->exists()) {
+                return response()->json([
+                    'error' => 'Este Email ya se encuentra registrado.'
+                ], 403);
+            }
+
+            // Verificar si el email ya esta registrado
+            if (User::where('documento', $request->nit_ips)->exists()) {
+                return response()->json([
+                    'error' => 'El NIT se parece a un documento de Adminstrador.'
+                ], 403);
+            }
     
             // Iniciar la transacción
             DB::beginTransaction();
@@ -177,6 +198,14 @@ class IpsController extends Controller
             $ips = Ips::find($id);
 
             if ($ips) {
+
+                // Verificar si el NIT ya esta registrado
+                if (Ips::where('nit_ips', $request->nit_ips)->exists()) {
+                    return response()->json([
+                        'error' => 'Este NIT ya se encuentra registrado.'
+                    ], 403);
+                }
+
                 $ips->cod_regimen = $request->cod_regimen;
                 $ips->nom_ips = $request->nom_ips;
                 $ips->cod_departamento = $request->cod_departamento;
