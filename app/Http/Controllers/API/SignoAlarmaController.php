@@ -17,10 +17,11 @@ class SignoAlarmaController extends Controller
     public function index()
     {
         $signos_alarma = SignoAlarma::with('usuario:id_usuario,documento_usuario') // Solo traemos los campos necesarios
-            ->select('nombre', 'descripcion', 'usuario_id')
+            ->select('id', 'nombre', 'descripcion', 'usuario_id')
             ->get()
             ->map(function ($signo) {
                 return [
+                    'id' => $signo->id,
                     'nombre' => $signo->nombre,
                     'descripcion' => $signo->descripcion,
                     'documento' => $signo->usuario ? $signo->usuario->documento_usuario : null,
@@ -29,9 +30,6 @@ class SignoAlarmaController extends Controller
 
         return response()->json($signos_alarma, 200);
     }
-
-
-
 
     /**
      * Show the form for creating a new resource.
