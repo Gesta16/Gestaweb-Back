@@ -6,14 +6,17 @@ use App\Models\Departamento;
 use App\Models\Municipio;
 use App\Models\Usuario;
 use App\Models\ProcesoGestativo;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeUserMail;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Events\AfterImport;
 
-class ExcelImport implements ToModel, WithStartRow, WithEvents
+class ExcelImport implements ToModel, WithStartRow
 {
     public $data = [];
     public $errorData = [];
@@ -23,7 +26,6 @@ class ExcelImport implements ToModel, WithStartRow, WithEvents
     private $ips;
     private $departamento;
     private $municipio;
-    private $usuariosInsertados = [];
 
     public function __construct() 
     {   
@@ -284,11 +286,26 @@ class ExcelImport implements ToModel, WithStartRow, WithEvents
                     'email_usuario'     => $emailUnico,
                 ]);
 
-                $this->usuariosInsertados[] = [
-                    'documento' => $usuario->id_usuario,
-                    'estado' => $row[200] ?? null,
-                ];
-                
+                // Verificar si el registro fue creado exitosamente
+                if ($usuario) {
+                    // Generar una contraseña aleatoria
+                    $contrasenaGenerada = $this->generarContrasena($usuario->nom_usuario, $usuario->ape_usuario);
+
+                    // Crear el User asociado
+                    $user = new User();
+                    $user->name = $usuario->nom_usuario . ' ' . $usuario->ape_usuario;
+                    $user->documento = $usuario->documento_usuario;
+                    $user->password = bcrypt($contrasenaGenerada); // Usa la contraseña generada
+                    $user->rol_id = 4; // Asignar el rol de Usuario
+
+                    // Asociar el Usuario al User
+                    $usuario->user()->save($user);
+
+                    $this->insertarProcesoGestativo($usuario->id_usuario, $row[200] ?? null);
+
+                    // Enviar email de bienvenida (descomentar si tienes configurado el correo)
+                    Mail::to($usuario->email_usuario)->send(new WelcomeUserMail($usuario, $contrasenaGenerada));
+                }
             } catch (\Exception $e) {
                 // Si ocurre un error, guarda el error y los datos en la variable de errores
                 $errorData[] = [
@@ -301,30 +318,41 @@ class ExcelImport implements ToModel, WithStartRow, WithEvents
         return null;
     }
 
-    public function registerEvents(): array
+    private function insertarProcesoGestativo($idUsuario, $estado)
     {
-        //\Log::info("register");
+        Log::info("entro al insertar");
+
+        Log::info(["id usuario" => $idUsuario] );
+        // Determina el estado basado en el valor del estado
+        $nombre_estado = false;
+        if ($estado === 'Gestante') {
+            Log::info("entro al if gestante");
+            $nombre_estado = true;
+        }
         
-        return [
-            //\Log::info("register_return"),
-            AfterImport::class => function (AfterImport $event) {
-                //\Log::info("afterImport");
-                // Lógica después de la importación
-                foreach ($this->usuariosInsertados as $usuarioData) {
-                    $nombre_estado = false;
-                    if($usuarioData['estado'] == 'Gestante'){
-                        $nombre_estado = true;
-                    }
-                    //\Log::info("foreach", ['documento' => $usuarioData['documento']]);
-                    ProcesoGestativo::create([
-                        'id_usuario' => $usuarioData['documento'],
-                        'num_proceso' => 1,
-                        'estado' => $nombre_estado,
-                    ]);
-                }
-            },
-        ];
+        // Inserta el registro en la tabla proceso_gestativo
+        ProcesoGestativo::create([
+            'id_usuario' => $idUsuario,
+            'num_proceso' => 1, // Ajusta este valor si es necesario
+            'estado' => $nombre_estado,
+        ]);
     }
+
+
+    function generarContrasena($nombre, $apellido)
+    {
+        // Obtener las iniciales del nombre y apellido
+        $inicialNombre = strtoupper(substr($nombre, 0, 4)); // Primera letra del nombre en mayúscula
+
+        // Generar un número aleatorio de 4 dígitos
+        $numeroAleatorio = rand(1000, 9999);
+
+        // Combinar las iniciales y el número aleatorio
+        $contrasena = $inicialNombre  . $numeroAleatorio;
+
+        return $contrasena;
+    }
+
 }
 // $this->data[] = [
         //     'cod_ips'           => $row[0] ?? null,

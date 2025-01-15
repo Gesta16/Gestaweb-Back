@@ -109,7 +109,7 @@ class ExcelImportLaboratorio_2 implements ToModel, WithStartRow
                     'reali_prueb_coombis_indi_cuanti'   => ($row[109] ?? '') == '' ? false : true,
                     'reali_eco_obste_detalle_anato'     => ($row[111] ?? '') == '' ? false : true,
 
-                    'real_igm_toxoplasma'               => ($row[101] ?? '') == '' ? false : true,       
+                    'real_igm_toxoplasma_2'             => ($row[101] ?? '') == '' ? false : true,       
                     'real_prueb_oral'                   => ($row[95] ?? '') == '' ? false : true,
                     'real_prueb_oral_1'                 => ($row[96] ?? '') == '' ? false : true,
                     'real_prueb_oral_2'                 => ($row[97] ?? '') == '' ? false : true,
