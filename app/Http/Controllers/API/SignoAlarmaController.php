@@ -16,17 +16,7 @@ class SignoAlarmaController extends Controller
      */
     public function index()
     {
-        $signos_alarma = SignoAlarma::with('usuario:id_usuario,documento_usuario') // Solo traemos los campos necesarios
-            ->select('id', 'nombre', 'descripcion', 'usuario_id')
-            ->get()
-            ->map(function ($signo) {
-                return [
-                    'id' => $signo->id,
-                    'nombre' => $signo->nombre,
-                    'descripcion' => $signo->descripcion,
-                    'documento' => $signo->usuario ? $signo->usuario->documento_usuario : null,
-                ];
-            });
+        $signos_alarma = SignoAlarma::all();
 
         return response()->json($signos_alarma, 200);
     }
@@ -52,21 +42,13 @@ class SignoAlarmaController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string',
-            'documento' => 'required|string'
+            
         ]);
-
-        // Verificar si el documento ya está registrado
-        $usuario_id = Usuario::where('documento_usuario', $request->documento)->first();
-
-        if (!$usuario_id) {
-            return response()->json([
-                'error' => 'Este documento no existe.'
-            ], 403);
-        }
+              
 
         // Agregar el ID del usuario existente a los datos
         $signo_alarma = $request->all();
-        $signo_alarma['usuario_id'] = $usuario_id->id_usuario;
+        
 
         $data = SignoAlarma::create($signo_alarma);
          
