@@ -318,7 +318,7 @@ class ExcelImport implements ToModel, WithStartRow
         return null;
     }
 
-    private function insertarProcesoGestativo($idUsuario, $estado)
+    function insertarProcesoGestativo($idUsuario, $estado)
     {
         Log::info("entro al insertar");
 
@@ -336,6 +336,8 @@ class ExcelImport implements ToModel, WithStartRow
             'num_proceso' => 1, // Ajusta este valor si es necesario
             'estado' => $nombre_estado,
         ]);
+
+        return null;
     }
 
 
