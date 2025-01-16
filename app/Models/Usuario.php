@@ -169,4 +169,9 @@ class Usuario extends Model
     {
         return $this->belongsTo(Ips::class, 'cod_ips', 'cod_ips');
     }
+
+    public function signosAlarma()
+    {
+        return $this->belongsToMany(SignoAlarma::class, 'usuario_signo_alarma', 'usuario_id', 'signo_alarma_id');
+    }
 }

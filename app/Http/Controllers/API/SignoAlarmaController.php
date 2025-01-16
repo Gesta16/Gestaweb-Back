@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SignoAlarma;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
+use App\Models\UsuarioSignoAlarma;
 
 class SignoAlarmaController extends Controller
 {
@@ -147,6 +148,33 @@ class SignoAlarmaController extends Controller
         return response()->json([
             'estado' => 'Ok',
             'signo_alarma' => $signo_alarma
+        ], 200);
+    }
+
+    public function asignarSignosAlarma(Request $request)
+    {
+        // Validar la solicitud
+        $request->validate([
+            'usuario_id' => 'required|exists:usuario,id_usuario',
+            'signos_alarma' => 'required|array',
+            'signos_alarma.*' => 'exists:signo_alarmas,id',
+        ]);
+
+        // Obtener el ID de la gestante y los IDs de los signos de alarma
+        $usuario_id = $request->input('usuario_id');
+        $signos_alarma = $request->input('signos_alarma');
+
+        // Asignar los nuevos signos de alarma
+        foreach ($signos_alarma as $signo_alarma_id) {
+            UsuarioSignoAlarma::create([
+                'usuario_id' => $usuario_id,
+                'signo_alarma_id' => $signo_alarma_id,
+            ]);
+        }
+
+        // Respuesta exitosa
+        return response()->json([
+            'message' => 'Signos de alarma asignados correctamente',
         ], 200);
     }
 }
