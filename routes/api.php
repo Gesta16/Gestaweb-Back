@@ -418,4 +418,5 @@ Route::middleware(["auth:api", "role:usuario"])->group(function(){
 Route::middleware(["auth:api", "role:superadmin,operador,usuario"])->group(function(){
     Route::apiResource("signo-alarma", SignoAlarmaController::class);
     Route::get('/signo-alarma-user/{id}', [SignoAlarmaController::class, 'alarmaUser']);
+    Route::post('/asignar-signos-alarma', [SignoAlarmaController::class, 'asignarSignosAlarma']);
 });
