@@ -118,7 +118,7 @@ class ExcelController extends Controller
             // Procesar el archivo usando la importación personalizada
             Excel::import($importSeguimientoPostEvento, $request->file('excel'));
 
-            // importacion para MORTALIDAD PERINATALA
+            // importacion para MORTALIDAD PREPARTO
             $importMortalidadPerintal = new ExcelImportMortalidadPerinatal($operador);
             // Procesar el archivo usando la importación personalizada
             Excel::import($importMortalidadPerintal, $request->file('excel'));

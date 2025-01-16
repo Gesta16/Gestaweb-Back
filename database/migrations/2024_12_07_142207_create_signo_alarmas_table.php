@@ -17,8 +17,8 @@ class CreateSignoAlarmasTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->text('descripcion');
-            
-
+            $table->unsignedBigInteger('usuario_id'); // Clave foránea para la tabla usuarios
+            $table->foreign('usuario_id')->references('id_usuario')->on('usuario')->onDelete('cascade');
             $table->timestamps();
         });
     }
