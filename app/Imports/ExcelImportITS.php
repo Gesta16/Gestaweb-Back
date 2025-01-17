@@ -4,7 +4,7 @@ namespace App\Imports;
 
 use App\Models\Usuario;
 use App\Models\ProcesoGestativo;
-use App\Models\its;
+use App\Models\Its;
 
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;

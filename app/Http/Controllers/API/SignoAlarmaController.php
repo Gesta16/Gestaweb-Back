@@ -81,14 +81,27 @@ class SignoAlarmaController extends Controller
             'signo_alarma' => $signo_alarma
         ], 200);
     }
-
     public function alarmaUser($id)
     {
-        $signo_alarma = SignoAlarma::where('usuario_id', $id)->get();
-
+        // Obtener las alarmas asignadas al usuario con el nombre de la alarma
+        $signo_alarma = UsuarioSignoAlarma::with('signoAlarma')
+            ->where('usuario_id', $id)
+            ->get();
+    
+        // Formatear la respuesta
+        $resultado = $signo_alarma->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'usuario_id' => $item->usuario_id,
+                'signo_alarma_id' => $item->signo_alarma_id,
+                'nombre_alarma' => $item->signoAlarma->nombre, // Nombre de la alarma
+                'descripcion_alarma' => $item->signoAlarma->descripcion // Descripción de la alarma (opcional)
+            ];
+        });
+    
         return response()->json([
             'estado' => 'Ok',
-            'signo_alarma' => $signo_alarma
+            'signo_alarma' => $resultado
         ], 200);
     }
 
