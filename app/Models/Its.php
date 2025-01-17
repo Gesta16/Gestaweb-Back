@@ -11,9 +11,7 @@ class Its extends Model
 
       protected $table = 'its';
 
-      protected $primaryKey = 'cod_its';
-
-      public $timestamps = false;
+      protected $primaryKey = 'cod_its';     
 
   
       protected $fillable = [

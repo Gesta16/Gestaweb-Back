@@ -13,7 +13,6 @@ class TamizacionNeonatal extends Model
     
     protected $primaryKey = 'cod_tamizacion';
 
-    public $timestamps = false;
 
     protected $fillable = [
         'cod_tamizacion',

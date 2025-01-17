@@ -223,7 +223,7 @@ class ReportesController extends Controller
                     ]
                 ],
                 'Cardiopatías' => [
-                    'tablas' => 'tamizacion_neonatal',
+                    'tabla' => 'tamizacion_neonatal',
                     'columnas' => [
                         'usuario.nom_usuario' => 'Nombre',
                         'usuario.ape_usuario' => 'Apellido',
@@ -265,9 +265,14 @@ class ReportesController extends Controller
         // Construir consulta
         $query = DB::table($tabla)
             ->join('usuario', "$tabla.id_usuario", '=', 'usuario.id_usuario')
-            ->leftjoin('ips', "usuario.cod_ips", '=', 'ips.cod_ips')
-            //->leftJoin('metodos_anticonceptivos', "$tabla.cod_metodo", '=', 'metodos_anticonceptivos.cod_metodo')
-            ->select($columnKeys);
+            ->leftjoin('ips', "usuario.cod_ips", '=', 'ips.cod_ips');
+
+        // Verificar si la subcategoría es "Métodos Anticonceptivos"
+        if ($subcategoria === 'Métodos Anticonceptivos') {
+            $query->leftJoin('metodos_anticonceptivos', "$tabla.cod_metodo", '=', 'metodos_anticonceptivos.cod_metodo');
+        }
+        
+        $query->select($columnKeys);
 
         // Obtener el tipo de valores para la subcategoría
         $tipoValores = $categorias[$categoria][$subcategoria]['tipo_valores'] ?? null;

@@ -32,6 +32,7 @@ class CreateEstudioHipotiroidismoCongenitoTable extends Migration
         $table->date('fec_resultadot4');        // Fecha de resultado T4 libre
         $table->string('eve_confirmado');       // Evento confirmado (Si, No)
         $table->date('fec_primera');            // Fecha primera consulta pediatría
+        $table->timestamps();
         
     });
 }

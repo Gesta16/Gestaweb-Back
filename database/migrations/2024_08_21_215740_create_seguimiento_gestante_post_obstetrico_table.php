@@ -34,6 +34,7 @@ class CreateSeguimientoGestantePostObstetricoTable extends Migration
 
         // Definir la relación
         $table->foreign('cod_metodo')->references('cod_metodo')->on('metodos_anticonceptivos');
+        $table->timestamps();
     });
 }
 

@@ -13,7 +13,7 @@ class SeguimientoGestantePostObstetrico extends Model
 
     protected $primaryKey = 'cod_evento'; 
     
-    public $timestamps = false;
+
 
     protected $fillable = [
         'cod_evento',

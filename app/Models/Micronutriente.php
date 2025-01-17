@@ -14,7 +14,6 @@ class Micronutriente extends Model
     
     protected $primaryKey = 'cod_micronutriente';
 
-    public $timestamps = false;
 
     
     protected $fillable = [

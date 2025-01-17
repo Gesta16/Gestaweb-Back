@@ -13,7 +13,6 @@ class SeguimientoComplementario extends Model
 
     protected $primaryKey = 'cod_segcomplementario';
 
-    public $timestamps = false;
 
 
     protected $fillable = [

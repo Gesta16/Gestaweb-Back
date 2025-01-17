@@ -29,6 +29,7 @@ class CreateMicronutrientesTable extends Migration
             $table->string('sul_ferroso');        // Sulfato ferroso (sí, no)
             $table->string('car_calcio');         // Carbonato de calcio (sí, no)
             $table->string('desparasitacion');    // Desparasitación (sí, no)
+            $table->timestamps();
     
         });
     }

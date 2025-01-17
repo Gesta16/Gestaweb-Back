@@ -13,7 +13,6 @@ class RutaPYMS extends Model
 
     protected $primaryKey = 'cod_ruta';
 
-    public $timestamps = false;
 
     protected $fillable = [
         'cod_ruta',

@@ -33,6 +33,7 @@ class CreateRutaPYMSTable extends Migration
         $table->boolean('aplico_vacuna_bcg');  // Se aplicó la vacuna BCG
         $table->boolean('aplico_vacuna_hepatitis'); //Se aplicó la vacuna hepatitis
         $table->boolean('reali_entrega_carnet'); //Se realizó la entrega de carnet
+        $table->timestamps();
     });
 }
 

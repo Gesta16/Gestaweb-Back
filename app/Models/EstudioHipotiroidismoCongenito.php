@@ -13,7 +13,6 @@ class EstudioHipotiroidismoCongenito extends Model
 
     protected $primaryKey = 'cod_estudio';
 
-    public $timestamps = false;
 
     protected $fillable = [
         'cod_estudio',

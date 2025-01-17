@@ -40,6 +40,7 @@ class CreateSeguimientosComplementariosTable extends Migration
 
         // Definir la relación
         $table->foreign('cod_sesiones')->references('cod_sesiones')->on('num_sesiones_curso_paternidad_maternidad');
+        $table->timestamps();
     });
 }
 
