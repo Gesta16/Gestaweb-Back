@@ -16,6 +16,12 @@ class ReportesController extends Controller
         // Registrar los datos recibidos en la solicitud
         Log::info('Filtros recibidos:', $request->all());
 
+        // Validar que la subcategoría esté presente en la solicitud
+        if (!$request->has('subcategoria') || empty($request->input('subcategoria'))) {
+            Log::error('Subcategoría no seleccionada');
+            return response()->json(['error' => 'La subcategoría es requerida'], 400);
+        }
+
         $categoria = $request->input('categoria');
         $subcategoria = $request->input('subcategoria');
         $fechaInicio = $request->input('fecha_inicio');
@@ -271,7 +277,7 @@ class ReportesController extends Controller
         if ($subcategoria === 'Métodos Anticonceptivos') {
             $query->leftJoin('metodos_anticonceptivos', "$tabla.cod_metodo", '=', 'metodos_anticonceptivos.cod_metodo');
         }
-        
+
         $query->select($columnKeys);
 
         // Obtener el tipo de valores para la subcategoría
