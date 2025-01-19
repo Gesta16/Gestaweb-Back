@@ -43,21 +43,11 @@ class SignoAlarmaController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string',
-            'documento' => 'required|string'
         ]);
 
-        // Verificar si el documento ya está registrado
-        $usuario_id = Usuario::where('documento_usuario', $request->documento)->first();
-
-        if (!$usuario_id) {
-            return response()->json([
-                'error' => 'Este documento no existe.'
-            ], 403);
-        }
-
-        // Agregar el ID del usuario existente a los datos
+               // Agregar el ID del usuario existente a los datos
         $signo_alarma = $request->all();
-        $signo_alarma['usuario_id'] = $usuario_id->id_usuario;
+       
 
         $data = SignoAlarma::create($signo_alarma);
          

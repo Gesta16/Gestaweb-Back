@@ -12,7 +12,6 @@ class SignoAlarma extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'usuario_id'
     ];
 
     public function usuario()
