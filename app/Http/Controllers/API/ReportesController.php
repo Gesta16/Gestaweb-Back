@@ -42,6 +42,7 @@ class ReportesController extends Controller
         $codDepartamento = $request->input('cod_departamento');
         $codMunicipio = $request->input('cod_municipio');
         $codPoblacion = $request->input('cod_poblacion');
+        $formato = $request->input('formato');
 
         // Registrar cada filtro por separado
         Log::info('Categoría seleccionada:', ['categoria' => $categoria]);
@@ -49,6 +50,7 @@ class ReportesController extends Controller
         Log::info('Fechas:', ['fecha_inicio' => $fechaInicio, 'fecha_fin' => $fechaFin]);
         Log::info('Ubicación:', ['cod_departamento' => $codDepartamento, 'cod_municipio' => $codMunicipio]);
         Log::info('Población diferencial:', ['cod_poblacion' => $codPoblacion]);
+        Log::info('formato escogido:', ['formato' => $formato]);
 
 
 
@@ -357,7 +359,20 @@ class ReportesController extends Controller
             })->toArray();
             Log::info('Resultados obtenidos', ['resultados' => $resultados]);
             Log::info('Generando archivo Excel...');
-            return Excel::download(new ReporteExport($resultados, $encabezados), 'reporte.xlsx');
+
+            if($formato === 'pdf'){
+                try {
+                    $pdf = PDF::loadView('reportes.pdf', compact('resultados', 'encabezados'));
+                    return $pdf->download('reporte.pdf');
+                } catch (\Exception $e) {
+                    Log::error('Error generando PDF', ['error' => $e->getMessage()]);
+                    return response()->json(['error' => 'Error al generar el archivo PDF'], 500);
+                }
+            } else {
+                return Excel::download(new ReporteExport($resultados, $encabezados), 'reporte.xlsx');
+            }
+
+            
         } catch (\Exception $e) {
             Log::error('Error ejecutando la consulta', ['error' => $e->getMessage()]);
             Log::error('Error al generar el archivo Excel:', ['error' => $e->getMessage()]);
