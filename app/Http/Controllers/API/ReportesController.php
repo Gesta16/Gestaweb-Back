@@ -4,10 +4,23 @@ namespace App\Http\Controllers\API;
 
 use App\Exports\ReporteExport;
 use App\Http\Controllers\Controller;
+use App\Models\ControlPrenatal;
+use App\Models\DatosRecienNacido;
+use App\Models\FinalizacionGestacion;
+use App\Models\Its;
+use App\Models\LaboratorioIIITrimestre;
+use App\Models\LaboratorioIITrimestre;
+use App\Models\LaboratorioInTraparto;
+use App\Models\LaboratorioITrimestre;
+use App\Models\Micronutriente;
+use App\Models\SeguimientoComplementario;
+use App\Models\SeguimientoConsultaMensual;
+use App\Models\SeguimientoGestantePostObstetrico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportesController extends Controller
 {
@@ -338,6 +351,150 @@ class ReportesController extends Controller
             Log::error('Error ejecutando la consulta', ['error' => $e->getMessage()]);
             Log::error('Error al generar el archivo Excel:', ['error' => $e->getMessage()]);
             return response()->json(['error' => 'Error al obtener los datos'], 500);
+        }
+    }
+
+
+    public function obtenerRutaGestacional($idUsuario, $categoria, $subcategoria)
+    {
+        $data = [];
+
+        if ($categoria === 'Control Prenatal') {
+            $data = [
+                'nombre' => 'Control Prenatal',
+                'datos' => ControlPrenatal::where('id_usuario', $idUsuario)->get(),
+            ];
+        } elseif ($categoria === 'Laboratorios') {
+            if ($subcategoria === 'Primer Trimestre') {
+                $data = [
+                    'nombre' => 'Laboratorios - Primer Trimestre',
+                    'datos' => LaboratorioITrimestre::where('id_usuario', $idUsuario)->get(),
+                ];
+            } elseif ($subcategoria === 'Segundo Trimestre') {
+                $data = [
+                    'nombre' => 'Laboratorios - Segundo Trimestre',
+                    'datos' => LaboratorioIITrimestre::where('id_usuario', $idUsuario)->get(),
+                ];
+            } elseif ($subcategoria === 'Tercer Trimestre') {
+                $data = [
+                    'nombre' => 'Laboratorios - Tercer Trimestre',
+                    'datos' => LaboratorioIIITrimestre::where('id_usuario', $idUsuario)->get(),
+                ];
+            } elseif ($subcategoria === 'Its') {
+                $data = [
+                    'nombre' => 'Laboratorios - Its',
+                    'datos' => Its::where('id_usuario', $idUsuario)->get(),
+                ];
+            } elseif ($subcategoria === 'Intraparto') {
+                $data = [
+                    'nombre' => 'Laboratorios - Intraparto',
+                    'datos' => LaboratorioInTraparto::where('id_usuario', $idUsuario)->get(),
+                ];
+            }
+        } elseif ($categoria === 'Seguimiento Mensual') {
+            $data = [
+                'nombre' => 'Seguimiento Mensual',
+                'datos' => SeguimientoConsultaMensual::where('id_usuario', $idUsuario)->get(),
+            ];
+        } elseif ($categoria === 'Seguimiento Complementario') {
+            $data = [
+                'nombre' => 'Seguimiento Complementario',
+                'datos' => Micronutriente::where('id_usuario', $idUsuario)->get(),
+            ];
+        } elseif ($categoria === 'Micronutrientes') {
+            $data = [
+                'nombre' => 'Micronutrientes',
+                'datos' => SeguimientoComplementario::where('id_usuario', $idUsuario)->get(),
+            ];
+        } elseif ($categoria === 'Finalización de la Gestación') {
+            $data = [
+                'nombre' => 'Finalización de la Gestación',
+                'datos' => FinalizacionGestacion::where('id_usuario', $idUsuario)->get(),
+            ];
+        } elseif ($categoria === 'Seguimiento Post Obstetrico') {
+            $data = [
+                'nombre' => 'Seguimiento Post Obstetrico',
+                'datos' => SeguimientoGestantePostObstetrico::where('id_usuario', $idUsuario)->get(),
+            ];
+        } elseif ($categoria === 'Datos del Recién Nacido') {
+            $data = [
+                'nombre' => 'Datos del Recién Nacido',
+                'datos' => DatosRecienNacido::where('id_usuario', $idUsuario)->get(),
+            ];
+        }
+
+        return $data;
+    }
+
+    public function descargarRutaGestacionalPdf(Request $request, $idUsuario)
+    {
+        try {
+            $categoria = $request->query('categoria');
+            $subcategoria = $request->query('subcategoria');
+
+            // Obtener los datos filtrados
+            $data = $this->obtenerRutaGestacional($idUsuario, $categoria, $subcategoria);
+
+            // Pasar el tipo de reporte a la vista
+            $data['tipo_reporte'] = $data['nombre']; // Agregar el tipo de reporte
+
+            // Logs para ver los datos obtenidos
+            Log::info('Datos obtenidos para el PDF:', $data);
+
+            // Verificar si hay datos
+            if (empty($data) || (isset($data['datos']) && $data['datos']->isEmpty())) {
+                Log::warning('No se encontraron datos para los filtros seleccionados.');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No se encontraron datos para los filtros seleccionados.',
+                ], 404);
+            }
+
+            // Generar el PDF
+            $pdf = Pdf::loadView('reportes.ruta_gestacional_pdf', ['data' => $data]);
+
+            // Descargar el PDF
+            return $pdf->download('ruta_gestacional.pdf');
+        } catch (\Exception $e) {
+            Log::error('Error al generar el PDF:', ['error' => $e->getMessage()]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al generar el PDF',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function generarReporteUnificado($id_usuario)
+    {
+        // Obtener datos para cada sección filtrados por id_usuario
+        try {
+
+            $data = [
+                'id_usuario' => $id_usuario,
+                'control_prenatal' => ControlPrenatal::where('id_usuario', $id_usuario)->get(),
+                'laboratorios_primer_trimestre' => LaboratorioITrimestre::where('id_usuario', $id_usuario)->get(),
+                'laboratorios_segundo_trimestre' => LaboratorioIITrimestre::where('id_usuario', $id_usuario)->get(),
+                'laboratorios_tercer_trimestre' => LaboratorioIIITrimestre::where('id_usuario', $id_usuario)->get(),
+                'laboratorios_its' => Its::where('id_usuario', $id_usuario)->get(),
+                'seguimiento_mensual' => SeguimientoConsultaMensual::where('id_usuario', $id_usuario)->get(),
+                'seguimiento_complementario' => SeguimientoComplementario::where('id_usuario', $id_usuario)->get(),
+                'micronutrientes' => Micronutriente::where('id_usuario', $id_usuario)->get(),
+                'laboratorios_intraparto' => LaboratorioInTraparto::where('id_usuario', $id_usuario)->get(),
+                'seguimiento_post_obstetrico' => SeguimientoGestantePostObstetrico::where('id_usuario', $id_usuario)->get(),
+                'finalizacion_gestacion' => FinalizacionGestacion::where('id_usuario', $id_usuario)->get(),
+                'datos_recien_nacido' => DatosRecienNacido::where('id_usuario', $id_usuario)->get(),
+            ];
+            // Generar el PDF usando la vista 'reportes.reporte_unificado'
+            $pdf = PDF::loadView('reportes.reporte_unificado', $data);
+            Log::info('Datos obtenidos para el PDF:', $data);
+            return $pdf->download("reporte_unificado_{$id_usuario}.pdf");
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al generar el reporte.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
 }
