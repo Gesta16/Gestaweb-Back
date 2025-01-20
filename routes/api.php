@@ -385,6 +385,10 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group
 
 /** RUTAS REPORTES */
 Route::post('/filtrar-indicadores', [ReportesController::class, 'filtrarIndicadores']);
+Route::get('/ruta-gestacional/{idUsuario}', [ReportesController::class, 'obtenerRutaGestacional']);
+Route::get('/ruta-gestacional/{idUsuario}/descargar-pdf', [ReportesController::class, 'descargarRutaGestacionalPdf']);
+Route::get('/generar-reporte-unificado/{id_usuario}', [ReportesController::class, 'generarReporteUnificado']);
+
 
 /** RUTAS IMPORTACIÓN EXCEL */
 Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group(function(){

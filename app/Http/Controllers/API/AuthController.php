@@ -51,7 +51,7 @@ class AuthController extends Controller
         }
 
         // Recuperar el valor de autorización del modelo relacionado (usuario)
-        $autorizacion = $relatedModel->autorizacion; // Suponiendo que el campo es `autorizacion`
+        $autorizacion = $relatedModel->autorizacion; 
 
         // Imprimir en la consola el valor de autorizacion (para fines de depuración)
         Log::info('Valor de autorizacion: ' . $autorizacion);
