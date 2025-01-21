@@ -218,7 +218,77 @@ class DashboardController extends Controller
         return response()->json($data);
     }
 
+    //Tasa de mortalidad perinatal
+    public function getPerinatalMortalityRate(Request $request)
+    {
+        $role = $request->input('role'); // Rol del usuario (admin, operador)
+        $cod_ips = $request->input('cod_ips'); // Código de la IPS del usuario
 
+        // Base de la consulta
+        $query = DB::table('mortalidad_preparto as mp')
+            ->join('mortalidad_perinatal as mpn', 'mp.cod_mortalidad', '=', 'mpn.cod_mortalidad')
+            ->selectRaw("
+            DATE_FORMAT(mp.fec_defuncion, '%Y-%m') AS mes, 
+            COUNT(*) AS total_neonatal_temprana
+        ")
+            ->whereIn('mpn.cla_muerte', ['Mortalidad perinatal - dejar en blanco', 'Perinatal'])
+            ->groupBy(DB::raw("DATE_FORMAT(mp.fec_defuncion, '%Y-%m')"));
+
+        // Filtrar según el rol del usuario
+        if ($role === 'operador') {
+            $query->where('mp.id_operador', $cod_ips);
+        } elseif ($role === 'admin') {
+            $query->where('mp.id_admin', $cod_ips);
+        }
+
+        // Obtener los datos agrupados por mes
+        $data = $query->get();
+
+        return response()->json($data);
+    }
+
+    // Porcentaje de bebes con peso bajo al nacer
+    public function getPesoBajoBebeRate(Request $request){
+
+        $datos = DB::table('datos_recien_nacido')
+        ->select(
+            DB::raw("sexo"),
+            DB::raw("
+                CASE 
+                    WHEN peso < 2500 THEN 'Peso Bajo'
+                    WHEN peso BETWEEN 2500 AND 4000 THEN 'Peso Normal'
+                    ELSE 'Peso Alto'
+                END AS categoria_peso
+            "),
+            DB::raw("COUNT(*) as total")
+        )
+        ->where('peso', '!=', 1) // Excluir registros con peso igual a 1
+        ->groupBy('sexo', 'categoria_peso')
+        ->get();
+
+        $resultados = [
+            'masculino' => [0, 0, 0], // Peso bajo, normal, alto
+            'femenino' => [0, 0, 0]
+        ];
+
+        foreach ($datos as $dato) {
+            $indice = match ($dato->categoria_peso) {
+                'Peso Bajo' => 0,
+                'Peso Normal' => 1,
+                'Peso Alto' => 2,
+                default => null,
+            };
+
+            if ($indice !== null) {
+                if ($dato->sexo === 'M') {
+                    $resultados['masculino'][$indice] += $dato->total;
+                } elseif ($dato->sexo === 'F') {
+                    $resultados['femenino'][$indice] += $dato->total;
+                }
+            }
+        }
+        return response()->json($resultados);
+    }
 
     //Proporcion de mujeres con consulta a asesoria IVE
     public function getIveProportion(Request $request)

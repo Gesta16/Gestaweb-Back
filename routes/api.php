@@ -380,6 +380,8 @@ Route::middleware(["auth:api", "role:superadmin,admin,operador,usuario"])->group
     Route::get('/tamizaje-sifilis',[DashboardController::class, 'getProporcionTamizajeSifilis']);
     Route::get('/seguimientos-comple',[DashboardController::class, 'getCoverageData']);
     Route::get('/mortalidad-neonatalTemp',[DashboardController::class, 'getNeonatalMortalityRate']);
+    Route::get('/mortalidad-perinatalTemp',[DashboardController::class, 'getPerinatalMortalityRate']);
+    Route::get('/peso-bajoTemp',[DashboardController::class, 'getPesoBajoBebeRate']);
     Route::get('/consultas-ive',[DashboardController::class, 'getIveProportion']);
 });
 

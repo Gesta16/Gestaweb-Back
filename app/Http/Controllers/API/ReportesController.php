@@ -129,6 +129,31 @@ class ReportesController extends Controller
                     ],
                     'tipo_valores' => '0/1',
                 ],
+                'Lactancia' => [
+                    'tabla' => 'primera_consulta',
+                    'columnas' => [
+                        'usuario.nom_usuario' => 'Nombre',
+                        'usuario.ape_usuario' => 'Apellido',
+                        'usuario.documento_usuario' => 'Documento',
+                        'ips.nom_ips' => 'Ips',
+                        'asis_conse_lactancia' => 'Asistió a consejería lactancia',
+                        'fec_lactancia' => 'Fecha consejería lactancia'
+                    ],
+                    'tipo_valores' => '0/1',
+                ],
+                'Elisa VIH' => [
+                    'tabla' => 'its',
+                    'columnas' => [
+                        'usuario.nom_usuario' => 'Nombre',
+                        'usuario.ape_usuario' => 'Apellido',
+                        'usuario.documento_usuario' => 'Documento',
+                        'ips.nom_ips' => 'Ips',
+                        'reali_prueb_elisa_vih' => 'Realizo Prueba Elisa para VIH',
+                        'eli_vih' => 'Resultado Elisa para VIH',
+                        'fec_vih' => 'Fecha Elisa para VIH'
+                    ],
+                    'tipo_valores' => '0/1',
+                ],
             ],
             'parto_humanizado' => [
                 'Cesáreas' => [
@@ -253,6 +278,17 @@ class ReportesController extends Controller
                         'reali_tami_cardiopatia_congenita' => 'Se realizo tamiza de cardiopatias congenitas',
                         'tamiza_cardi' => 'Resultado tamizaje'
                     ]
+                ],
+                'Tamizaje Auditivo' => [
+                    'tabla' => 'tamizacion_neonatal',
+                    'columnas' => [
+                        'usuario.nom_usuario' => 'Nombre',
+                        'usuario.ape_usuario' => 'Apellido',
+                        'usuario.documento_usuario' => 'Documento',
+                        'ips.nom_ips' => 'Ips',
+                        'reali_tami_auditivo' => 'Se realizo tamizaje auditivo',
+                        'tamiza_aud' => 'Resultado tamizaje auditivo'
+                    ]
                 ]
             ]
         ];
@@ -315,7 +351,9 @@ class ReportesController extends Controller
                 "$tabla.asistio_psicologia",
                 "$tabla.emb_planeado",
                 "$tabla.asis_asesoria_ive",
-                "$tabla.rec_tratamiento"
+                "$tabla.rec_tratamiento",
+                "$tabla.asis_conse_lactancia",
+                "$tabla.reali_prueb_elisa_vih"
             ])) {
                 if ($tipoValores === 'Si/No') {
                     $query->where($columnKey, 'Si'); // Filtro para valores "Si" y "No"

@@ -62,7 +62,7 @@ class ExcelImportMortalidadPerinatal implements ToModel, WithStartRow
             case 'NO ES';
                 return 5;
             default:
-                return 5;
+                return 6;
         }
     }
 
@@ -77,23 +77,25 @@ class ExcelImportMortalidadPerinatal implements ToModel, WithStartRow
             // buscamos el codigo del proceso gestativo que tenga la gestante
             $idProcesoGestativo = ProcesoGestativo::where('id_usuario', $usuarioExistente->id_usuario)->first();
 
-            try {
-                MortalidadPreparto::create([
-                    'id_operador'                       => $this->operador,
-                    'id_usuario'                        => $usuarioExistente->id_usuario,
-                    'proceso_gestativo_id'              => $idProcesoGestativo->id,
+            if($row[173] == '' || $row[173] == null) {
+                try {
+                    MortalidadPreparto::create([
+                        'id_operador'                       => $this->operador,
+                        'id_usuario'                        => $usuarioExistente->id_usuario,
+                        'proceso_gestativo_id'              => $idProcesoGestativo->id,
 
-                    'fec_defuncion'             => ($row[173] ?? '') == '' ? '1000-01-01' : $this->convertirFecha($row[173]),
-                    'cod_mortalidad'            => $this->buscarClasificacionMortalidad($row[174]),
-                    
-                ]);
-            } catch (\Exception $e) {
-                // Si ocurre un error, guarda el error y los datos en la variable de errores
-                $errorData[] = [
-                    'documento' => $row[9],  // El mensaje de error
-                    'mensaje' => $e->getMessage(),  // Los datos que causaron el error
-                ];
-                $this->data[] = $errorData;
+                        'fec_defuncion'             => ($row[173] ?? '') == '' ? '1000-01-01' : $this->convertirFecha($row[173]),
+                        'cod_mortalidad'            => $this->buscarClasificacionMortalidad($row[174]),
+                        
+                    ]);
+                } catch (\Exception $e) {
+                    // Si ocurre un error, guarda el error y los datos en la variable de errores
+                    $errorData[] = [
+                        'documento' => $row[9],  // El mensaje de error
+                        'mensaje' => $e->getMessage(),  // Los datos que causaron el error
+                    ];
+                    $this->data[] = $errorData;
+                }
             }
         }
         return null;
