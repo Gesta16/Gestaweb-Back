@@ -14,7 +14,7 @@ class Regimen extends Model
 
     protected $primaryKey = 'cod_regimen';
 
-    public $timestamps = false; 
+    public $timestamps = false;
 
     protected $fillable = [
         'cod_regimen',

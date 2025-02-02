@@ -13,7 +13,7 @@ class DatosRecienNacido extends Model
 
     protected $primaryKey = 'cod_recien';
 
-    public $timestamps = false;
+    //public $timestamps = false;
 
     protected $fillable = [
         'cod_recien',

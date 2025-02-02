@@ -15,7 +15,7 @@ class CreateLaboratoriosIntrapartoGestanteTable extends Migration
 {
     Schema::create('laboratorios_intraparto_gestante', function (Blueprint $table) {
         $table->id('cod_intraparto'); // Clave primaria
-        
+
         // Clave foránea
         $table->unsignedBigInteger('id_operador');
         $table->foreign('id_operador')->references('id_operador')->on('operador');
@@ -25,7 +25,7 @@ class CreateLaboratoriosIntrapartoGestanteTable extends Migration
         $table->unsignedBigInteger('cod_vdrl')->nullable(); // FK a la tabla de pruebas no treponémicas (VDRL)
         $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
 
-        
+
         // Campos adicionales
         $table->string('pru_sifilis')->nullable();        // Prueba treponémica rápida para sífilis intraparto
         $table->date('fec_sifilis')->nullable();          // Fecha prueba treponémica rápida para sífilis intraparto
@@ -37,8 +37,8 @@ class CreateLaboratoriosIntrapartoGestanteTable extends Migration
         $table->boolean('reali_prueb_trepo_rapi_sifilis_intra');//Realizó la prueba treponémica rápida para sífilis intraparto
         $table->boolean('reali_prueb_no_trepo_vdrl_sifilis_intra');//Realizó la prueba no treponémica (VDRL) para sífilis intraparto
         $table->boolean('reali_prueb_rapi_vih');//Realizó la Prueba rápida VIH
-
         $table->foreign('cod_vdrl')->references('cod_vdrl')->on('prueba_no_treponemica__v_d_r_l');
+        $table->timestamp('created_at')->useCurrent();
     });
 }
 

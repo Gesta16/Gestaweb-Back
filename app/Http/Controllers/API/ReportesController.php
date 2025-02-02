@@ -21,9 +21,169 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Schema;
 
 class ReportesController extends Controller
 {
+
+    public function getCategorias()
+    {
+        $categoriasPermitidas = [
+            'control_prenatal' => 'DATOS DE INGRESO A CONTROL PRENATAL',
+            'primera_consulta' => 'DATOS PRIMERA CONSULTA',
+            'vacunacion' => 'VACUNACIÓN',
+            'laboratorio_i_trimestre' => 'LABORATORIOS I TRIMESTRE',
+            'laboratorio_ii_trimestre' => 'LABORATORIOS II TRIMESTRE',
+            'laboratorio_iii_trimestre' => 'LABORATORIOS II TRIMESTRE',
+            'its' => 'Its',
+            'seguimiento_consulta_mensual' => 'SEGUIMINETO CONSULTA MENSUAL',
+            'seguimientos_complementarios' => 'SEGUIMIENTOS COMPLEMETARIOS',
+            'micronutrientes' => 'MICRONUTRIENTES',
+            'finalizacion_gestacion' => 'FINALIZACIÓN DE LA GESTACIÓN',
+            'laboratorios_intraparto_gestante' => 'LABORATORIOS INTRAPARTO DE LA GESTANTE',
+            'seguimiento_gestante_post_obstetrico' => 'SEGUIMIENTO GESTANTE POST EVENTO OBSTETRICO',
+            'mortalidad_preparto' => 'MORTALIDAD PERINATAL',
+            'datos_recien_nacido' => 'DATOS DEL RECIEN NACIDO',
+            'tamizacion_neonatal' => 'TAMIZACIÓN NEONATAL',
+            'estudio_hipotiroidismo_congenito' => 'ESTUDIO HIPOTIROIDISMO CONGENITO',
+            '_ruta__p_y_m_s' => 'RUTA PYMS',
+        ];
+
+        return response()->json($categoriasPermitidas);
+    }
+
+    public function getSubcategorias(Request $request)
+    {
+        $tabla = $request->input('tabla');
+
+        // Validar que la tabla esté permitida
+        $tablasPermitidas = [
+            'control_prenatal',
+            'primera_consulta',
+            'vacunacion',
+            'laboratorio_i_trimestre',
+            'laboratorio_ii_trimestre',
+            'laboratorio_iii_trimestre',
+            'its',
+            'seguimiento_consulta_mensual',
+            'seguimientos_complementarios',
+            'micronutrientes',
+            'finalizacion_gestacion',
+            'laboratorios_intraparto_gestante',
+            'seguimiento_gestante_post_obstetrico',
+            'mortalidad_preparto',
+            'datos_recien_nacido',
+            'tamizacion_neonatal',
+            'estudio_hipotiroidismo_congenito',
+            '_ruta__p_y_m_s'
+        ];
+        if (!in_array($tabla, $tablasPermitidas)) {
+            return response()->json(['error' => 'Tabla no válida'], 400);
+        }
+
+        // Obtener columnas de la tabla
+        $columnas = Schema::getColumnListing($tabla);
+
+        // Opcional: Excluir campos sensibles
+        $excluir = ['id', 'created_at', 'updated_at'];
+        $columnas = array_diff($columnas, $excluir);
+
+        return response()->json($columnas);
+    }
+
+    public function generarReporte(Request $request)
+    {
+
+        Log::info('Info recibida', $request->all());
+        // Validar entrada
+        $validated = $request->validate([
+            'tablas' => 'required|array',
+            'campos' => 'required|array',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
+            'formato' => 'required|in:excel,pdf'
+        ]);
+
+        // Obtener parámetros
+        $tablasSeleccionadas = $request->input('tablas', []);
+        $camposSeleccionados = $request->input('campos', []);
+        $fechaInicio = $request->input('fecha_inicio');
+        $fechaFin = $request->input('fecha_fin');
+        $formato = $request->input('formato', 'excel');
+
+        // Validar tablas permitidas
+        $tablasPermitidas = ['control_prenatal', 'primera_consulta', 'vacunacion', 'laboratorio_i_trimestre'];
+        $tablasSeleccionadas = array_intersect($tablasSeleccionadas, $tablasPermitidas);
+
+        // Iniciar consulta
+        $query = DB::table('usuario')
+            ->join('ips', 'usuario.cod_ips', '=', 'ips.cod_ips');
+
+        // Construir joins dinámicos con filtro de fechas
+        foreach ($tablasSeleccionadas as $tabla) {
+            $query->leftJoin($tabla, function ($join) use ($tabla, $fechaInicio, $fechaFin) {
+                $join->on('usuario.id_usuario', '=', "{$tabla}.id_usuario");
+
+                // Aplicar filtro de fechas si se proporcionan
+                if ($fechaInicio && $fechaFin) {
+                    $join->whereBetween("{$tabla}.created_at", [$fechaInicio, $fechaFin]);
+                }
+            });
+        }
+
+        // Construir selects
+        $selects = [];
+        foreach ($camposSeleccionados as $campo) {
+            if (str_contains($campo, '.')) {
+                list($tabla, $columna) = explode('.', $campo);
+
+                if (in_array($tabla, $tablasPermitidas) && Schema::hasColumn($tabla, $columna)) {
+                    $alias = "{$tabla}_{$columna}";
+                    $selects[] = "{$tabla}.{$columna} as {$alias}";
+                }
+            }
+        }
+
+        // Ejecutar consulta
+        $resultados = $query->select($selects)->get();
+
+        // Mapear nombres de campos amigables
+        $fieldMap = [];
+        foreach ($selects as $select) {
+            if (str_contains($select, ' as ')) {
+                list(, $alias) = explode(' as ', $select);
+                $fieldMap[$alias] = str_replace('_', ' ', ucfirst($alias));
+            }
+        }
+
+        // Reestructurar datos para PDF
+        $restructuredData = $resultados->map(function ($item) use ($fieldMap) {
+            $itemArray = (array)$item;
+            return collect($itemArray)->map(function ($value, $key) use ($fieldMap) {
+                return [
+                    'campo' => $fieldMap[$key] ?? $key,
+                    'valor' => $value ?? 'N/A'
+                ];
+            })->values()->toArray();
+        });
+
+        // Generar reporte según formato
+        if ($formato === 'excel') {
+            return Excel::download(
+                new ReporteExport($resultados, array_values($fieldMap)),
+                'reporte.xlsx'
+            );
+        } else {
+            $pdf = PDF::loadView('reportes.pdf', [
+                'data' => $restructuredData,
+                'fechaInicio' => $fechaInicio,
+                'fechaFin' => $fechaFin
+            ])->setPaper('a4', 'portrait');
+
+            return $pdf->download('reporte.pdf');
+        }
+    }
+
     public function filtrarIndicadores(Request $request)
     {
         // Registrar los datos recibidos en la solicitud
@@ -398,7 +558,7 @@ class ReportesController extends Controller
             Log::info('Resultados obtenidos', ['resultados' => $resultados]);
             Log::info('Generando archivo Excel...');
 
-            if($formato === 'pdf'){
+            if ($formato === 'pdf') {
                 try {
                     $pdf = PDF::loadView('reportes.pdf', compact('resultados', 'encabezados'));
                     return $pdf->download('reporte.pdf');
@@ -409,8 +569,6 @@ class ReportesController extends Controller
             } else {
                 return Excel::download(new ReporteExport($resultados, $encabezados), 'reporte.xlsx');
             }
-
-            
         } catch (\Exception $e) {
             Log::error('Error ejecutando la consulta', ['error' => $e->getMessage()]);
             Log::error('Error al generar el archivo Excel:', ['error' => $e->getMessage()]);

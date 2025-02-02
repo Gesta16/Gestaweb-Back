@@ -15,7 +15,7 @@ class CreateSeguimientoGestantePostObstetricoTable extends Migration
 {
     Schema::create('seguimiento_gestante_post_obstetrico', function (Blueprint $table) {
         $table->id('cod_evento');// Clave primaria
-        
+
         // Clave foránea
         $table->unsignedBigInteger('id_operador');
         $table->foreign('id_operador')->references('id_operador')->on('operador');
@@ -23,7 +23,7 @@ class CreateSeguimientoGestantePostObstetricoTable extends Migration
         $table->unsignedBigInteger('id_usuario');
         $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
         $table->unsignedBigInteger('cod_metodo'); // FK a la tabla de métodos anticonceptivos
-        
+
         $table->foreignId('proceso_gest_id')->constrained('procesos_gestativos');
 
         // Campos adicionales
@@ -34,7 +34,7 @@ class CreateSeguimientoGestantePostObstetricoTable extends Migration
 
         // Definir la relación
         $table->foreign('cod_metodo')->references('cod_metodo')->on('metodos_anticonceptivos');
-        $table->timestamps();
+        $table->timestamp('created_at')->useCurrent();
     });
 }
 

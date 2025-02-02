@@ -20,13 +20,13 @@ class CreateSuperadminTable extends Migration
 
             $table->unsignedBigInteger('cod_documento');
             $table->foreign('cod_documento')->references('cod_documento')->on('tipo_de_documento');
-            
+
             $table->string('documento_superadmin')->unique();
             $table->string('email_superadmin')->unique();
             $table->string('tel_superadmin');
 
 
-            //$table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

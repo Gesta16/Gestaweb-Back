@@ -11,7 +11,7 @@ class Vacunacion extends Model
 
     protected $table = 'vacunacion';
     protected $primaryKey = 'cod_vacunacion';
-    public $timestamps = false;
+    //public $timestamps = false;
 
     protected $fillable = [
         'id_operador',

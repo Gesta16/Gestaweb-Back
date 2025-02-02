@@ -31,7 +31,7 @@ class CreateIpsTable extends Migration
             $table->string('email_ips');
             $table->string('nit_ips')->unique();
 
-            //$table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

@@ -25,8 +25,8 @@ class CreateItsTable extends Migration
         $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
 
         // Claves foráneas
-        $table->unsignedBigInteger('cod_vdrl')->nullable();  
-        $table->unsignedBigInteger('cod_rpr')->nullable(); 
+        $table->unsignedBigInteger('cod_vdrl')->nullable();
+        $table->unsignedBigInteger('cod_rpr')->nullable();
 
         // Otros campos
         $table->string('eli_vih')->nullable();               // Elisa para VIH (reactivo, no reactivo)
@@ -38,12 +38,12 @@ class CreateItsTable extends Migration
         $table->boolean('reali_prueb_elisa_vih');// Realizó la prueba Elisa para VIH
         $table->boolean('reali_prueb_no_trepo_vdrl_sifilis'); //Realizó la prueba no treponémica (VDRL) para sífilis
         $table->boolean('reali_prueb_no_trepo_rpr_sifilis'); //Realizó la prueba no treponémica (RPR) para sífilis
-        
+
 
         // Definir las relaciones
         $table->foreign('cod_vdrl')->references('cod_vdrl')->on('prueba_no_treponemica__v_d_r_l');
         $table->foreign('cod_rpr')->references('cod_rpr')->on('prueba_no_treponemica__r_p_r');
-        $table->timestamps();
+        $table->timestamp('created_at')->useCurrent();
     });
 }
 

@@ -13,7 +13,7 @@ class ControlPrenatal extends Model
     protected $primaryKey = 'cod_control';
 
     // No queremos usar los timestamps por defecto (created_at, updated_at)
-    public $timestamps = false;
+    //public $timestamps = false;
 
     // Los atributos que son asignables en masa
     protected $fillable = [

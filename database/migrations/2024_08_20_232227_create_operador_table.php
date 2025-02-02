@@ -39,6 +39,7 @@ class CreateOperadorTable extends Migration
             $table->string('tel_operador')->unique();
             $table->string('email_operador')->unique();
             $table->string('esp_operador');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

@@ -14,10 +14,10 @@ class CreateRegimenTable extends Migration
     public function up()
     {
         Schema::create('regimen', function (Blueprint $table) {
-            $table->integer('cod_regimen')->primary(); 
+            $table->integer('cod_regimen')->primary();
             $table->string('nom_regimen');
 
-            //$table->timestamps();
+            $table->timestamps();
         });
     }
 

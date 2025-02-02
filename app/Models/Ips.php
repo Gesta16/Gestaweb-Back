@@ -16,7 +16,7 @@ class Ips extends Model
 
     protected $primaryKey = 'cod_ips';
 
-    public $timestamps = false;
+    //public $timestamps = false;
 
     protected $fillable = [
         'cod_regimen',

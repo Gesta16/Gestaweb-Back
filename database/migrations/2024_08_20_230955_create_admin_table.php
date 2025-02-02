@@ -35,7 +35,7 @@ class CreateAdminTable extends Migration
             $table->string('email_admin')->unique();
             $table->string('tel_admin')->unique();
 
-            //$table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

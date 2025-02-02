@@ -9,9 +9,9 @@ class Operador extends Model
 {
     use HasFactory;
 
-    protected $table = 'operador'; 
+    protected $table = 'operador';
 
-    protected $primaryKey = 'id_operador';
+    //protected $primaryKey = 'id_operador';
 
 
 
@@ -66,7 +66,7 @@ class Operador extends Model
     {
         return $this->hasMany(Its::class, 'id_operador', 'id_operador');
     }
-    
+
     public function seguimientos()
     {
         return $this->hasMany(SeguimientoConsultaMensual::class, 'id_operador');

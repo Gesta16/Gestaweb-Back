@@ -11,11 +11,11 @@ class SuperAdmin extends Model
 {
     use HasFactory;
 
-    protected $table = 'superadmin'; 
-    protected $primaryKey = 'id_superadmin'; 
+    protected $table = 'superadmin';
+    protected $primaryKey = 'id_superadmin';
 
 
-    public $timestamps = false;
+    //public $timestamps = false;
 
 
     protected $fillable = [
@@ -26,7 +26,7 @@ class SuperAdmin extends Model
         'tel_superadmin',
         'cod_documento',
 
-        
+
     ];
 
     public function user()

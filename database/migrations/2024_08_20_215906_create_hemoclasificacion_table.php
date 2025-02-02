@@ -14,7 +14,7 @@ class CreateHemoclasificacionTable extends Migration
     public function up()
     {
         Schema::create('hemoclasificacion', function (Blueprint $table) {
-            $table->id('cod_hemoclasifi');//Reduccion del nombre de identificador 
+            $table->id('cod_hemoclasifi');//Reduccion del nombre de identificador
             $table->string('tip_hemoclasificacion');
 
             //$table->timestamps();

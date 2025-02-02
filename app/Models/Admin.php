@@ -11,11 +11,11 @@ class Admin extends Model
 {
     use HasFactory;
 
-    protected $table = 'admin'; 
-    protected $primaryKey = 'id_admin'; 
+    protected $table = 'admin';
+    protected $primaryKey = 'id_admin';
 
 
-    public $timestamps = false;
+    //public $timestamps = false;
 
     protected $fillable = [
         'id_admin',

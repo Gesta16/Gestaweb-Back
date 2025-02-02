@@ -14,11 +14,11 @@ class ReporteExport implements FromArray, WithHeadings
 
     public function __construct($resultados, $encabezados)
     {
-        $this->resultados = $resultados;
+        $this->resultados = $resultados->toArray();
         $this->encabezados = $encabezados;
     }
 
-    
+
     public function array(): array
     {
         return $this->resultados;

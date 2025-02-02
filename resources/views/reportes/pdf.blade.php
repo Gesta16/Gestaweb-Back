@@ -1,43 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte PDF</title>
     <style>
+        /* Resetear márgenes predeterminados */
+        body {
+            margin: 0;
+            padding: 10px;
+            font-family: 'DejaVu Sans', sans-serif;
+        }
+
+        /* Encabezado compacto */
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+            padding: 5px;
+            border-bottom: 2px solid #333;
+        }
+
+        /* Evitar saltos no deseados */
+        .registro {
+            margin-bottom: 15px;
+            page-break-inside: avoid;
+        }
+
+        /* Tablas más compactas */
         table {
             width: 100%;
             border-collapse: collapse;
+            margin: 5px 0;
         }
-        th, td {
-            border: 1px solid #000;
-            padding: 8px;
-            text-align: left;
+
+        td, th {
+            padding: 6px !important;
+            font-size: 12px;
         }
-        th {
-            background-color: #f2f2f2;
+
+        /* Asegurar que el primer registro empiece en la misma página */
+        .first-registro {
+            page-break-before: avoid;
         }
     </style>
 </head>
 <body>
-    <h1>Reporte</h1>
-    <table>
-        <thead>
-            <tr>
-                @foreach ($encabezados as $encabezado)
-                    <th>{{ $encabezado }}</th>
-                @endforeach
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($resultados as $fila)
-                <tr>
-                    @foreach ($fila as $dato)
-                        <td>{{ $dato }}</td>
+    <div class="header">
+        <h3 style="margin: 5px 0;">Reporte Personalizado</h3> <!-- Título más pequeño -->
+        @if($fechaInicio && $fechaFin)
+            <p style="margin: 3px 0; font-size: 12px;">
+                Periodo: {{ date('d/m/Y', strtotime($fechaInicio)) }} - {{ date('d/m/Y', strtotime($fechaFin)) }}
+            </p>
+        @endif
+    </div>
+
+    @foreach ($data as $index => $registro)
+        <div class="registro {{ $index === 0 ? 'first-registro' : '' }}">
+            @if($index > 0)
+                <div style="page-break-before: always;"></div> <!-- Salto controlado -->
+            @endif
+            <table>
+                <tbody>
+                    @foreach ($registro as $item)
+                        <tr>
+                            <td class="campo" style="width: 40%;">{{ $item['campo'] }}</td>
+                            <td class="valor" style="width: 60%;">{{ $item['valor'] }}</td>
+                        </tr>
                     @endforeach
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+    @endforeach
 </body>
 </html>

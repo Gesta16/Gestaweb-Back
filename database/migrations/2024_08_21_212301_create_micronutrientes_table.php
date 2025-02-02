@@ -15,10 +15,10 @@ class CreateMicronutrientesTable extends Migration
     {
         Schema::create('micronutrientes', function (Blueprint $table) {
             $table->id('cod_micronutriente'); // Clave primaria
-            
+
             $table->unsignedBigInteger('id_operador');
             $table->foreign('id_operador')->references('id_operador')->on('operador');
-    
+
             $table->unsignedBigInteger('id_usuario');
             $table->foreign('id_usuario')->references('id_usuario')->on('usuario');
             $table->foreignId('proceso_gestativo_id')->constrained('procesos_gestativos');
@@ -29,11 +29,11 @@ class CreateMicronutrientesTable extends Migration
             $table->string('sul_ferroso');        // Sulfato ferroso (sí, no)
             $table->string('car_calcio');         // Carbonato de calcio (sí, no)
             $table->string('desparasitacion');    // Desparasitación (sí, no)
-            $table->timestamps();
-    
+            $table->timestamp('created_at')->useCurrent();
+
         });
     }
-    
+
 
     /**
      * Reverse the migrations.

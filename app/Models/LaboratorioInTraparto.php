@@ -13,7 +13,7 @@ class LaboratorioInTraparto extends Model
 
     protected $primaryKey = 'cod_intraparto';
 
-    public $timestamps = false;
+    //public $timestamps = false;
 
     protected $fillable = [
         'cod_intraparto',
@@ -33,7 +33,7 @@ class LaboratorioInTraparto extends Model
         'reali_prueb_rapi_vih'
     ];
 
-    
+
     public function pruebaVdrl()
     {
         return $this->belongsTo(PruebaNoTreponemicaVDRL::class, 'cod_vdrl');

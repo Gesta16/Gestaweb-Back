@@ -390,6 +390,9 @@ Route::post('/filtrar-indicadores', [ReportesController::class, 'filtrarIndicado
 Route::get('/ruta-gestacional/{idUsuario}', [ReportesController::class, 'obtenerRutaGestacional']);
 Route::get('/ruta-gestacional/{idUsuario}/descargar-pdf', [ReportesController::class, 'descargarRutaGestacionalPdf']);
 Route::get('/generar-reporte-unificado/{id_usuario}', [ReportesController::class, 'generarReporteUnificado']);
+Route::get('/traerCategorias',[ReportesController::class, 'getCategorias']);
+Route::get('/traerSubCategorias',[ReportesController::class, 'getSubcategorias']);
+Route::post('/generarReporte',[ReportesController::class, 'generarReporte']);
 
 
 /** RUTAS IMPORTACIÓN EXCEL */

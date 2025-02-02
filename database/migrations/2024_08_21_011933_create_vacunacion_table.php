@@ -37,7 +37,7 @@ class CreateVacunacionTable extends Migration
             $table->boolean('recib_dosis_influenza');//Recibió la dosis influenza
             $table->boolean('recib_dosis_tox_tetanico');//Recibió la dosis toxoide tetánico
             $table->boolean('recib_dosis_dpt_a_celular');//Recibió la dosis DPT a-celular
-            //$table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
