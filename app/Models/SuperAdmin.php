@@ -15,7 +15,7 @@ class SuperAdmin extends Model
     protected $primaryKey = 'id_superadmin';
 
 
-    //public $timestamps = false;
+    public $timestamps = false;
 
 
     protected $fillable = [

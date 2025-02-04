@@ -132,7 +132,7 @@ class ReportesController extends Controller
         }
 
         // Construir selects
-        $selects = [];
+        $selects = ['usuario.id_usuario'];
         foreach ($camposSeleccionados as $campo) {
             if (str_contains($campo, '.')) {
                 list($tabla, $columna) = explode('.', $campo);
