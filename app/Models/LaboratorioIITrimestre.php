@@ -42,6 +42,8 @@ class LaboratorioIITrimestre extends Model
         'eda_gestacional',
         'rie_biopsicosocial',
         'proceso_gestativo_id',
+        'uro_laboratorio',
+        'fec_urocultivo',
         'reali_prueb_rapi_vih',
         'real_prueb_trep_rap_sifilis',
         'reali_citologia',
@@ -53,7 +55,8 @@ class LaboratorioIITrimestre extends Model
         'real_igm_toxoplasma_2',
         'real_prueb_oral',
         'real_prueb_oral_1',
-        'real_prueb_oral_2'
+        'real_prueb_oral_2',
+        'real_urocultivo',
     ];
 
     public function operador()

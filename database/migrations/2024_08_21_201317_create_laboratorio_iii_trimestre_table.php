@@ -50,6 +50,9 @@ class CreateLaboratorioIiiTrimestreTable extends Migration
             
             // Edad gestacional al momento de la ecografía de perfil
             $table->integer('edad_gestacional')->nullable();
+
+            $table->string('uro_laboratorio')->nullable();
+            $table->date('fec_urocultivo')->nullable();
             
             // Riesgo biopsicosocial escala de Herrera y Hurtado
             $table->string('rie_biopsicosocial');
@@ -59,6 +62,7 @@ class CreateLaboratorioIiiTrimestreTable extends Migration
             $table->boolean('reali_prueb_culti_rect_vagi');//Realizó la prueba de cultivo rectal y vaginal
             $table->boolean('reali_prueb_perfil_biofisico');//Realizó la prueba de Perfil biofísico
             $table->boolean('reali_hemograma');
+            $table->boolean('reali_urocultivo');//Realizó la prueba de Urocultivo
             $table->timestamp('created_at')->useCurrent();
 
         });

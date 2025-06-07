@@ -45,10 +45,17 @@ class CreateLaboratorioITrimestreTable extends Migration
             $table->date('fec_antibiograma')->nullable();
             $table->string('ig_rubeola')->nullable();
             $table->date('fec_rubeola')->nullable();
+            $table->string('igm_rubeola')->nullable();
             $table->string('ig_toxoplasma')->nullable();
             $table->date('fec_toxoplasma')->nullable();
             $table->string('igm_toxoplamas')->nullable();
             $table->date('fec_igmtoxoplasma')->nullable();
+            $table->string('igg_citomegalovirus')->nullable();
+            $table->date('fec_igg_citomegalovirus')->nullable();
+            $table->string('igm_citomegalovirus')->nullable();
+            $table->date('fec_igm_citomegalovirus')->nullable();
+            $table->string('doppler_art_uterina_sem_15')->nullable();
+            $table->date('fec_doppler_art_uterina_sem_15')->nullable();
             $table->string('hem_gruesa')->nullable();
             $table->date('fec_hemoparasito')->nullable();
             $table->string('pru_antigenos')->nullable();
@@ -75,6 +82,10 @@ class CreateLaboratorioITrimestreTable extends Migration
             $table->boolean('real_igm_toxoplasma');
             $table->boolean('real_ig_rubeola');
             $table->boolean('real_hemoparasito');
+            $table->boolean('real_igg_citomegalovirus');
+            $table->boolean('real_igm_citomegalovirus');
+            $table->boolean('real_igm_rubeola');
+            $table->boolean('real_doppler_art_uterina_sem_15');
             $table->timestamp('created_at')->useCurrent();
 
 

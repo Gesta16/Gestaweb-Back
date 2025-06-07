@@ -46,7 +46,8 @@ class CreateLaboratorioIiTrimestreTable extends Migration
             $table->date('fec_coombs')->nullable();
             $table->date('fec_ecografia')->nullable();
             $table->decimal('eda_gestacional', 8, 2)->nullable();
-            
+            $table->string('uro_laboratorio')->nullable();
+            $table->date('fec_urocultivo')->nullable();
             $table->string('rie_biopsicosocial');
 
             $table->boolean('reali_prueb_rapi_vih');//Realizó la prueba rápida VIH
@@ -61,6 +62,7 @@ class CreateLaboratorioIiTrimestreTable extends Migration
             $table->boolean('real_prueb_oral');
             $table->boolean('real_prueb_oral_1');
             $table->boolean('real_prueb_oral_2');
+            $table->boolean('real_urocultivo');
             $table->timestamp('created_at')->useCurrent();
 
 

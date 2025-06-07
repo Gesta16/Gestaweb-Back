@@ -58,6 +58,12 @@ class LaboratorioITrimestreController extends Controller
                 'fec_toxoplasma' => 'nullable|date',
                 'igm_toxoplamas' => 'nullable|string',
                 'fec_igmtoxoplasma' => 'nullable|date',
+                'igg_citomegalovirus' => 'nullable|string',
+                'fec_igg_citomegalovirus' => 'nullable|date',
+                'igm_citomegalovirus' => 'nullable|string',
+                'fec_igm_citomegalovirus' => 'nullable|date',
+                'doppler_art_uterina_sem_15' => 'nullable|string',
+                'fec_doppler_art_uterina_sem_15' => 'nullable|date',
                 'hem_gruesa' => 'nullable|string',
                 'fec_hemoparasito' => 'nullable|date',
                 'pru_antigenos' => 'nullable|string',
@@ -84,6 +90,9 @@ class LaboratorioITrimestreController extends Controller
                 'real_igm_toxoplasma' => 'required|boolean',
                 'real_ig_rubeola' => 'required|boolean',
                 'real_hemoparasito' => 'required|boolean',
+                'real_igg_citomegalovirus' => 'required|boolean',
+                'real_igm_citomegalovirus' => 'required|boolean',
+                'real_doppler_art_uterina_sem_15' => 'required|boolean',
                 'num_proceso' => 'required|integer',
             ]);
 
@@ -204,6 +213,12 @@ class LaboratorioITrimestreController extends Controller
             'fec_toxoplasma' => 'required|date',
             'igm_toxoplamas' => 'nullable|string',
             'fec_igmtoxoplasma' => 'nullable|date',
+            'igg_citomegalovirus' => 'nullable|string',
+            'fec_igg_citomegalovirus' => 'nullable|date',
+            'igm_citomegalovirus' => 'nullable|string',
+            'fec_igm_citomegalovirus' => 'nullable|date',
+            'doppler_art_uterina_sem_15' => 'nullable|string',
+            'fec_doppler_art_uterina_sem_15' => 'nullable|date',
             'hem_gruesa' => 'required|string',
             'fec_hemoparasito' => 'required|date',
             'pru_antigenos' => 'nullable|string',
@@ -230,6 +245,9 @@ class LaboratorioITrimestreController extends Controller
             'real_igm_toxoplasma' => 'required|boolean',
             'real_ig_rubeola' => 'required|boolean',
             'real_hemoparasito' => 'required|boolean',
+            'real_igg_citomegalovirus' => 'required|boolean',
+            'real_igm_citomegalovirus' => 'required|boolean',
+            'real_doppler_art_uterina_sem_15' => 'required|boolean',
         ]);
 
         // Buscar el registro por id_usuario

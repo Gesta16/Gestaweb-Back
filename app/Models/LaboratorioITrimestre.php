@@ -36,10 +36,17 @@ class LaboratorioITrimestre extends Model
         'fec_antibiograma',
         'ig_rubeola',
         'fec_rubeola',
+        'igm_rubeola',
         'ig_toxoplasma',
         'fec_toxoplasma',
         'igm_toxoplamas',
         'fec_igmtoxoplasma',
+        'igg_citomegalovirus',
+        'fec_igg_citomegalovirus',
+        'igm_citomegalovirus',
+        'fec_igm_citomegalovirus',
+        'doppler_art_uterina_sem_15',
+        'fec_doppler_art_uterina_sem_15',
         'hem_gruesa',
         'fec_hemoparasito',
         'pru_antigenos',
@@ -66,8 +73,11 @@ class LaboratorioITrimestre extends Model
         'real_ig_toxoplasma',
         'real_igm_toxoplasma',
         'real_ig_rubeola',
+        'real_igm_rubeola',
         'real_hemoparasito',
-
+        'real_igg_citomegalovirus',
+        'real_igm_citomegalovirus',
+        'real_doppler_art_uterina_sem_15',
     ];
 
     public function operador()

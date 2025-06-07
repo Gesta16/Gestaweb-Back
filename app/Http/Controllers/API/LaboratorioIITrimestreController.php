@@ -72,6 +72,8 @@ class LaboratorioIITrimestreController extends Controller
             'fec_ecografia' => 'nullable|date',
             'eda_gestacional' => 'nullable|numeric|min:0',
             'rie_biopsicosocial' => 'required|string',
+            'uro_laboratorio' => 'nullable|string',
+            'fec_urocultivo' => 'nullable|date',
             'reali_prueb_rapi_vih' => 'required|boolean',
             'real_prueb_trep_rap_sifilis' => 'required|boolean',
             'reali_citologia' => 'required|boolean',
@@ -83,7 +85,8 @@ class LaboratorioIITrimestreController extends Controller
             'real_igm_toxoplasma_2' => 'required|boolean',
             'real_prueb_oral' => 'required|boolean',
             'real_prueb_oral_1' => 'required|boolean',
-            'real_prueb_oral_2' => 'required|boolean'
+            'real_prueb_oral_2' => 'required|boolean',
+            'real_urocultivo' => 'required|boolean',
         ]);
 
         // Verificar que el ProcesoGestativo esté activo
@@ -200,6 +203,8 @@ class LaboratorioIITrimestreController extends Controller
             'fec_ecografia' => 'sometimes|nullable|date',
             'eda_gestacional' => 'sometimes|nullable|numeric|min:0',
             'rie_biopsicosocial' => 'sometimes|required|string',
+            'uro_laboratorio' => 'sometimes|nullable|string',
+            'fec_urocultivo' => 'sometimes|nullable|date',
             'reali_prueb_rapi_vih' => 'sometimes|required|boolean',
             'real_prueb_trep_rap_sifilis' => 'sometimes|required|boolean',
             'reali_citologia' => 'sometimes|required|boolean',
@@ -212,6 +217,7 @@ class LaboratorioIITrimestreController extends Controller
             'real_prueb_oral' => 'sometimes|required|boolean',
             'real_prueb_oral_1' => 'sometimes|required|boolean',
             'real_prueb_oral_2' => 'sometimes|required|boolean',
+            'real_urocultivo' => 'sometimes|required|boolean',
         ]);
 
         // Asignar el id_operador del usuario autenticado si no se envía uno nuevo
