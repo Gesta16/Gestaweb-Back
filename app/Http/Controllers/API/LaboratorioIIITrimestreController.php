@@ -76,15 +76,15 @@ class LaboratorioIIITrimestreController extends Controller
             'edad_gestacional' => 'nullable|integer|min:0',
             'rie_biopsicosocial' => 'required|string',
             'num_proceso' => 'required|integer', // Asegurarse de incluir num_proceso
-            'uro_laboratorio' => 'nullable|string',
-            'fec_urocultivo' => 'nullable|date',
+            'uro_laboratorio_3' => 'nullable|string',
+            'fec_urocultivo_3' => 'nullable|date',
             'reali_prueb_rapi_vih_3' => 'required|boolean',
             'reali_prueb_trepo_rapi_sifilis' => 'required|boolean',
             'reali_prueb_igm_toxoplasma' => 'required|boolean',
             'reali_prueb_culti_rect_vagi' => 'required|boolean',
             'reali_prueb_perfil_biofisico' => 'required|boolean',
             'reali_hemograma' => 'required|boolean',
-            'reali_urocultivo' => 'nullable|boolean'
+            'real_urocultivo_3' => 'nullable|boolean'
         ]);
     
         // Verificar que el ProcesoGestativo esté activo
@@ -147,15 +147,15 @@ class LaboratorioIIITrimestreController extends Controller
             'fec_biofisico' => 'sometimes|nullable|date',
             'edad_gestacional' => 'sometimes|nullable|integer|min:0',
             'rie_biopsicosocial' => 'sometimes|required|string',
-            'uro_laboratorio' => 'sometimes|nullable|string',
-            'fec_urocultivo' => 'sometimes|nullable|date',
+            'uro_laboratorio_3' => 'sometimes|nullable|string',
+            'fec_urocultivo_3' => 'sometimes|nullable|date',
             'reali_prueb_rapi_vih_3' => 'sometimes|required|boolean',
             'reali_prueb_trepo_rapi_sifilis' => 'sometimes|required|boolean',
             'reali_prueb_igm_toxoplasma' => 'sometimes|required|boolean',
             'reali_prueb_culti_rect_vagi' => 'sometimes|required|boolean',
             'reali_prueb_perfil_biofisico' => 'sometimes|required|boolean',
             'reali_hemograma' => 'sometimes|required|boolean',
-            'reali_urocultivo' => 'sometimes|nullable|boolean'
+            'real_urocultivo_3' => 'sometimes|nullable|boolean'
         ]);
 
         $laboratorio= LaboratorioIIITrimestre::where('cod_treslaboratorio', $id)

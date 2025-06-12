@@ -31,15 +31,15 @@ class LaboratorioIIITrimestre extends Model
         'edad_gestacional',
         'rie_biopsicosocial',
         'proceso_gestativo_id',
-        'uro_laboratorio',
-        'fec_urocultivo',
+        'uro_laboratorio_3',
+        'fec_urocultivo_3',
         'reali_prueb_rapi_vih_3',
         'reali_prueb_trepo_rapi_sifilis',
         'reali_prueb_igm_toxoplasma',
         'reali_prueb_culti_rect_vagi',
         'reali_prueb_perfil_biofisico',
         'reali_hemograma',
-        'reali_urocultivo',
+        'real_urocultivo_3',
     ];
 
     public function operador()

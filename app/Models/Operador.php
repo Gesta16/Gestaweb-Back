@@ -11,7 +11,7 @@ class Operador extends Model
 
     protected $table = 'operador';
 
-    //protected $primaryKey = 'id_operador';
+    protected $primaryKey = 'id_operador';
 
 
 

@@ -46,6 +46,7 @@ class CreateLaboratorioITrimestreTable extends Migration
             $table->string('ig_rubeola')->nullable();
             $table->date('fec_rubeola')->nullable();
             $table->string('igm_rubeola')->nullable();
+            $table->date('fec_igm_rubeola')->nullable();
             $table->string('ig_toxoplasma')->nullable();
             $table->date('fec_toxoplasma')->nullable();
             $table->string('igm_toxoplamas')->nullable();
